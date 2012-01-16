@@ -1,0 +1,244 @@
+#!/bin/bash
+
+
+## DocPatch -- patching documents that matter
+## Copyright (C) 2012 Benjamin Heisig <http://benjamin.heisig.name/>
+##
+## This program is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+##
+## Main script
+##
+
+
+##
+## Substantials
+##
+
+
+## Start time
+START=`"$DATE" +%s`
+
+BASE_DIR=`basedir $0`
+BASE_NAME=`basename $0`
+
+## Supported commands
+COMMANDS[0]="help"
+COMMANDS[1]="pdf"
+COMMANDS[1]="epub"
+
+## Descriptions of supported commands
+COMMAND_BUILD="Build repository."
+COMMAND_EPUB="Create EPUB version."
+COMMAND_PDF="Create PDF version."
+
+## Required main command
+COMMAND=""
+
+## Optional sub command
+SUB_COMMAND=""
+
+
+##
+## Includes
+##
+
+## Include default configuration:
+if [ ! -r "/usr/share/docpatch/config.inc" ]; then
+    exit 255
+  fi
+. /usr/share/docpatch/config.inc
+
+## Include local configuration:
+if [ -r "/etc/${PROJECT_NAME}/${PROJECT_NAME}.conf" ]; then
+    . /etc/docpatch/"$PROJECT_NAME".conf
+  fi
+## Include user configuration:
+if [ -r "~/.${PROJECT_NAME}.conf" ]; then
+    . ~/."$PROJECT_NAME".conf
+  fi
+## Include project configuration:
+if [ -r "${BASE_DIR}/.${PROJECT_NAME}.conf" ]; then
+    . "$BASE_DIR"/."$PROJECT_NAME".conf
+  fi
+
+## Include base functions:
+if [ ! -r "/usr/share/d${PROJECT_NAME}/${PROJECT_NAME}.inc" ]; then
+    exit 255
+  fi
+. /usr/share/"$PROJECT_NAME"/"$PROJECT_NAME".inc
+
+
+##
+## Processing
+##
+
+
+## Traps
+##   See `man kill` for details.
+## Normal exit
+trap 'exit 0' 0
+## SIGHUB
+trap 'log "notice" "Caught SIGHUB, but nothing to do."' 1
+## SIGINT
+trap 'log "warning" "Caught SIGINT." ; abort 102' 2
+## SIGQUIT
+trap 'log "warning" "Caught SIGQUIT." ; abort 103' 3
+## SIGTERM
+trap 'log "warning" "Caught SIGTERM." ; abort 115' 15
+
+
+## Process given options and arguments
+log "info" "Process given options and arguments..."
+ARGS=`"$GETOPT" \
+-o qvVDhr:R:s \
+--long help,version,license,rev:,revision:,repo:,repository:,sign -- "$@" 2> /dev/null`
+
+if [ $? != 0 -o "$#" = 0 ]; then
+    log "warning" "Bad request."
+    printUsage
+    abort 1;
+  fi
+
+eval set -- "$ARGS"
+
+log "debug" "Processed."
+
+
+## Match options and arguments
+log "info" "Match options and arguments..."
+
+while true ; do
+    case "$1" in
+    # Output:
+        -q)
+          log "debug" "Set VERBOSITY=0"
+          VERBOSITY=0;
+          shift;;
+        -v)
+          log "debug" "Set VERBOSITY=2"
+          VERBOSITY=2;
+          shift;;
+        -V)
+          log "debug" "Set VERBOSITY=3"
+          VERBOSITY=3;
+          shift;;
+        -D)
+          log "debug" "Set VERBOSITY=4"
+          VERBOSITY=4;
+          shift;;
+    # Information:
+        -h|--help)
+          log "debug" "Set PRINT_USAGE=1"
+          PRINT_USAGE=1;
+          shift;;
+        --version)
+          log "debug" "Set PRINT_VERSION=1"
+          PRINT_VERSION=1;
+          shift;;
+        --license)
+          log "debug" "Set PRINT_LICENSE=1"
+          PRINT_LICENSE=1;
+          shift;;
+    # Options:
+        -r|--rev|--revision)
+          log "debug" "Set REVISION=$2"
+          REVISION="$2";
+          shift 2;;
+        -R|--repo|--repository)
+          log "debug" "Set REPOSITORY=$2"
+          REPOSITORY="$2";
+          shift 2;;
+        -s|--sign)
+          log "debug" "Set SIGN=1"
+          SIGN=1;
+          shift;;
+        --)
+          shift;
+          break;;
+        *)
+          log "notice" "Unkown option ${1}."
+          printUsage
+          abort 2;;
+  esac
+done
+
+log "debug" "Matched."
+
+
+## Try to match commands with given options
+log "info" "Try to match commands with given options..."
+
+log "info" "Try to match main command..."
+for x in "$@"; do
+    for y in "${COMMANDS[@]}"; do
+        if [ "$x" == "$y" ]; then
+            COMMAND="$x"
+            log "debug" "Main command is $COMMAND."
+            break 2
+          fi
+      done
+  done
+
+log "info" "Try to match sub command..."
+if [ -n "$2" -a "$2" != " " ]; then
+    SUB_COMMAND="$2"
+    log "debug" "Sub command is $SUB_COMMAND."
+  else
+    log "debug" "There is no sub command."
+  fi
+
+
+## Include command specific file
+if [ -z "$COMMAND" ]; then
+    log "debug" "No command found."
+  else
+    includeCommand "$COMMAND" || abort 3
+  fi
+
+
+## Print usage and exit.
+if [ "$PRINT_USAGE" -eq 1 ]; then
+    printUsage
+    finishing
+  fi
+
+
+## Print some information about this script and exit.
+if [ "$PRINT_VERSION" -eq 1 ]; then
+    printVersion
+    finishing
+  fi
+
+
+## Print some information about this script and exit.
+if [ "$PRINT_LICENSE" -eq 1 ]; then
+    printLicense
+    finishing
+  fi
+
+
+## Apply nice level
+applyNiceLevel || abort 4
+
+
+## Call command specific main method
+if [ -z "$COMMAND" ]; then
+    log "notice" "Nothing to do."
+    printUsage
+    abort 5
+  else
+    main
+  fi

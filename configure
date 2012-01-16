@@ -1,0 +1,88 @@
+#!/bin/bash
+
+
+## backulous -- Simple Backup Scripts
+## Copyright (C) 2011 Benjamin Heisig <http://benjamin.heisig.name/>
+##
+## This program is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+##
+## configure script
+## TODO This is only a quick'n'dirty version.
+##
+
+echo "Check system configuration for backulous..."
+
+main_config="usr/share/docpatch/config.inc"
+local_config="usr/share/doc/docpatch/examples/etc/docpatch.conf"
+
+function matchAndReplace {
+  echo -n "Check ${1}... "
+  path_to_exe=$(which $1)
+  if [ $? -gt 0 ]; then
+      echo "[FAILED]"
+      abort 3
+    fi
+  tmp_main_config="/tmp/docpatch_main_config.tmp"
+  tmp_local_config="/tmp/docpatch_local_config.tmp"
+  sed "s|\$(which ${1})|\"${path_to_exe}\"|" $main_config > $tmp_main_config
+  if [ $? -gt 0 ]; then
+      echo "[FAILED]"
+      abort 4
+    fi
+  sed "s|\$(which ${1})|\"${path_to_exe}\"|" $local_config > $tmp_local_config
+  if [ $? -gt 0 ]; then
+      echo "[FAILED]"
+      abort 5
+    fi
+  mv $tmp_main_config $main_config
+  mv $tmp_local_config $local_config
+  echo "[DONE]"
+}
+
+function abort {
+  echo "Failed to configure system"
+  exit $1
+}
+
+if [ ! -r $main_config ]; then
+    echo "${main_config}: file not found or not accessible."
+    abort 1
+  fi
+
+if [ ! -r $local_config ]; then
+    echo "${local_config}: file not found or not accessible."
+    abort 1
+  fi
+
+matchAndReplace "git"
+matchAndReplace "gnupg"
+matchAndReplace "markdown2pdf"
+matchAndReplace "pandoc"
+matchAndReplace "quilt"
+
+matchAndReplace "basename"
+matchAndReplace "cat"
+matchAndReplace "cd"
+matchAndReplace "cp"
+matchAndReplace "echo"
+matchAndReplace "getopt"
+matchAndReplace "head"
+matchAndReplace "mkdir"
+matchAndReplace "pwd"
+matchAndReplace "rm"
+matchAndReplace "wc"
+
+echo "System is configured. Continue with 'make'."

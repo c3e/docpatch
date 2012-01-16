@@ -1,0 +1,44 @@
+# Exclude these files from git
+
+# Temporary files
+*~
+*.autosave
+*.backup
+*.bak
+*.tmp
+.~lock.*
+
+# TeX
+*.acn
+*.acr
+*.alg
+*.annotation
+*.aux
+*.bbl
+*.blg
+*.brf
+*.dvi
+*.for
+*.glg
+*.glo
+*.gls
+*.idx
+*.ilg
+*.ind
+*.ist
+*.lol
+*.lof
+*.loa
+*.log
+*.lot
+*.maf
+*.mtc
+*.mtc1
+*.nav
+*.out
+*.snm
+*.spread
+*.thm
+*.toc
+*.tpt
+*.xdy
