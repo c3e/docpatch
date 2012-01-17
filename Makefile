@@ -107,8 +107,8 @@ install :
 	  usr/share/doc/$(project)/THANKS \
 	  usr/share/doc/$(project)/TODO $(DESTDIR)$(docdir)
 	@mkdir -p $(DESTDIR)$(docdir)/examples
-	@mkdir $(DESTDIR)$(docdir)/examples/bash_completion.d
-	@mkdir $(DESTDIR)$(docdir)/examples/etc
+	@mkdir -p $(DESTDIR)$(docdir)/examples/bash_completion.d
+	@mkdir -p $(DESTDIR)$(docdir)/examples/etc
 	@$(INSTALL_DATA) usr/share/doc/$(project)/examples/bash_completion.d/* $(DESTDIR)$(docdir)/examples/bash_completion.d
 	@$(INSTALL_DATA) usr/share/doc/$(project)/examples/etc/* $(DESTDIR)$(docdir)/examples/etc
 	$(POST_INSTALL)
