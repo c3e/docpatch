@@ -46,7 +46,7 @@ PROJECT_VERSION="0.1"
 
 ## Main tools:
 GIT=$(which git)
-GNUPG=$(which gnupg)
+GPG=$(which gpg)
 MARKDOWN2PDF=$(which markdown2pdf)
 PANDOC=$(which pandoc)
 QUILT=$(which quilt)
