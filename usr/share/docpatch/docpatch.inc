@@ -31,16 +31,18 @@ function determineRevisions {
   if [ "$REVISION" -eq "first" ]; then
       log "debug" "It's the first revision."
       CURRENT_REVISIONS=0
-    else if [ "$REVISION" -eq "last" ]; then
+    elif [ "$REVISION" -eq "last" ]; then
       log "debug" "It's the last revision."
       CURRENT_REVISIONS=$(("$REVISIONS" - 1))
-    else if [ "$REVISION" -eq "all" ]; then
+    elif [ "$REVISION" -eq "all" ]; then
       log "debug" "All revisions selected."
+
       countRevisions
       if [ "$?" -gt 0 ]; then
           log "error" "Failed to determine revisions."
           return 1
         fi
+
       for (( rev=1; rev < "$REVISIONS"; rev++ )); do
           if [ "$rev" -lt 0 ]; then
               log "warning" "Inproperly named revision found: $rev"
@@ -50,19 +52,23 @@ function determineRevisions {
           CURRENT_REVISIONS="$rev "
           log "debug" "Appended revision $rev to list."
         done
-    else if [ "$REVISION" -ge 0 ]; then
+    elif [ "$REVISION" -ge 0 ]; then
       log "debug" "Revision $REVISION is meant."
       CURRENT_REVISIONS="$REVISION"
     else
       log "debug" "Looking for more than one revision..."
-      IFS=$','
+      IFS=","
       for rev in "$REVISION"; do
           if [ "$rev" -lt 0 ]; then
               log "warning" "Argument for one or more revisions is invalid."
               log "error" "Failed to determine revisions."
               return 1
             fi
-          CURRENT_REVISIONS="$rev "
+
+          if [ -n "$CURRENT_REVISIONS" ]; then
+              CURRENT_REVISIONS="$CURRENT_REVISIONS "
+            fi
+          CURRENT_REVISIONS="${CURRENT_REVISIONS}$rev"
           log "debug" "Appended revision $rev to list."
         done
       unset IFS
