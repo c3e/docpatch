@@ -75,7 +75,7 @@ if [ -r "${BASE_DIR}/.${PROJECT_NAME}.conf" ]; then
   fi
 
 ## Include base functions:
-if [ ! -r "/usr/share/d${PROJECT_NAME}/${PROJECT_NAME}.inc" ]; then
+if [ ! -r "/usr/share/${PROJECT_NAME}/${PROJECT_NAME}.inc" ]; then
     exit 255
   fi
 . /usr/share/"$PROJECT_NAME"/"$PROJECT_NAME".inc

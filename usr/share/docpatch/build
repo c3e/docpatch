@@ -331,7 +331,6 @@ function createTag {
   log "info" "Tagging current revision..."
 
   log "debug" "Checking version number..."
-  # TODO check wether it's a number
   if [ -n "$1" && "$1" -lt 0 ]; then
       log "warning" "Version number is invalid."
       log "error" "Failed to tag current revision."

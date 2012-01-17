@@ -36,20 +36,18 @@ function determineRevisions {
       CURRENT_REVISIONS=$(("$REVISIONS" - 1))
     else if [ "$REVISION" -eq "all" ]; then
       log "debug" "All revisions selected."
-      # TODO Walk trough each revision
       countRevisions
       if [ "$?" -gt 0 ]; then
           log "error" "Failed to determine revisions."
           return 1
         fi
-      # FIXME for i = 0; i < REVISIONS; i++
-      #for rev in "$REVISION"; do
+      for (( rev=1; rev < "$REVISIONS"; rev++ )); do
           if [ "$rev" -lt 0 ]; then
               log "warning" "Inproperly named revision found: $rev"
               log "error" "Failed to determine revisions."
               return 1
             fi
-          REVISIONS="$rev "
+          CURRENT_REVISIONS="$rev "
           log "debug" "Appended revision $rev to list."
         done
     else if [ "$REVISION" -ge 0 ]; then
@@ -57,18 +55,19 @@ function determineRevisions {
       CURRENT_REVISIONS="$REVISION"
     else
       log "debug" "Looking for more than one revision..."
-      # FIXME Does it work with a comma separated list?
+      IFS=$','
       for rev in "$REVISION"; do
           if [ "$rev" -lt 0 ]; then
               log "warning" "Argument for one or more revisions is invalid."
               log "error" "Failed to determine revisions."
               return 1
             fi
-          REVISIONS="$rev "
+          CURRENT_REVISIONS="$rev "
           log "debug" "Appended revision $rev to list."
         done
+      unset IFS
     fi
-  log "debug" "Found these revisions: $REVISIONS"
+  log "debug" "Found these revisions: $CURRENT_REVISIONS"
 
   log "debug" "Revisions determined."
   return 0
@@ -99,8 +98,7 @@ function determineRepository {
   log "info" "Determining repository..."
 
   log "debug" "Checking argument..."
-  # TODO if REPOSITORY is empty
-  if [ -n "$REPOSITORY" ]; then
+  if [ -z "$REPOSITORY" ]; then
       log "debug" "Argument not set. Use default repository under ${REPO_DIR}."
 
       log "debug" "Checking for existing repository..."
