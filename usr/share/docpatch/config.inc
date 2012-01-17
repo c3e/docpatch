@@ -59,6 +59,7 @@ GETOPT=$(which getopt)
 HEAD=$(which head)
 MKDIR=$(which mkdir)
 PWD=$(which pwd)
+RENICE=$(which renice)
 RM=$(which rm)
 WC=$(which wc)
 

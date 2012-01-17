@@ -17,6 +17,6 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-pandoc --toc --output test.epub --epub-metadata=tpl/metadata.xml --from markdown -S --epub-cover-image=tpl/bundeswappen_deutschlands_300dpi.png src/*.md
+#pandoc --toc --output test.epub --epub-metadata=tpl/metadata.xml --from markdown -S --epub-cover-image=tpl/bundeswappen_deutschlands_300dpi.png src/*.md
 
 # TODO create metadata.xml

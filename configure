@@ -98,6 +98,7 @@ matchAndReplace "getopt"
 matchAndReplace "head"
 matchAndReplace "mkdir"
 matchAndReplace "pwd"
+matchAndReplace "renice"
 matchAndReplace "rm"
 matchAndReplace "wc"
 
