@@ -1,6 +1,6 @@
-% DOCPATCH(1) docpatch User Manuals
-% Benjamin Heisig
-% January 16, 2012
+% DOCPATCH(1) DocPatch User Manuals | Version 0.1
+%
+% January 17, 2012
 
 
 # NAME
@@ -75,17 +75,17 @@ FIXME
 
 # BUGS
 
-Please, report any bugs to `<[https://forge.benjaminheisig.de/docpatch](https://forge.benjaminheisig.de/docpatch "Project website")>`.
+Please, report any bugs to <https://forge.benjaminheisig.de/docpatch>.
 
 
-# Copyright
+# COPYRIGHT
 
-Copyright (C) 2012 Benjamin Heisig `<[http://benjamin.heisig.name/](http://benjamin.heisig.name/ "Website of Benjamin Heisig")>`. License GPLv3+: GNU GPL version 3 or later `<[http://gnu.org/licenses/gpl.html](http://gnu.org/licenses/gpl.html "GNU GPL version 3 or later")>`. This is free software: you are free to change and redistribute it. There is NO WARRANTY, to the extent permitted by law.
+Copyright (C) 2012 Benjamin Heisig <http://benjamin.heisig.name/>. License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>. This is free software: you are free to change and redistribute it. There is NO WARRANTY, to the extent permitted by law.
 
 
 # AUTHOR
 
-Benjamin Heisig `<[http://benjamin.heisig.name/](http://benjamin.heisig.name/ "Website of Benjamin Heisig")>`
+Benjamin Heisig <http://benjamin.heisig.name/>
 
 
 # SEE ALSO

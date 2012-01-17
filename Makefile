@@ -80,7 +80,7 @@ meta : $(metainfos)
 
 % : usr/share/man/man1/%.1.md
 	@echo "Build man1 page $@..."
-	@$(PANDOC) --from markdown --to man $< | $(GZIP) -c > usr/share/man/man1/$@.1.gz
+	@$(PANDOC) -s --from markdown --to man $< | $(GZIP) -c > usr/share/man/man1/$@.1.gz
 
 % : %.md
 	@echo "Build meta information $@..."

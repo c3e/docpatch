@@ -41,12 +41,12 @@ function matchAndReplace {
   sed "s|\$(which ${1})|\"${path_to_exe}\"|" $main_config > $tmp_main_config
   if [ $? -gt 0 ]; then
       echo "[FAILED]"
-      abort 1
+      abort 2
     fi
   sed "s|\$(which ${1})|\"${path_to_exe}\"|" $local_config > $tmp_local_config
   if [ $? -gt 0 ]; then
       echo "[FAILED]"
-      abort 1
+      abort 3
     fi
   mv $tmp_main_config $main_config
   mv $tmp_local_config $local_config
@@ -61,10 +61,10 @@ function replaceExeInMakefile {
       abort 1
     fi
   tmp_makefile="/tmp/docpatch_makefile.tmp"
-  sed "s|\$(which ${1})|\"${path_to_exe}\"|" $makefile > $tmp_makefile
+  sed "s|\$(which ${1})|${path_to_exe}|" $makefile > $tmp_makefile
   if [ $? -gt 0 ]; then
       echo "[FAILED]"
-      abort 1
+      abort 2
     fi
   mv $tmp_makefile $makefile
   echo "[DONE]"
@@ -102,7 +102,7 @@ matchAndReplace "pwd"
 matchAndReplace "rm"
 matchAndReplace "wc"
 
-replaceExeInMakefile "shell"
+replaceExeInMakefile "sh"
 replaceExeInMakefile "install"
 replaceExeInMakefile "find"
 replaceExeInMakefile "gzip"
