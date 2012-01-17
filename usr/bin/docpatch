@@ -31,7 +31,7 @@
 ## Start time
 START=`"$DATE" +%s`
 
-BASE_DIR=`basedir $0`
+BASE_DIR=`dirname $0`
 BASE_NAME=`basename $0`
 
 ## Supported commands
