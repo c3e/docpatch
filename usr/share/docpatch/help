@@ -29,8 +29,8 @@ function main {
 
   local manpage="$PROJECT_NAME"
 
-  if [ -n "$COMMAND" ]; then
-      manpage="$manpage-${COMMAND}"
+  if [ -n "$SUB_COMMAND" ]; then
+      manpage="$manpage-${SUB_COMMAND}"
     fi
 
   log "debug" "Calling man page..."

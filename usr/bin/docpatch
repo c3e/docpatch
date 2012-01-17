@@ -48,6 +48,9 @@ COMMAND_PDF="Create PDF version."
 ## Required main command
 COMMAND=""
 
+## Optional sub command
+SUB_COMMAND=""
+
 
 ##
 ## Includes
@@ -189,6 +192,14 @@ for x in "$@"; do
           fi
       done
   done
+
+log "info" "Try to match sub command..."
+if [ -n "$2" -a "$2" != " " ]; then
+    SUB_COMMAND="$2"
+    log "debug" "Sub command is $SUB_COMMAND."
+  else
+    log "debug" "There is no sub command."
+  fi
 
 
 ## Include command specific file
