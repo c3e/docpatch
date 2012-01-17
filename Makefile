@@ -47,7 +47,7 @@ man1dir = $(mandir)/man1
 ## Build
 
 all : man info meta
-	@echo "$(project) built. Ready to install."
+	@echo "$(project) built. Ready to install. Continue with 'make install'"
 
 man : $(man1pages)
 	@echo "Man pages built."
@@ -108,10 +108,8 @@ install :
 	  usr/share/doc/$(project)/TODO $(DESTDIR)$(docdir)
 	@mkdir -p $(DESTDIR)$(docdir)/examples
 	@mkdir $(DESTDIR)$(docdir)/examples/bash_completion.d
-	@mkdir $(DESTDIR)$(docdir)/examples/cron.d
 	@mkdir $(DESTDIR)$(docdir)/examples/etc
 	@$(INSTALL_DATA) usr/share/doc/$(project)/examples/bash_completion.d/* $(DESTDIR)$(docdir)/examples/bash_completion.d
-	@$(INSTALL_DATA) usr/share/doc/$(project)/examples/cron.d/* $(DESTDIR)$(docdir)/examples/cron.d
 	@$(INSTALL_DATA) usr/share/doc/$(project)/examples/etc/* $(DESTDIR)$(docdir)/examples/etc
 	$(POST_INSTALL)
 	@echo "Install info documentation..."
