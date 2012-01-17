@@ -68,12 +68,7 @@ function createRepo {
   log "debug" "Directory created."
 
   log "debug" "Changing into directory ${REPO_DIR}..."
-  "$CD" "$REPO_DIR"
-  if [ "$?" -gt 0 ]; then
-      log "warning" "Cannot change into directory ${REPO_DIR}."
-      log "error" "Failed to create a new repository."
-      return 1
-    fi
+  cd "$REPO_DIR"
 
   log "debug" "Initiating git repository..."
   "$GIT" init
@@ -243,8 +238,8 @@ function createRevisions {
 function nextPatch {
   log "info" "Applying next patch..."
 
-  log "debug" "Changing to source directory..."
-  "$CD" "$SRC_DIR"
+  log "debug" "Changing into directory ${SRC_DIR}..."
+  cd "$SRC_DIR"
 
   log "debug" "Calling quilt..."
   "$QUILT" push
@@ -262,8 +257,8 @@ function nextPatch {
 function rewindPatches {
   log "info" "Reverting all applied patches..."
 
-  log "debug" "Changing to source directory..."
-  "$CD" "$SRC_DIR"
+  log "debug" "Changing into directory ${SRC_DIR}..."
+  cd "$SRC_DIR"
 
   log "debug" "Calling quilt..."
   "$QUILT" pop -a
@@ -283,12 +278,7 @@ function addAndCommitAll {
   log "info" "Putting all files under version control and committing them."
 
   log "debug" "Changing into directory ${REPO_DIR}..."
-  "$CD" "$REPO_DIR"
-  if [ "$?" -gt 0 ]; then
-      log "warning" "Cannot change into directory ${REPO_DIR}."
-      log "error" "Failed to create a new repository."
-      return 1
-    fi
+  cd "$REPO_DIR"
 
   log "debug" "Putting all files under version control..."
   "$GIT" add * --force

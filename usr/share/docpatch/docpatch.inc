@@ -148,7 +148,8 @@ function determineRepository {
 function switchRevision {
   log "info" "Switching revision..."
 
-  "$CD" "$REPO_DIR"
+  log "debug" "Changing into directory ${REPO_DIR}..."
+  cd "$REPO_DIR"
 
   log "debug" "Checking out revision ${1}..."
   "$GIT" checkout "$1"

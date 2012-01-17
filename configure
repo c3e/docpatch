@@ -68,14 +68,13 @@ if [ ! -r $local_config ]; then
   fi
 
 matchAndReplace "git"
-matchAndReplace "gnupg"
+matchAndReplace "gpg"
 matchAndReplace "markdown2pdf"
 matchAndReplace "pandoc"
 matchAndReplace "quilt"
 
 matchAndReplace "basename"
 matchAndReplace "cat"
-matchAndReplace "cd"
 matchAndReplace "cp"
 matchAndReplace "echo"
 matchAndReplace "getopt"

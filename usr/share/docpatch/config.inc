@@ -54,7 +54,6 @@ QUILT=$(which quilt)
 ## Helping tools:
 BASENAME=$(which basename)
 CAT=$(which cat)
-CD=$(which cd)
 CP=$(which cp)
 ECHO=$(which echo)
 GETOPT=$(which getopt)
