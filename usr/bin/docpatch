@@ -36,8 +36,9 @@ BASE_NAME=`basename $0`
 
 ## Supported commands
 COMMANDS[0]="help"
-COMMANDS[1]="pdf"
-COMMANDS[1]="epub"
+COMMANDS[1]="build"
+COMMANDS[2]="epub"
+COMMANDS[3]="pdf"
 
 ## Descriptions of supported commands
 COMMAND_BUILD="Build repository."
@@ -46,9 +47,6 @@ COMMAND_PDF="Create PDF version."
 
 ## Required main command
 COMMAND=""
-
-## Optional sub command
-SUB_COMMAND=""
 
 
 ##
@@ -191,14 +189,6 @@ for x in "$@"; do
           fi
       done
   done
-
-log "info" "Try to match sub command..."
-if [ -n "$2" -a "$2" != " " ]; then
-    SUB_COMMAND="$2"
-    log "debug" "Sub command is $SUB_COMMAND."
-  else
-    log "debug" "There is no sub command."
-  fi
 
 
 ## Include command specific file

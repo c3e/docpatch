@@ -343,7 +343,7 @@ function includeCommand {
 ##   $1 Log level
 ##   $2 Log message
 function log {
-  local now=`"$DATE" +%F_%H:%M`
+  local now=`date +%F_%H:%M`
   if [ \( "$1" = "fatal" -a "$VERBOSITY" -ge 1 \) -o \
        \( "$1" = "error" -a "$VERBOSITY" -ge 1 \) -o \
        \( "$1" = "warning" -a "$VERBOSITY" -ge 2 \) -o \
@@ -386,7 +386,7 @@ function log {
 ## Calculate spent time
 function calculateSpentTime {
   log "info" "Calculate spent time..."
-  local now=`"$DATE" +%s`
+  local now=`date +%s`
   local sec=`expr $now - $START`
   local duration=""
   local div=0
@@ -534,7 +534,7 @@ function printUsage {
       prntLn "The most commonly used $PROJECT_NAME options are:"
       prntLn "    build\t\t${COMMAND_BUILD}"
       prntLn "    epub\t\t${COMMAND_EPUB}"
-      prntLn "    pdf\t\t${COMMAND_PDF}"
+      prntLn "    pdf\t\t\t${COMMAND_PDF}"
     else
       prntLn "Options:"
       printCommandOptions
