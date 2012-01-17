@@ -27,11 +27,6 @@
 COMMAND_DESC="$COMMAND_PDF"
 
 
-##
-## Logic
-##
-
-
 ## Checks wether everything is prepared before creating output.
 function checks {
   log "info" "Checking wether everything is prepared before creating output."

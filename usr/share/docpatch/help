@@ -46,9 +46,9 @@ function main {
 }
 
 
-## Print command specific options
+## Prints command specific options.
 function printCommandOptions {
-  log "info" "Print command specific options..."
+  log "info" "Printing command specific options..."
   prntLn "    No options"
   log "debug" "Options printed."
   return 0

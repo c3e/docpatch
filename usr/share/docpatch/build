@@ -32,11 +32,6 @@
 COMMAND_DESC="$COMMAND_BUILD"
 
 
-##
-## Logic
-##
-
-
 ## Checks wether everything is prepared before building the repository.
 function checks {
   log "info" "Checking wether everything is prepared before building the repository."
