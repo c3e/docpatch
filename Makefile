@@ -1,4 +1,4 @@
-## backulous -- Simple Backup Scripts
+## DocPatch -- patching documents that matter
 ## Copyright (C) 2011 Benjamin Heisig <http://benjamin.heisig.name/>
 ##
 ## This program is free software: you can redistribute it and/or modify
@@ -15,18 +15,18 @@
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-SHELL = /bin/sh
+SHELL = $(which sh)
 
-INSTALL = /usr/bin/install
+INSTALL = $(which install)
 INSTALL_PROGRAM = $(INSTALL)
 INSTALL_DATA = $(INSTALL) -m 644
-FIND = /usr/bin/find
-GZIP = /bin/gzip
-PANDOC = /usr/bin/pandoc
-MARKDOWN2PDF = /usr/bin/markdown2pdf
+FIND = $(which find)
+GZIP = $(which gzip)
+PANDOC = $(which pandoc)
+MARKDOWN2PDF = $(which markdown2pdf)
 
 project = $(shell cat usr/share/docpatch/config.inc | sed -n 's/^PROJECT_NAME="\(.*\)"$$/\1/p')
-man1pages = $(project)
+man1pages = $(project) $(project)-build $(project)-pdf $(project)-epub
 metainfos = AUTHORS INSTALL NEWS README THANKS TODO
 docs = 
 version = $(shell cat usr/share/docpatch/config.inc | sed -n 's/^PROJECT_VERSION="\(.*\)"$$/\1/p')
@@ -54,16 +54,16 @@ man : $(man1pages)
 
 info :
 	@echo "Build info documentation..."
-	@mkdir docs/info
-	@$(PANDOC) --from markdown --to texinfo $(docs) --toc --standalone | $(GZIP) -c > docs/info/$(project).info.gz
+	#@mkdir docs/info
+	#@$(PANDOC) --from markdown --to texinfo $(docs) --toc --standalone | $(GZIP) -c > docs/info/$(project).info.gz
 
 html :
 	@echo "Build HTML documentation..."
-	@$(PANDOC) --from markdown --to html -o docs/html/$(project).html --toc --standalone $(docs)
+	#@$(PANDOC) --from markdown --to html -o docs/html/$(project).html --toc --standalone $(docs)
 
 pdf :
 	@echo "Build PDF documentation..."
-	@$(MARKDOWN2PDF) -o docs/pdf/$(project).pdf $(docs)
+	#@$(MARKDOWN2PDF) -o docs/pdf/$(project).pdf $(docs)
 
 dvi :
 	@echo "Failed to build DVI documentation. It's not supported."
@@ -115,11 +115,11 @@ install :
 	@$(INSTALL_DATA) usr/share/doc/$(project)/examples/etc/* $(DESTDIR)$(docdir)/examples/etc
 	$(POST_INSTALL)
 	@echo "Install info documentation..."
-	@if [ ! -d $(DESTDIR)$(infodir) ]; then \
-	    mkdir -p $(DESTDIR)$(infodir); \
-	  fi
-	@$(INSTALL_DATA) docs/info/*.info.gz $(DESTDIR)$(infodir)
-	install-info --dir-file="$(DESTDIR)$(infodir)/dir" $(DESTDIR)$(infodir)/$(project).info.gz
+	#@if [ ! -d $(DESTDIR)$(infodir) ]; then \
+	#    mkdir -p $(DESTDIR)$(infodir); \
+	#  fi
+	#@$(INSTALL_DATA) docs/info/*.info.gz $(DESTDIR)$(infodir)
+	#install-info --dir-file="$(DESTDIR)$(infodir)/dir" $(DESTDIR)$(infodir)/$(project).info.gz
 	@if [ ! -d $(DESTDIR)$(man1dir) ]; then \
 	    mkdir -p $(DESTDIR)$(man1dir); \
 	  fi
@@ -128,16 +128,16 @@ install :
 
 install-html :
 	@echo "Install HTML documentation..."
-	@$(INSTALL_DATA) docs/html/*.html $(DESTDIR)$(htmldir)
+	#@$(INSTALL_DATA) docs/html/*.html $(DESTDIR)$(htmldir)
 
 install-pdf :
 	@echo "Install PDF documentation..."
-	@$(INSTALL_DATA) docs/pdf/*.pdf $(DESTDIR)$(pdfdir)
+	#@$(INSTALL_DATA) docs/pdf/*.pdf $(DESTDIR)$(pdfdir)
 
 uninstall :
 	$(PRE_UNINSTALL)
 	@echo "Uninstall info documentation..."
-	@rm $(DESTDIR)$(infodir)/$(project).info.gz
+	#@rm $(DESTDIR)$(infodir)/$(project).info.gz
 	$(NORMAL_UNINSTALL)
 	@echo "Uninstall $(project)..."
 	@rm $(DESTDIR)$(bindir)/$(project)
@@ -189,9 +189,9 @@ distclean :
 	@echo "Remove man pages..."
 	@$(FIND) usr/share/man -name '*.gz' -delete
 	@echo "Remove documentation..."
-	@rm -rf docs/info/
-	@$(FIND) docs/html/ -name '*.html' -delete
-	@$(FIND) docs/pdf/ -name '*.pdf' -delete
+	#@rm -rf docs/info/
+	#@$(FIND) docs/html/ -name '*.html' -delete
+	#@$(FIND) docs/pdf/ -name '*.pdf' -delete
 	@echo "Remove meta information about $(project)..."
 	@rm -f usr/share/doc/$(project)/AUTHORS
 	@rm -f usr/share/doc/$(project)/COPYING
@@ -207,4 +207,3 @@ maintainer-clean : clean
 
 
 .PHONY : man info html pdf dvi ps meta install install-html install-pdf uninstall dist changelog clean distclean mostlyclean maintainer-clean
-

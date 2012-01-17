@@ -23,37 +23,55 @@
 ## TODO This is only a quick'n'dirty version.
 ##
 
-echo "Check system configuration for backulous..."
+echo "Check system configuration for docpatch..."
 
 main_config="usr/share/docpatch/config.inc"
 local_config="usr/share/doc/docpatch/examples/etc/docpatch.conf"
+makefile="Makefile"
 
 function matchAndReplace {
   echo -n "Check ${1}... "
   path_to_exe=$(which $1)
   if [ $? -gt 0 ]; then
       echo "[FAILED]"
-      abort 3
+      abort 1
     fi
   tmp_main_config="/tmp/docpatch_main_config.tmp"
   tmp_local_config="/tmp/docpatch_local_config.tmp"
   sed "s|\$(which ${1})|\"${path_to_exe}\"|" $main_config > $tmp_main_config
   if [ $? -gt 0 ]; then
       echo "[FAILED]"
-      abort 4
+      abort 1
     fi
   sed "s|\$(which ${1})|\"${path_to_exe}\"|" $local_config > $tmp_local_config
   if [ $? -gt 0 ]; then
       echo "[FAILED]"
-      abort 5
+      abort 1
     fi
   mv $tmp_main_config $main_config
   mv $tmp_local_config $local_config
   echo "[DONE]"
 }
 
+function replaceExeInMakefile {
+  echo -n "Prepare ${1}... "
+  path_to_exe=$(which $1)
+  if [ $? -gt 0 ]; then
+      echo "[FAILED]"
+      abort 1
+    fi
+  tmp_makefile="/tmp/docpatch_makefile.tmp"
+  sed "s|\$(which ${1})|\"${path_to_exe}\"|" $makefile > $tmp_makefile
+  if [ $? -gt 0 ]; then
+      echo "[FAILED]"
+      abort 1
+    fi
+  mv $tmp_makefile $makefile
+  echo "[DONE]"
+}
+
 function abort {
-  echo "Failed to configure system"
+  echo "Failed to configure system."
   exit $1
 }
 
@@ -83,5 +101,12 @@ matchAndReplace "mkdir"
 matchAndReplace "pwd"
 matchAndReplace "rm"
 matchAndReplace "wc"
+
+replaceExeInMakefile "shell"
+replaceExeInMakefile "install"
+replaceExeInMakefile "find"
+replaceExeInMakefile "gzip"
+replaceExeInMakefile "pandoc"
+replaceExeInMakefile "markdown2pdf"
 
 echo "System is configured. Continue with 'make'."
