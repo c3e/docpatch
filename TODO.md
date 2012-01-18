@@ -10,4 +10,9 @@
 
 ## Documentation
 
-* Generate README from docpatch(1) man page.
+* make rule to generate README from docpatch(1) man page.
+
+
+## Installation
+
+* ./configure should build Makefile
