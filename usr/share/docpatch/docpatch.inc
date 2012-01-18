@@ -31,13 +31,13 @@ function determineRevisions {
   if [ -z "$REVISION" ]; then
       log "debug" "No specific revision given. Assuming first revision."
       CURRENT_REVISIONS=0
-    elif [ "$REVISION" -eq "first" ]; then
+    elif [ "$REVISION" == "first" ]; then
       log "debug" "It's the first revision."
       CURRENT_REVISIONS=0
-    elif [ "$REVISION" -eq "last" ]; then
+    elif [ "$REVISION" == "last" ]; then
       log "debug" "It's the last revision."
       CURRENT_REVISIONS=$(("$REVISIONS" - 1))
-    elif [ "$REVISION" -eq "all" ]; then
+    elif [ "$REVISION" == "all" ]; then
       log "debug" "All revisions selected."
 
       countRevisions
