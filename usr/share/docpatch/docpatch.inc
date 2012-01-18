@@ -300,7 +300,7 @@ function preChecks {
 function initiateConfig {
   log "info" "Initiate configuration files..."
   log "debug" "Copy files..."
-  "$CP" ${EXAMPLE_DIR}etc/* "$CONFIG_DIR"
+  "$CP" ${EXAMPLE_DIR}/etc/* "$CONFIG_DIR"
   if [ "$?" -gt 0 ]; then
       log "warning" "Cannot copy configuration files."
       log "error" "Failed to initiate configuration files."
@@ -315,7 +315,7 @@ function initiateConfig {
 function initiateAutoCompletion {
   log "info" "Initiate auto completion in bash..."
   log "debug" "Copy file..."
-  "$CP" ${EXAMPLE_DIR}bash_completion.d/${PROJECT_NAME} /etc/bash_completion.d/
+  "$CP" ${EXAMPLE_DIR}/bash_completion.d/${PROJECT_NAME} /etc/bash_completion.d/
   if [ "$?" -gt 0 ]; then
       log "warning" "Cannot copy auto completion file."
       log "error" "Failed to initiate auto completion in bash."
@@ -326,11 +326,11 @@ function initiateAutoCompletion {
 }
 
 
-## Include command specific file
+## Includes command specific file.
 ##   #1 Path to file
 function includeCommand {
-  log "info" "Include command specific file..."
-  local cmd_file="${LIB_DIR}$1"
+  log "info" "Including command specific file..."
+  local cmd_file="${LIB_DIR}/$1"
   if [ ! -r "$cmd_file" ]; then
       log "warning" "File $cmd_file does not exist or is not readable."
       log "error" "Cannot include command specific file."
@@ -436,14 +436,14 @@ function calculateSpentTime {
 function cleanUp {
   log "info" "Cleaning up system..."
 
-  log "debug" "Remove temporary files..."
-  "$RM" -f ${TMP_DIR}${PID}_*
+  log "debug" "Removing temporary files..."
+  "$RM" -f ${TMP_DIR}/${PID}_*
   if [ $? -gt 0 ]; then
       log "warning" "Cannot remove temporary files."
       log "error" "Failed to clean up."
       return 1
     fi
-  log "debug" "Temporary files '${TMP_DIR}${PID}_*' removed."
+  log "debug" "Temporary files '${TMP_DIR}/${PID}_*' removed."
 
   log "debug" "Checking left repository..."
   if [ -d "{$REPO_DIR}/.git/" ]; then
