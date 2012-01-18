@@ -27,7 +27,7 @@ MARKDOWN2PDF = $(which markdown2pdf)
 
 project = $(shell cat usr/share/docpatch/config.inc | sed -n 's/^PROJECT_NAME="\(.*\)"$$/\1/p')
 man1pages = $(project) $(project)-build $(project)-pdf $(project)-epub
-metainfos = AUTHORS INSTALL NEWS README THANKS TODO
+metainfos = NEWS README TODO
 docs = 
 version = $(shell cat usr/share/docpatch/config.inc | sed -n 's/^PROJECT_VERSION="\(.*\)"$$/\1/p')
 
@@ -99,12 +99,10 @@ install :
 	@mkdir -p $(DESTDIR)$(datadir)/$(project)
 	@$(INSTALL) usr/share/$(project)/* $(DESTDIR)$(datadir)/$(project)
 	@mkdir -p $(DESTDIR)$(docdir)
-	@$(INSTALL_DATA) usr/share/doc/$(project)/AUTHORS \
+	@$(INSTALL_DATA) \
 	  usr/share/doc/$(project)/COPYING \
-	  usr/share/doc/$(project)/INSTALL \
 	  usr/share/doc/$(project)/NEWS \
 	  usr/share/doc/$(project)/README \
-	  usr/share/doc/$(project)/THANKS \
 	  usr/share/doc/$(project)/TODO $(DESTDIR)$(docdir)
 	@mkdir -p $(DESTDIR)$(docdir)/examples
 	@mkdir -p $(DESTDIR)$(docdir)/examples/bash_completion.d
@@ -155,7 +153,7 @@ dist : changelog
 	  -exec chmod 777 $(project)-$(version)/{} \;
 	@find docs usr -type f -exec cp {} $(project)-$(version)/{} \; \
 	  -exec chmod 755 $(project)-$(version)/{} \;
-	@$(INSTALL_PROGRAM) -m 755 AUTHORS.md ChangeLog configure COPYING Makefile NEWS.md README.md THANKS.md TODO.md $(project)-$(version)
+	@$(INSTALL_PROGRAM) -m 755 ChangeLog configure COPYING Makefile NEWS.md README.md TODO.md $(project)-$(version)
 	@echo "Create tarball $(project)-$(version).tar.gz..."
 	@tar czf $(project)-$(version).tar.gz $(project)-$(version)
 	@echo "Release made."
@@ -191,12 +189,9 @@ distclean :
 	#@$(FIND) docs/html/ -name '*.html' -delete
 	#@$(FIND) docs/pdf/ -name '*.pdf' -delete
 	@echo "Remove meta information about $(project)..."
-	@rm -f usr/share/doc/$(project)/AUTHORS
 	@rm -f usr/share/doc/$(project)/COPYING
-	@rm -f usr/share/doc/$(project)/INSTALL
 	@rm -f usr/share/doc/$(project)/NEWS
 	@rm -f usr/share/doc/$(project)/README
-	@rm -f usr/share/doc/$(project)/THANKS
 	@rm -f usr/share/doc/$(project)/TODO
 
 mostlyclean : clean

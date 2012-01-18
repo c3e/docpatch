@@ -57,6 +57,17 @@ pdf
 :   Show information about this script and exit.
 
 
+# INSTALLATION
+
+Installation DocPatch and its components requieres the following dependencies
+
+* POSIX operating system
+* `git` (distributed version control system)
+* `gpg` (OpenPGP encryption and signing tool)
+* `pandoc` incl. `markdown2pdf` (converting tool)
+* `quilt` (patch management)
+
+
 # ENVIRONMENT
 
 FIXME
@@ -88,6 +99,16 @@ Copyright (C) 2012 Benjamin Heisig <http://benjamin.heisig.name/>. License GPLv3
 Benjamin Heisig <http://benjamin.heisig.name/>
 
 
+# THANKS
+
+We would like to thank the following people:
+
+* from Chaospott Essen <http://www.chaospott.de/>
+* from tiggersWelt.net <http://www.tiggerswelt.net/> who provide the hosting services
+
+And everyone who keeps sending us feedback and improving this project! Thank you :-)
+
+
 # SEE ALSO
 
-`docpatch-build`(1), `docpatch-epub`(1), `docpatch-pdf`(1)
+`docpatch-build`(1), `docpatch-epub`(1), `docpatch-pdf`(1), `git`(1), `markdown2pdf`(1), `pandoc(1)`, `quilt`(1)
