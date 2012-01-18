@@ -108,7 +108,7 @@ function determineRepository {
       log "debug" "Argument not set. Use default repository under ${REPO_DIR}."
 
       log "debug" "Checking for existing repository..."
-      if [ !-d "${REPO_DIR}/.git" ]; then
+      if [ ! -d "${REPO_DIR}/.git" ]; then
           log "notice" "There is no repository under ${REPO_DIR}."
           log "warning" "Cannot use default repository."
           log "error" "Failed to determine repository."
@@ -206,10 +206,14 @@ function createOutput {
 function preChecks {
   log "info" "Checking system requirements..."
 
+  log "debug" "Checking location..."
+  log "debug" "Base name: $BASE_NAME"
+  log "debug" "Dir name: $DIR_NAME"
+
   log "debug" "Checking directories..."
 
   log "debug" "Checking references..."
-  if [ !-d "$REF_DIR" ]; then
+  if [ ! -d "$REF_DIR" ]; then
       log "warning" "References not found."
       log "error" "System checks failed."
       return 1
@@ -217,7 +221,7 @@ function preChecks {
   log "debug" "References found in ${REF_DIR}."
 
   log "debug" "Checking sources..."
-  if [ !-d "$SRC_DIR" ]; then
+  if [ ! -d "$SRC_DIR" ]; then
       log "warning" "Sources not found."
       log "error" "System checks failed."
       return 1
@@ -225,7 +229,7 @@ function preChecks {
   log "debug" "Sources found in ${SRC_DIR}."
 
   log "debug" "Checking meta information..."
-  if [ !-d "$META_DIR" ]; then
+  if [ ! -d "$META_DIR" ]; then
       log "warning" "Meta information not found."
       log "error" "System checks failed."
       return 1
@@ -233,7 +237,7 @@ function preChecks {
   log "debug" "References found in ${META_DIR}."
 
   log "debug" "Checking patches..."
-  if [ !-d "$PATCH_DIR" ]; then
+  if [ ! -d "$PATCH_DIR" ]; then
       log "warning" "Patches not found."
       log "error" "System checks failed."
       return 1
@@ -241,7 +245,7 @@ function preChecks {
   log "debug" "Patches found in ${PATCH_DIR}."
 
   log "debug" "Checking templates..."
-  if [ !-d "$TPL_DIR" ]; then
+  if [ ! -d "$TPL_DIR" ]; then
       log "warning" "Templates not found."
       log "error" "System checks failed."
       return 1
@@ -249,7 +253,7 @@ function preChecks {
   log "debug" "Templates found in ${TPL_DIR}."
 
   log "debug" "Checking libraries..."
-  if [ !-d "$LIB_DIR" ]; then
+  if [ ! -d "$LIB_DIR" ]; then
       log "warning" "Libraries not found."
       log "error" "System checks failed."
       return 1
@@ -257,15 +261,14 @@ function preChecks {
   log "debug" "Libraries found in ${LIB_DIR}."
 
   log "debug" "Checking configuration..."
-  if [ !-d "$CONFIG_DIR" ]; then
-      log "warning" "Configuration not found."
-      log "error" "System checks failed."
-      return 1
+  if [ ! -d "$CONFIG_DIR" ]; then
+      log "debug" "Configuration not found under ${CONF_DIR}."
+    else
+      log "debug" "Configuration found under ${CONF_DIR}."
     fi
-  log "debug" "Configuration found in ${CONF_DIR}."
 
   log "debug" "Checking examples..."
-  if [ !-d "$EXAMPLE_DIR" ]; then
+  if [ ! -d "$EXAMPLE_DIR" ]; then
       log "warning" "Examples not found."
       log "error" "System checks failed."
       return 1
@@ -273,7 +276,7 @@ function preChecks {
   log "debug" "Examples found in ${EXAMPLE_DIR}."
 
   log "debug" "Checking temporary directory..."
-  if [ !-d "$TPL_DIR" ]; then
+  if [ ! -d "$TPL_DIR" ]; then
       log "debug" "Temporary directory not found. Create it."
       "$MKDIR" -p "$TPL_DIR"
       if [ "$?" -gt 0 ]; then

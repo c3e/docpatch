@@ -108,7 +108,7 @@ EXAMPLE_DIR="/usr/share/doc/${PROJECT_NAME}/examples/"
 ##
 
 ## Main log file
-LOG_FILE="${BASE_DIR}${PROJECT_NAME}.log"
+LOG_FILE="${BASE_DIR}/${PROJECT_NAME}.log"
 
 ## Log level:
 ##   0 disabled

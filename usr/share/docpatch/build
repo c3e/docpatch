@@ -92,7 +92,7 @@ function createMetaInformation {
   log "debug" "File copied."
 
   log "debug" "Copying git configuration file..."
-  if [ !-f "$GIT_CONF_SOURCE" ]; then
+  if [ ! -f "$GIT_CONF_SOURCE" ]; then
       log "notice" "Git configuration file under $GIT_CONF_SOURCE is missing. Please consider creating it before building the repository."
     else
       "$CP" "$GIT_CONF_SOURCE" "$GIT_CONF_TARGET"
@@ -105,7 +105,7 @@ function createMetaInformation {
     fi
 
   log "debug" "Copying git ignore file..."
-  if [ !-f "$GIT_IGNORE_SOURCE" ]; then
+  if [ ! -f "$GIT_IGNORE_SOURCE" ]; then
       log "notice" "Git ignore file under $GIT_IGNORE_SOURCE is missing. Please consider creating it before building the repository."
     else
       "$CP" "$GIT_IGNORE_SOURCE" "$GIT_IGNORE_TARGET"
@@ -118,7 +118,7 @@ function createMetaInformation {
     fi
 
   log "debug" "Converting and copying README file..."
-  if [ !-f "$README_SOURCE" ]; then
+  if [ ! -f "$README_SOURCE" ]; then
       log "notice" "README file under $README_SOURCE is missing. Please consider creating it before building the repository."
     else
       "$PANDOC" --from markdown --to text "$README_SOURCE" > "$README_TARGET"
@@ -156,7 +156,7 @@ function createRevisions {
 
   log "debug" "Checking series file..."
   local series_file="${PATCH_DIR}/series"
-  if [ !-f "$series_file" ]; then
+  if [ ! -f "$series_file" ]; then
       log "warning" "Cannot access series file ${series_file}."
       log "error" "Failed to create all revisions."
       return 1
@@ -168,7 +168,7 @@ function createRevisions {
 
       log "debug" "Checking patch file..."
       local patch_file="${PATCH_DIR}/$patch"
-      if [ !-f "$patch_file" ]; then
+      if [ ! -f "$patch_file" ]; then
           log "warning" "Cannot access patch file ${patch_file}."
           log "error" "Failed to create all revisions."
           rewindPatches
@@ -178,7 +178,7 @@ function createRevisions {
 
       log "debug" "Checking message file..."
       local meta_file="${META_DIR}/${patch}.meta"
-      if [ !-f "$meta_file" ]; then
+      if [ ! -f "$meta_file" ]; then
           log "warning" "Cannot access message file ${meta_file}."
           log "error" "Failed to create all revisions."
           rewindPatches
@@ -334,7 +334,7 @@ function createTag {
   log "debug" "Version number: $1"
 
   log "debug" "Checking message file..."
-  if [ !-f "$2" ]; then
+  if [ ! -f "$2" ]; then
       log "warning" "Cannot access message file."
       log "error" "Failed to tag current revision."
       return 1

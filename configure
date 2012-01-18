@@ -103,9 +103,10 @@ matchAndReplace "renice"
 matchAndReplace "rm"
 matchAndReplace "wc"
 
+## Just check, don't replace
 matchAndReplace "basename"
 matchAndReplace "date"
-matchAndReplace "dirname"
+matchAndReplace "pwd"
 
 replaceExeInMakefile "sh"
 replaceExeInMakefile "install"

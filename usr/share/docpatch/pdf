@@ -32,7 +32,7 @@ function checks {
   log "info" "Checking wether everything is prepared before creating output."
 
   log "debug" "Checking output directory..."
-  if [ !-d "$OUTPUT_DIR" ]; then
+  if [ ! -d "$OUTPUT_DIR" ]; then
       log "debug" "Output directory not found. Create it."
       "$MKDIR" -p "$OUTPUT_DIR"
       if [ "$?" -gt 0 ]; then
