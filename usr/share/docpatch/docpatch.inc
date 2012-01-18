@@ -108,7 +108,7 @@ function determineRepository {
       log "debug" "Argument not set. Use default repository under ${REPO_DIR}."
 
       log "debug" "Checking for existing repository..."
-      if [ ! -d "${REPO_DIR}/.git" ]; then
+      if [ ! -d "${REPO_DIR}/.git/" ]; then
           log "notice" "There is no repository under ${REPO_DIR}."
           log "warning" "Cannot use default repository."
           log "error" "Failed to determine repository."
@@ -119,7 +119,7 @@ function determineRepository {
       log "debug" "Cloning repository ${REPOSITORY}..."
 
       log "debug" "Checking for existing repository..."
-      if [ -d "${REPO_DIR}/.git" ]; then
+      if [ -d "${REPO_DIR}/.git/" ]; then
           log "notice" "Repository found under ${REPO_DIR}."
           log "warning" "Cannot clone repository ${REPOSITORY}."
           log "error" "Failed to determine repository."
@@ -446,7 +446,7 @@ function cleanUp {
   log "debug" "Temporary files '${TMP_DIR}${PID}_*' removed."
 
   log "debug" "Checking left repository..."
-  if [ -d "{$REPO_DIR}/.git" ]; then
+  if [ -d "{$REPO_DIR}/.git/" ]; then
       log "debug" "Left repository found in ${REPO_DIR}."
       log "debug" "Checking out master branch..."
       "$GIT" checkout master
@@ -456,6 +456,8 @@ function cleanUp {
           return 1
         fi
       log "debug" "Checkout was successful."
+    else
+      log "debug" "No repository left."
     fi
 
   log "debug" "System is cleaned up."

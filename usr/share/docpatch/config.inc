@@ -91,16 +91,16 @@ OUTPUT_DIR="${BASE_DIR}/out"
 REPO_DIR="${BASE_DIR}/repo"
 
 ## Path to shared libraries:
-LIB_DIR="/usr/share/${PROJECT_NAME}/"
+LIB_DIR="/usr/share/${PROJECT_NAME}"
 
 ## Path to configuration files:
-CONFIG_DIR="/etc/${PROJECT_NAME}/"
+CONFIG_DIR="/etc/${PROJECT_NAME}"
 
 ## Path to temporary files:
-TMP_DIR="/tmp/${PROJECT_NAME}/"
+TMP_DIR="/tmp/${PROJECT_NAME}"
 
 ## Path to examples (configuration and template files)
-EXAMPLE_DIR="/usr/share/doc/${PROJECT_NAME}/examples/"
+EXAMPLE_DIR="/usr/share/doc/${PROJECT_NAME}/examples"
 
 
 ##
