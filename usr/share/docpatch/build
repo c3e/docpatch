@@ -285,7 +285,7 @@ function addAndCommitAll {
   log "debug" "Putting was successful."
 
   log "debug" "Checking commit message..."
-  if [ -n "$1" ]; then
+  if [ -z "$1" ]; then
       log "warning" "There is no commit message."
       log "error" "Failed to put all files under version control and commit them."
       return 1
@@ -326,7 +326,7 @@ function createTag {
   log "info" "Tagging current revision..."
 
   log "debug" "Checking version number..."
-  if [ -n "$1" && "$1" -lt 0 ]; then
+  if [ "$1" -lt 0 ]; then
       log "warning" "Version number is invalid."
       log "error" "Failed to tag current revision."
       return 1
