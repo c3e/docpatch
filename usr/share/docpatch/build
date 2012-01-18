@@ -145,7 +145,7 @@ function createInitialVersion {
       return 1
     fi
 
-  log "debug" "initial version created."
+  log "debug" "Initial version created."
   return 0
 }
 
@@ -341,7 +341,7 @@ function createTag {
     fi
   log "debug" "Message file: $2"
 
-  local cmd="$GIT tag -F $2"
+  local cmd="$GIT tag"
 
   log "debug" "Check wether tag will be signed..."
   if [ "$SIGN" -eq 1 ]; then
@@ -350,6 +350,8 @@ function createTag {
     else
       log "debug" "Tag won\'t be signed."
     fi
+
+  cmd="$cmd $1 -F $2"
   log "debug" "git-tag: $cmd"
 
   log "debug" "Calling git-tag..."
