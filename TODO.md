@@ -16,3 +16,8 @@
 ## Installation
 
 * ./configure should build Makefile
+
+
+## make rules
+
+* add files for SIGNATURE and SHASUMS

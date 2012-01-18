@@ -47,7 +47,7 @@ man1dir = $(mandir)/man1
 ## Build
 
 all : man info meta
-	@echo "$(project) built. Ready to install. Continue with 'make install'"
+	@echo "$(project) built. Ready to install. Continue with '(sudo) make install'"
 
 man : $(man1pages)
 	@echo "Man pages built."
