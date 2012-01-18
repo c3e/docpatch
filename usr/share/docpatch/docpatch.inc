@@ -28,7 +28,10 @@ function determineRevisions {
   log "info" "Determining revisions..."
 
   log "debug" "Parsing argument for revisions..."
-  if [ "$REVISION" -eq "first" ]; then
+  if [ -z "$REVISION" ]; then
+      log "debug" "No specific revision given. Assuming first revision."
+      CURRENT_REVISIONS=0
+    elif [ "$REVISION" -eq "first" ]; then
       log "debug" "It's the first revision."
       CURRENT_REVISIONS=0
     elif [ "$REVISION" -eq "last" ]; then
