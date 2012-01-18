@@ -174,7 +174,7 @@ function createRevisions {
           rewindPatches
           return 1
         fi
-      log "debug" "Patch fiel $patch_file is ready to apply."
+      log "debug" "Patch file $patch_file is ready to apply."
 
       log "debug" "Checking message file..."
       local meta_file="${META_DIR}/${patch}.meta"
@@ -358,7 +358,7 @@ function createTag {
   log "debug" "git-tag: $cmd"
 
   log "debug" "Calling git-tag..."
-  "$cmd"
+  $cmd
   if [ "$?" -gt 0 ]; then
       log "warning" "Failed to call git-tag."
       log "error" "Failed to tag current revision."
