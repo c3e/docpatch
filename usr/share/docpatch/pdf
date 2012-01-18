@@ -92,14 +92,16 @@ function main {
 
   checks || abort 12
 
-  determineRepository || abort 13
+  countRevisions || abort 13
 
-  determineRevisions || abort 14
+  determineRepository || abort 14
 
-  createOutput || abort 15
+  determineRevisions || abort 15
+
+  createOutput || abort 16
 
   # After work
-  cleanUp || abort 16
+  cleanUp || abort 17
   finishing
 }
 

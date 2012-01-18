@@ -36,15 +36,9 @@ function determineRevisions {
       CURRENT_REVISIONS=0
     elif [ "$REVISION" == "last" ]; then
       log "debug" "It's the last revision."
-      CURRENT_REVISIONS=$(("$REVISIONS" - 1))
+      CURRENT_REVISIONS=$(($REVISIONS - 1))
     elif [ "$REVISION" == "all" ]; then
       log "debug" "All revisions selected."
-
-      countRevisions
-      if [ "$?" -gt 0 ]; then
-          log "error" "Failed to determine revisions."
-          return 1
-        fi
 
       for (( rev=1; rev < "$REVISIONS"; rev++ )); do
           if [ "$rev" -lt 0 ]; then
