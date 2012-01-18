@@ -60,14 +60,16 @@ function produceOutput {
   local tpl_file="${TPL_DIR}/tpl.tex"
   if [ -f "$tpl_file" ]; then
       log "debug" "Template file found under ${tpl_file}."
-      local tpl_option="--template $tpl_file"
+      local tpl_option="--template=$tpl_file"
     else
       log "debug" "No template file found under ${tpl_file}."
     fi
 
   local output_file="${OUTPUT_DIR}/${TITLE}_${1}.pdf"
   log "debug" "Producing file..."
-  "$MARKDOWN2PDF" --toc "$tpl_option" --output="$output_file" --from=markdown "$REPO_DIR"/*.md
+  local cmd="$MARKDOWN2PDF --toc $tpl_option --output=$output_file --from=markdown ${REPO_DIR}/*.md"
+  log "debug" "markdown2pdf: $cmd"
+  $cmd
   if [ "$?" -gt 0 ]; then
       log "warning" "Cannot produce file ${output_file}."
       log "error" "Failed to produce PDF."
