@@ -341,6 +341,9 @@ function createTag {
     fi
   log "debug" "Message file: $2"
 
+  log "debug" "Changing into directory ${REPO_DIR}..."
+  cd "$REPO_DIR"
+
   local cmd="$GIT tag"
 
   log "debug" "Check wether tag will be signed..."
@@ -351,7 +354,7 @@ function createTag {
       log "debug" "Tag won\'t be signed."
     fi
 
-  cmd="$cmd $1 -F $2"
+  cmd="$cmd -F $2 $1"
   log "debug" "git-tag: $cmd"
 
   log "debug" "Calling git-tag..."
