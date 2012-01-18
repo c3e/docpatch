@@ -214,7 +214,7 @@ function preChecks {
 
   log "debug" "Checking references..."
   if [ ! -d "$REF_DIR" ]; then
-      log "warning" "References not found."
+      log "warning" "References not found under ${REF_DIR}."
       log "error" "System checks failed."
       return 1
     fi
@@ -222,7 +222,7 @@ function preChecks {
 
   log "debug" "Checking sources..."
   if [ ! -d "$SRC_DIR" ]; then
-      log "warning" "Sources not found."
+      log "warning" "Sources not found under ${SRC_DIR}."
       log "error" "System checks failed."
       return 1
     fi
@@ -230,15 +230,23 @@ function preChecks {
 
   log "debug" "Checking meta information..."
   if [ ! -d "$META_DIR" ]; then
-      log "warning" "Meta information not found."
+      log "warning" "Meta information not found ${META_DIR}."
       log "error" "System checks failed."
       return 1
     fi
-  log "debug" "References found in ${META_DIR}."
+  log "debug" "Meta information found in ${META_DIR}."
+
+  log "debug" "Checking special information..."
+  if [ ! -d "$ETC_DIR" ]; then
+      log "warning" "Special information not found under ${ETC_DIR}."
+      log "error" "System checks failed."
+      return 1
+    fi
+  log "debug" "Special information found in ${ETC_DIR}."
 
   log "debug" "Checking patches..."
   if [ ! -d "$PATCH_DIR" ]; then
-      log "warning" "Patches not found."
+      log "warning" "Patches not found under ${PATCH_DIR}."
       log "error" "System checks failed."
       return 1
     fi
@@ -246,7 +254,7 @@ function preChecks {
 
   log "debug" "Checking templates..."
   if [ ! -d "$TPL_DIR" ]; then
-      log "warning" "Templates not found."
+      log "warning" "Templates not found under ${TPL_DIR}."
       log "error" "System checks failed."
       return 1
     fi
@@ -254,7 +262,7 @@ function preChecks {
 
   log "debug" "Checking libraries..."
   if [ ! -d "$LIB_DIR" ]; then
-      log "warning" "Libraries not found."
+      log "warning" "Libraries not found under ${LIB_DIR}."
       log "error" "System checks failed."
       return 1
     fi
@@ -269,7 +277,7 @@ function preChecks {
 
   log "debug" "Checking examples..."
   if [ ! -d "$EXAMPLE_DIR" ]; then
-      log "warning" "Examples not found."
+      log "warning" "Examples not found under ${EXAMPLE_DIR}."
       log "error" "System checks failed."
       return 1
     fi

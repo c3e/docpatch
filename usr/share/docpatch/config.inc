@@ -78,6 +78,9 @@ SRC_DIR="${BASE_DIR}/src"
 ## Meta information:
 META_DIR="${BASE_DIR}/meta"
 
+## Meta information:
+ETC_DIR="${BASE_DIR}/etc"
+
 ## Patches:
 PATCH_DIR="${BASE_DIR}/src/patches"
 
@@ -154,19 +157,19 @@ TYPE=""
 ##
 
 ## Docpatch configuration file:
-DOCPATCH_CONF_SOURCE="${META_DIR}/docpatch.conf"
+DOCPATCH_CONF_SOURCE="${ETC_DIR}/docpatch.conf"
 DOCPATCH_CONF_TARGET="${REPO_DIR}/.docpatch"
 
 ## git configuration file:
-GIT_CONF_SOURCE="${META_DIR}/git.conf"
+GIT_CONF_SOURCE="${ETC_DIR}/git.conf"
 GIT_CONF_TARGET="${REPO_DIR}/.git/config"
 
 ## .gitignore:
-GIT_IGNORE_SOURCE="${META_DIR}/gitignore"
+GIT_IGNORE_SOURCE="${ETC_DIR}/gitignore"
 GIT_IGNORE_SOURCE="${REPO_DIR}/.gitignore"
 
 ## README:
-README_SOURCE="${META_DIR}/README.md"
+README_SOURCE="${ETC_DIR}/README.md"
 README_TARGET="${REPO_DIR}/README"
 
 
