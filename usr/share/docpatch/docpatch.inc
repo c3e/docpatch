@@ -46,10 +46,15 @@ function determineRevisions {
               log "error" "Failed to determine revisions."
               return 1
             fi
-          CURRENT_REVISIONS="$rev "
+
+          if [ -n "$CURRENT_REVISIONS" ]; then
+              CURRENT_REVISIONS="$CURRENT_REVISIONS "
+            fi
+
+          CURRENT_REVISIONS="${CURRENT_REVISIONS}$rev"
           log "debug" "Appended revision $rev to list."
         done
-    elif [ "$REVISION" -ge 0 ]; then
+    elif [ "$REVISION" =~ ^[0-9]+$ -a "$REVISION" -ge 0 ]; then
       log "debug" "Revision $REVISION is meant."
       CURRENT_REVISIONS="$REVISION"
     else
