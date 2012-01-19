@@ -54,7 +54,7 @@ function determineRevisions {
           CURRENT_REVISIONS="${CURRENT_REVISIONS}$rev"
           log "debug" "Appended revision $rev to list."
         done
-    elif [ [ "$REVISION" =~ ^[0-9]+$ ] -a "$REVISION" -ge 0 ]; then
+    elif [ "$REVISION" == ${REVISION//[^0-9]/} -a "$REVISION" -ge 0 ]; then
       log "debug" "Revision $REVISION is meant."
       CURRENT_REVISIONS="$REVISION"
     else
@@ -176,8 +176,8 @@ function createOutput {
   log "info" "Creating output..."
 
   log "debug" "Iterating through each destinated revision..."
-  for current_revision in "$CURRENT_REVISIONS"; do
-      log "debug" "Handling revision ${rev}..."
+  for current_revision in $CURRENT_REVISIONS; do
+      log "debug" "Handling revision ${current_revision}..."
 
       switchRevision "$current_revision"
       if [ "$?" -gt 0 ]; then
