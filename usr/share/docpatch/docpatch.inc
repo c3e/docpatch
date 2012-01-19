@@ -54,7 +54,7 @@ function determineRevisions {
           CURRENT_REVISIONS="${CURRENT_REVISIONS}$rev"
           log "debug" "Appended revision $rev to list."
         done
-    elif [ [ "$REVISION" =~ ^[0-9]+$ ] ]; then
+    elif [[ "$REVISION" == ${REVISION//[^0-9]/} ]]; then
       if [ "$REVISION" -lt 0 ]; then
           log "warning" "Inproperly named revision found: $REVISION"
           log "error" "Failed to determine revisions."
@@ -65,7 +65,7 @@ function determineRevisions {
     else
       log "debug" "Looking for more than one revision..."
       IFS=","
-      for rev in "$REVISION"; do
+      for rev in $REVISION; do
           if [ "$rev" -lt 0 ]; then
               log "warning" "Argument for one or more revisions is invalid."
               log "error" "Failed to determine revisions."
@@ -461,7 +461,7 @@ function cleanUp {
   log "debug" "Temporary files '${TMP_DIR}/${PID}_*' removed."
 
   log "debug" "Checking left repository..."
-  if [ -d "{$REPO_DIR}/.git/" ]; then
+  if [ -d "${REPO_DIR}/.git" ]; then
       log "debug" "Left repository found in ${REPO_DIR}."
       log "debug" "Checking out master branch..."
       "$GIT" checkout master
