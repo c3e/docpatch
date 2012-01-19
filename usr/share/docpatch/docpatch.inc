@@ -54,7 +54,12 @@ function determineRevisions {
           CURRENT_REVISIONS="${CURRENT_REVISIONS}$rev"
           log "debug" "Appended revision $rev to list."
         done
-    elif [ "$REVISION" == ${REVISION//[^0-9]/} -a "$REVISION" -ge 0 ]; then
+    elif [ [ "$REVISION" =~ ^[0-9]+$ ] ]; then
+      if [ "$REVISION" -lt 0 ]; then
+          log "warning" "Inproperly named revision found: $REVISION"
+          log "error" "Failed to determine revisions."
+          return 1
+        fi
       log "debug" "Revision $REVISION is meant."
       CURRENT_REVISIONS="$REVISION"
     else
