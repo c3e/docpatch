@@ -49,7 +49,7 @@ function checks {
 
   logdebug "Verifying format..."
   local found=0
-  for format in "$SUPPORTED_FORMATS"; do
+  for format in $SUPPORTED_FORMATS; do
       if [ "$FORMAT" == "$format" ]; then
           found=1
           break
@@ -71,14 +71,12 @@ function checks {
 function loadMetaInformation {
   loginfo "Loading meta information..."
 
-  local docpatch_config="${REPO_DIR}/$DOCPATCH_CONF_TARGET"
-
-  if [ ! -r "$docpatch_config" ]; then
-      logwarning "Cannot access meta information."
+  if [ ! -r "$DOCPATCH_CONF_TARGET" ]; then
+      logwarning "Cannot access meta information under ${DOCPATCH_CONF_TARGET}."
       logerror "Failed to load meta information."
       return 1
     fi
-  logdebug "Meta information found under ${docpatch_config}."
+  logdebug "Meta information found under ${DOCPATCH_CONF_TARGET}."
 
   logdebug "Meta information loaded."
   return 0
@@ -353,7 +351,7 @@ function main {
   preChecks || abort 20
 
   # Main work
-  notice "$COMMAND_DESC"
+  lognotice "$COMMAND_DESC"
 
   checks || abort 21
 
@@ -368,7 +366,6 @@ function main {
   createOutput || abort 26
 
   # After work
-  cleanUp || abort 27
   finishing
 }
 
@@ -378,7 +375,7 @@ function printCommandOptions {
   loginfo "Printing command specific options..."
 
   local formats=""
-  for $format in $SUPPORTED_FORMATS; do
+  for format in $SUPPORTED_FORMATS; do
       if [ -n $formats ]; then
           $formats="${formats}, "
         fi
