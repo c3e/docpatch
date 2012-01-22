@@ -385,32 +385,30 @@ function log {
   if [ "$1" & "$VERBOSITY" ]; then
       prntLn "[$1] $2"
     fi
-
-  return 0
 }
 
 function logdebug {
-  return (log "$LOG_DEBUG" $1)
+  log "$LOG_DEBUG" $1
 }
 
 function loginfo {
-  return (log "$LOG_INFO" $1)
+  log "$LOG_INFO" $1
 }
 
 function lognotice {
-  return (log "$LOG_NOTICE" $1)
+  log "$LOG_NOTICE" $1
 }
 
 function logwarning {
-  return (log "$LOG_WARNING" $1)
+  log "$LOG_WARNING" $1
 }
 
 function logerror {
-  return (log "$LOG_ERROR" $1)
+  log "$LOG_ERROR" $1
 }
 
 function logfatal {
-  return (log "$LOG_FATAL" $1)
+  log "$LOG_FATAL" $1
 }
 
 
