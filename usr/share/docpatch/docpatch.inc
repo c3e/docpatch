@@ -377,38 +377,51 @@ function exe {
 ##   $1 Log level
 ##   $2 Log message
 function log {
-  if [ "$1" & "$LOG_LEVEL" ]; then
-      "$ECHO" "[$1] $2" >> "$LOG_FILE"
+  local level=""
+
+  case "$1" in
+      "$LOG_DEBUG") level="debug";;
+      "$LOG_INFO") level="info";;
+      "$LOG_NOTICE") level="notice";;
+      "$LOG_WARNING") level="warning";;
+      "$LOG_ERROR") level="error";;
+      "$LOG_FATAL") level="fatal";;
+      *) logwarning "Unknown log event triggered.";;
+    esac
+
+  (($1 & $LOG_LEVEL))
+  if [ "$?" -gt 0 ]; then
+      "$ECHO" "[$level] $2" >> "$LOG_FILE"
     fi
 
-
-  if [ "$1" & "$VERBOSITY" ]; then
-      prntLn "[$1] $2"
+  (($1 & $VERBOSITY))
+  if [ "$?" -gt 0 ]; then
+      prntLn "[$level] $2"
     fi
 }
 
 function logdebug {
-  log "$LOG_DEBUG" $1
+  log "$LOG_DEBUG" "$1"
 }
 
 function loginfo {
-  log "$LOG_INFO" $1
+  log "$LOG_INFO" "$1"
 }
 
 function lognotice {
-  log "$LOG_NOTICE" $1
+  log "$LOG_NOTICE" "$1"
 }
 
 function logwarning {
-  log "$LOG_WARNING" $1
+  log "$LOG_WARNING" "$1"
 }
 
 function logerror {
-  log "$LOG_ERROR" $1
+  log "$LOG_ERROR" "$1"
 }
 
 function logfatal {
-  log "$LOG_FATAL" $1
+  log "$LOG_FATAL" "$1"
 }
 
 
