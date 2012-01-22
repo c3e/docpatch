@@ -129,11 +129,11 @@ while true ; do
           logdebug "New verbosity: $VERBOSITY"
           shift;;
         -v)
-          VERBOSITY=$LOG_FATAL | $LOG_ERROR | $LOG_WARNING | $LOG_NOTICE
+          VERBOSITY=$(($LOG_FATAL | $LOG_ERROR | $LOG_WARNING | $LOG_NOTICE))
           logdebug "New verbosity: $VERBOSITY"
           shift;;
         -V)
-          VERBOSITY=$LOG_ALL & ~LOG_DEBUG
+          VERBOSITY=$(($LOG_ALL & ~$LOG_DEBUG))
           logdebug "New verbosity: $VERBOSITY"
           shift;;
         -D)
