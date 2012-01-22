@@ -34,167 +34,167 @@ COMMAND_DESC="$COMMAND_BUILD"
 
 ## Checks wether everything is prepared before building the repository.
 function checks {
-  info "Checking wether everything is prepared before building the repository."
+  loginfo "Checking wether everything is prepared before building the repository."
 
-  debug "Checking wether repository is already built..."
+  logdebug "Checking wether repository is already built..."
   if [ -d "$REPO_DIR" ]; then
-      warning "Repository is already built."
-      error "Checks failed."
+      logwarning "Repository is already built."
+      logerror "Checks failed."
       return 1
     fi
-  debug "Repository has not been built yet."
+  logdebug "Repository has not been built yet."
 
-  debug "Checks succeeded."
+  logdebug "Checks succeeded."
   return 0
 }
 
 
 ## Creates a new repository.
 function createRepo {
-  info "Creating a new repository..."
+  loginfo "Creating a new repository..."
 
-  debug "Creating directory ${REPO_DIR}..."
+  logdebug "Creating directory ${REPO_DIR}..."
   "$MKDIR" -p "$REPO_DIR"
   if [ "$?" -gt 0 ]; then
-      warning "Cannot create directory ${REPO_DIR}."
-      error "Failed to create a new repository."
+      logwarning "Cannot create directory ${REPO_DIR}."
+      logerror "Failed to create a new repository."
       return 1
     fi
-  debug "Directory created."
+  logdebug "Directory created."
 
-  debug "Changing into directory ${REPO_DIR}..."
+  logdebug "Changing into directory ${REPO_DIR}..."
   cd "$REPO_DIR"
 
-  debug "Initiating git repository..."
+  logdebug "Initiating git repository..."
   "$GIT" init
   if [ "$?" -gt 0 ]; then
-      warning "Cannot initiate git repository under ${REPO_DIR}."
-      error "Failed to create a new repository."
+      logwarning "Cannot initiate git repository under ${REPO_DIR}."
+      logerror "Failed to create a new repository."
       return 1
     fi
 
-  debug "New repository is created under ${REPO_DIR}."
+  logdebug "New repository is created under ${REPO_DIR}."
   return 0
 }
 
 
 ## Creates meta information.
 function createMetaInformation {
-  info "Creating meta information..."
+  loginfo "Creating meta information..."
 
-  debug "Copying docpatch configuration file..."
+  logdebug "Copying docpatch configuration file..."
   "$CP" "$DOCPATCH_CONF_SOURCE" "$DOCPATCH_CONF_TARGET"
   if [ "$?" -gt 0 ]; then
-      warning "Cannot copy $DOCPATCH_CONF_SOURCE to ${DOCPATCH_CONF_TARGET}."
-      error "Failed to create meta information."
+      logwarning "Cannot copy $DOCPATCH_CONF_SOURCE to ${DOCPATCH_CONF_TARGET}."
+      logerror "Failed to create meta information."
       return 1
     fi
-  debug "File copied."
+  logdebug "File copied."
 
-  debug "Copying git configuration file..."
+  logdebug "Copying git configuration file..."
   if [ ! -f "$GIT_CONF_SOURCE" ]; then
-      notice "Git configuration file under $GIT_CONF_SOURCE is missing. Please consider creating it before building the repository."
+      lognotice "Git configuration file under $GIT_CONF_SOURCE is missing. Please consider creating it before building the repository."
     else
       "$CP" "$GIT_CONF_SOURCE" "$GIT_CONF_TARGET"
       if [ "$?" -gt 0 ]; then
-          warning "Cannot copy $GIT_CONF_SOURCE to ${GIT_CONF_TARGET}."
-          error "Failed to create meta information."
+          logwarning "Cannot copy $GIT_CONF_SOURCE to ${GIT_CONF_TARGET}."
+          logerror "Failed to create meta information."
           return 1
         fi
-        debug "File copied."
+        logdebug "File copied."
     fi
 
-  debug "Copying git ignore file..."
+  logdebug "Copying git ignore file..."
   if [ ! -f "$GIT_IGNORE_SOURCE" ]; then
-      notice "Git ignore file under $GIT_IGNORE_SOURCE is missing. Please consider creating it before building the repository."
+      lognotice "Git ignore file under $GIT_IGNORE_SOURCE is missing. Please consider creating it before building the repository."
     else
       "$CP" "$GIT_IGNORE_SOURCE" "$GIT_IGNORE_TARGET"
       if [ "$?" -gt 0 ]; then
-          warning "Cannot copy $GIT_IGNORE_SOURCE to ${GIT_IGNORE_TARGET}."
-          error "Failed to create meta information."
+          logwarning "Cannot copy $GIT_IGNORE_SOURCE to ${GIT_IGNORE_TARGET}."
+          logerror "Failed to create meta information."
           return 1
         fi
-        debug "File copied."
+        logdebug "File copied."
     fi
 
-  debug "Converting and copying README file..."
+  logdebug "Converting and copying README file..."
   if [ ! -f "$README_SOURCE" ]; then
-      notice "README file under $README_SOURCE is missing. Please consider creating it before building the repository."
+      lognotice "README file under $README_SOURCE is missing. Please consider creating it before building the repository."
     else
       "$PANDOC" --from markdown --to text "$README_SOURCE" > "$README_TARGET"
       if [ "$?" -gt 0 ]; then
-          warning "Cannot copy $README_SOURCE to ${README_TARGET}."
-          error "Failed to create meta information."
+          logwarning "Cannot copy $README_SOURCE to ${README_TARGET}."
+          logerror "Failed to create meta information."
           return 1
         fi
-        debug "File copied."
+        logdebug "File copied."
     fi
 
-  debug "Meta information created."
+  logdebug "Meta information created."
   return 0
 }
 
 
 ## Creates intitial version.
 function createInitialVersion {
-  info "Creating initial version..."
+  loginfo "Creating initial version..."
 
   copyDocuments
   if [ "$?" -gt 0 ]; then
-      error "Failed to create initial version."
+      logerror "Failed to create initial version."
       return 1
     fi
 
-  debug "Initial version created."
+  logdebug "Initial version created."
   return 0
 }
 
 
 ## Creates all revisions.
 function createRevisions {
-  info "Creating all revisions..."
+  loginfo "Creating all revisions..."
 
-  debug "Checking series file..."
+  logdebug "Checking series file..."
   local series_file="${PATCH_DIR}/series"
   if [ ! -f "$series_file" ]; then
-      warning "Cannot access series file ${series_file}."
-      error "Failed to create all revisions."
+      logwarning "Cannot access series file ${series_file}."
+      logerror "Failed to create all revisions."
       return 1
     fi
 
-  debug "Iterating through each patch..."
+  logdebug "Iterating through each patch..."
   while read patch ; do
-      debug "Handling patch ${patch}..."
+      logdebug "Handling patch ${patch}..."
 
-      debug "Checking patch file..."
+      logdebug "Checking patch file..."
       local patch_file="${PATCH_DIR}/$patch"
       if [ ! -f "$patch_file" ]; then
-          warning "Cannot access patch file ${patch_file}."
-          error "Failed to create all revisions."
+          logwarning "Cannot access patch file ${patch_file}."
+          logerror "Failed to create all revisions."
           rewindPatches
           return 1
         fi
-      debug "Patch file $patch_file is ready to apply."
+      logdebug "Patch file $patch_file is ready to apply."
 
-      debug "Checking message file..."
+      logdebug "Checking message file..."
       local meta_file="${META_DIR}/${patch}.meta"
       if [ ! -f "$meta_file" ]; then
-          warning "Cannot access message file ${meta_file}."
-          error "Failed to create all revisions."
+          logwarning "Cannot access message file ${meta_file}."
+          logerror "Failed to create all revisions."
           rewindPatches
           return 1
         fi
 
       nextPatch
       if [ "$?" -gt 0 ]; then
-          error "Failed to create all revisions."
+          logerror "Failed to create all revisions."
           rewindPatches
           return 1
         fi
 
       copyDocuments
       if [ "$?" -gt 0 ]; then
-          error "Failed to create all revisions."
+          logerror "Failed to create all revisions."
           rewindPatches
           return 1
         fi
@@ -202,67 +202,67 @@ function createRevisions {
       local message_head=`"$HEAD" -n1 $meta_file`
       addAndCommitAll "$message_head"
       if [ "$?" -gt 0 ]; then
-          error "Failed to create all revisions."
+          logerror "Failed to create all revisions."
           rewindPatches
           return 1
         fi
 
       createTag "$patch" "$meta_file"
       if [ "$?" -gt 0 ]; then
-          error "Failed to create all revisions."
+          logerror "Failed to create all revisions."
           rewindPatches
           return 1
         fi
 
-      debug "Finished with patch ${patch}."
+      logdebug "Finished with patch ${patch}."
     done < "$series_file"
-  debug "Each patch applied."
+  logdebug "Each patch applied."
 
   rewindPatches
   if [ "$?" -gt 0 ]; then
-      error "Failed to create all revisions."
+      logerror "Failed to create all revisions."
       return 1
     fi
 
-  debug "All revisions created."
+  logdebug "All revisions created."
   return 0
 }
 
 
 ## Applies next patch.
 function nextPatch {
-  info "Applying next patch..."
+  loginfo "Applying next patch..."
 
-  debug "Changing into directory ${SRC_DIR}..."
+  logdebug "Changing into directory ${SRC_DIR}..."
   cd "$SRC_DIR"
 
-  debug "Calling quilt..."
+  logdebug "Calling quilt..."
   "$QUILT" push
   if [ "$?" -gt 0 ]; then
-      error "Failed to apply next patch."
+      logerror "Failed to apply next patch."
       return 1
     fi
 
-  debug "Next patch applied."
+  logdebug "Next patch applied."
   return 0
 }
 
 
 ## Reverts all applied patches.
 function rewindPatches {
-  info "Reverting all applied patches..."
+  loginfo "Reverting all applied patches..."
 
-  debug "Changing into directory ${SRC_DIR}..."
+  logdebug "Changing into directory ${SRC_DIR}..."
   cd "$SRC_DIR"
 
-  debug "Calling quilt..."
+  logdebug "Calling quilt..."
   "$QUILT" pop -a
   if [ "$?" -gt 0 ]; then
-      error "Failed to revert all applied patches."
+      logerror "Failed to revert all applied patches."
       return 1
     fi
 
-  debug "All applied patches reverted."
+  logdebug "All applied patches reverted."
   return 0
 }
 
@@ -270,49 +270,49 @@ function rewindPatches {
 ## Puts all files under version control and commits them.
 ##   $1 Commit message or file
 function addAndCommitAll {
-  info "Putting all files under version control and committing them."
+  loginfo "Putting all files under version control and committing them."
 
-  debug "Changing into directory ${REPO_DIR}..."
+  logdebug "Changing into directory ${REPO_DIR}..."
   cd "$REPO_DIR"
 
-  debug "Putting all files under version control..."
+  logdebug "Putting all files under version control..."
   "$GIT" add * --force
   if [ "$?" -gt 0 ]; then
-      warning "Cannot put all files under version control"
-      error "Failed to put all files under version control and commit them."
+      logwarning "Cannot put all files under version control"
+      logerror "Failed to put all files under version control and commit them."
       return 1
     fi
-  debug "Putting was successful."
+  logdebug "Putting was successful."
 
-  debug "Checking commit message..."
+  logdebug "Checking commit message..."
   if [ -z "$1" ]; then
-      warning "There is no commit message."
-      error "Failed to put all files under version control and commit them."
+      logwarning "There is no commit message."
+      logerror "Failed to put all files under version control and commit them."
       return 1
     fi
-  debug "Commit messages seems okay."
+  logdebug "Commit messages seems okay."
 
-  debug "Committing files..."
+  logdebug "Committing files..."
   if [ -f "$1" ]; then
-      debug "Take commit message from ${1}."
+      logdebug "Take commit message from ${1}."
 
       "$GIT" commit -a -F "$1"
       if [ "$?" -gt 0 ]; then
-          warning "Cannot commit files."
-          error "Failed to put all files under version control and commit them."
+          logwarning "Cannot commit files."
+          logerror "Failed to put all files under version control and commit them."
           return 1
         fi
     else
-      debug "Commit message: ${1}"
+      logdebug "Commit message: ${1}"
 
       "$GIT" commit -a -m "$1"
       if [ "$?" -gt 0 ]; then
-          warning "Cannot commit files."
-          error "Failed to put all files under version control and commit them."
+          logwarning "Cannot commit files."
+          logerror "Failed to put all files under version control and commit them."
           return 1
         fi
     fi
-  debug "Commit was successful."
+  logdebug "Commit was successful."
 
   log "All files put under version control and committed."
   return 0
@@ -323,50 +323,50 @@ function addAndCommitAll {
 ##   $1 Version number
 ##   $2 Path to message file
 function createTag {
-  info "Tagging current revision..."
+  loginfo "Tagging current revision..."
 
-  debug "Checking version number..."
+  logdebug "Checking version number..."
   if [ "$1" -lt 0 ]; then
-      warning "Version number is invalid."
-      error "Failed to tag current revision."
+      logwarning "Version number is invalid."
+      logerror "Failed to tag current revision."
       return 1
     fi
-  debug "Version number: $1"
+  logdebug "Version number: $1"
 
-  debug "Checking message file..."
+  logdebug "Checking message file..."
   if [ ! -f "$2" ]; then
-      warning "Cannot access message file."
-      error "Failed to tag current revision."
+      logwarning "Cannot access message file."
+      logerror "Failed to tag current revision."
       return 1
     fi
-  debug "Message file: $2"
+  logdebug "Message file: $2"
 
-  debug "Changing into directory ${REPO_DIR}..."
+  logdebug "Changing into directory ${REPO_DIR}..."
   cd "$REPO_DIR"
 
   local cmd="$GIT tag"
 
-  debug "Check wether tag will be signed..."
+  logdebug "Check wether tag will be signed..."
   if [ "$SIGN" -eq 1 ]; then
-      debug "Tag will be signed."
+      logdebug "Tag will be signed."
       cmd="$cmd -s"
     else
-      debug "Tag won\'t be signed."
+      logdebug "Tag won\'t be signed."
     fi
 
   cmd="$cmd -F $2 $1"
-  debug "git-tag: $cmd"
+  logdebug "git-tag: $cmd"
 
-  debug "Calling git-tag..."
+  logdebug "Calling git-tag..."
   $cmd
   if [ "$?" -gt 0 ]; then
-      warning "Failed to call git-tag."
-      error "Failed to tag current revision."
+      logwarning "Failed to call git-tag."
+      logerror "Failed to tag current revision."
       return 1
     fi
-  debug "git-tag succeeded."
+  logdebug "git-tag succeeded."
 
-  debug "Revision tagged."
+  logdebug "Revision tagged."
   return 0
 }
 
@@ -374,39 +374,39 @@ function createTag {
 ## Counts patches.
 ## TODO unused code
 function countPatches {
-  info "Counting patches..."
+  loginfo "Counting patches..."
 
   PATCHES=`"$CAT" "$PATCH_DIR"/series | "$WC" -l`
   if [ "$?" -gt 0 ]; then
-      error "Cannot count patches."
+      logerror "Cannot count patches."
       return 1
     fi
 
   if [ "$PATCHES" -eq 1 ]; then
-      debug "There is 1 patch."
+      logdebug "There is 1 patch."
     else
-      debug "There are $PATCHES patches."
+      logdebug "There are $PATCHES patches."
     fi
 
-  debug "Patches counted."
+  logdebug "Patches counted."
   return 0
 }
 
 
 ## Copies documents from source directory to repository.
 function copyDocuments {
-  info "Copying documents..."
+  loginfo "Copying documents..."
 
-  debug "Source files: ${SRC_DIR}/*.md"
-  debug "Target directory: $REPO_DIR"
+  logdebug "Source files: ${SRC_DIR}/*.md"
+  logdebug "Target directory: $REPO_DIR"
 
   "$CP" "$SRC_DIR"/*.md "$REPO_DIR"
   if [ "$?" -gt 0 ]; then
-      error "Failed to copy documents."
+      logerror "Failed to copy documents."
       return 1
     fi
 
-  debug "Documents copied."
+  logdebug "Documents copied."
   return 0
 }
 
@@ -417,7 +417,7 @@ function main {
   preChecks || abort 10
 
   # Main work:
-  notice "$COMMAND_DESC"
+  lognotice "$COMMAND_DESC"
 
   checks || abort 11
 
@@ -426,12 +426,12 @@ function main {
   createMetaInformation || abort 13
   local message="Import meta information."
   addAndCommitAll "$message" || abort 14
-  notice "$message"
+  lognotice "$message"
 
   createInitialVersion || abort 15
   message="Import initial version."
   addAndCommitAll "$message" || abort 16
-  notice "$message"
+  lognotice "$message"
   createTag "0" "${META_DIR}/0.meta" || abort 17
 
   createRevisions || abort 18
@@ -444,8 +444,8 @@ function main {
 
 ## Prints command specific options.
 function printCommandOptions {
-  info "Printing command specific options..."
+  loginfo "Printing command specific options..."
   prntLn "    -s, --sign\t\tAdd a OpenPGP signature to commits and tags."
-  debug "Options printed."
+  logdebug "Options printed."
   return 0
 }

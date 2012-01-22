@@ -25,7 +25,7 @@
 
 ## Main method
 function main {
-  info "How can I help you?"
+  loginfo "How can I help you?"
 
   local manpage="$PROJECT_NAME"
 
@@ -33,14 +33,14 @@ function main {
       manpage="$manpage-${SUB_COMMAND}"
     fi
 
-  debug "Calling man page..."
+  logdebug "Calling man page..."
   "$MAN" "$manpage"
   if [ $? -gt 0 ]; then
-      warning "Application for man pages returned with an error."
-      error "Cannot show man page for ${manpage}."
+      logwarning "Application for man pages returned with an error."
+      logerror "Cannot show man page for ${manpage}."
       abort 1
     fi
-  debug "Man page called."
+  logdebug "Man page called."
 
   finishing
 }
@@ -48,8 +48,8 @@ function main {
 
 ## Prints command specific options.
 function printCommandOptions {
-  info "Printing command specific options..."
+  loginfo "Printing command specific options..."
   prntLn "    No options"
-  debug "Options printed."
+  logdebug "Options printed."
   return 0
 }

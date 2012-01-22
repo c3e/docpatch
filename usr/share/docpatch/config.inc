@@ -124,10 +124,10 @@ LOG_DEBUG=32
 LOG_ALL=63
 
 ## Log level:
-LOG_LEVEL=$LOG_FATAL | $LOG_ERROR
+LOG_LEVEL=$(($LOG_FATAL | $LOG_ERROR))
 
 ## Verbose level:
-VERBOSITY=$LOG_FATAL | $LOG_ERROR
+VERBOSITY=$(($LOG_FATAL | $LOG_ERROR))
 
 ##
 ## Meta information
