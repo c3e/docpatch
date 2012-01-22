@@ -92,119 +92,119 @@ if [ ! -r "/usr/share/${PROJECT_NAME}/${PROJECT_NAME}.inc" ]; then
 ## Normal exit
 trap 'exit 0' 0
 ## SIGHUB
-trap 'log "notice" "Caught SIGHUB, but nothing to do."' 1
+trap 'notice "Caught SIGHUB, but nothing to do."' 1
 ## SIGINT
-trap 'log "warning" "Caught SIGINT." ; abort 102' 2
+trap 'warning "Caught SIGINT." ; abort 102' 2
 ## SIGQUIT
-trap 'log "warning" "Caught SIGQUIT." ; abort 103' 3
+trap 'warning "Caught SIGQUIT." ; abort 103' 3
 ## SIGTERM
-trap 'log "warning" "Caught SIGTERM." ; abort 115' 15
+trap 'warning "Caught SIGTERM." ; abort 115' 15
 
 
 ## Process given options and arguments
-log "info" "Process given options and arguments..."
+info "Process given options and arguments..."
 ARGS=`"$GETOPT" \
 -o qvVDhr:R:s \
 --long help,version,license,rev:,revision:,repo:,repository:,sign -- "$@" 2> /dev/null`
 
 if [ $? != 0 -o "$#" = 0 ]; then
-    log "warning" "Bad request."
+    warning "Bad request."
     printUsage
     abort 1;
   fi
 
 eval set -- "$ARGS"
 
-log "debug" "Processed."
+debug "Processed."
 
 
 ## Match options and arguments
-log "info" "Match options and arguments..."
+info "Match options and arguments..."
 
 while true ; do
     case "$1" in
     # Output:
         -q)
-          log "debug" "Set VERBOSITY=0"
-          VERBOSITY=0;
+          VERBOSITY=$LOG_NONE
+          debug "New verbosity: $VERBOSITY"
           shift;;
         -v)
-          log "debug" "Set VERBOSITY=2"
-          VERBOSITY=2;
+          VERBOSITY=$LOG_FATAL | $LOG_ERROR | $LOG_WARNING | $LOG_NOTICE
+          debug "New verbosity: $VERBOSITY"
           shift;;
         -V)
-          log "debug" "Set VERBOSITY=3"
-          VERBOSITY=3;
+          VERBOSITY=$LOG_ALL & ~LOG_DEBUG
+          debug "New verbosity: $VERBOSITY"
           shift;;
         -D)
-          log "debug" "Set VERBOSITY=4"
-          VERBOSITY=4;
+          VERBOSITY=$LOG_ALL;
+          debug "New verbosity: $VERBOSITY"
           shift;;
     # Information:
         -h|--help)
-          log "debug" "Set PRINT_USAGE=1"
+          debug "Set PRINT_USAGE=1"
           PRINT_USAGE=1;
           shift;;
         --version)
-          log "debug" "Set PRINT_VERSION=1"
+          debug "Set PRINT_VERSION=1"
           PRINT_VERSION=1;
           shift;;
         --license)
-          log "debug" "Set PRINT_LICENSE=1"
+          debug "Set PRINT_LICENSE=1"
           PRINT_LICENSE=1;
           shift;;
     # Options:
         -r|--rev|--revision)
-          log "debug" "Set REVISION=$2"
+          debug "Set REVISION=$2"
           REVISION="$2";
           shift 2;;
         -R|--repo|--repository)
-          log "debug" "Set REPOSITORY=$2"
+          debug "Set REPOSITORY=$2"
           REPOSITORY="$2";
           shift 2;;
         -s|--sign)
-          log "debug" "Set SIGN=1"
+          debug "Set SIGN=1"
           SIGN=1;
           shift;;
         --)
           shift;
           break;;
         *)
-          log "notice" "Unkown option ${1}."
+          notice "Unkown option ${1}."
           printUsage
           abort 2;;
   esac
 done
 
-log "debug" "Matched."
+debug "Matched."
 
 
 ## Try to match commands with given options
-log "info" "Try to match commands with given options..."
+info "Try to match commands with given options..."
 
-log "info" "Try to match main command..."
+info "Try to match main command..."
 for x in "$@"; do
     for y in "${COMMANDS[@]}"; do
         if [ "$x" == "$y" ]; then
             COMMAND="$x"
-            log "debug" "Main command is $COMMAND."
+            debug "Main command is $COMMAND."
             break 2
           fi
       done
   done
 
-log "info" "Try to match sub command..."
+info "Try to match sub command..."
 if [ -n "$2" -a "$2" != " " ]; then
     SUB_COMMAND="$2"
-    log "debug" "Sub command is $SUB_COMMAND."
+    debug "Sub command is $SUB_COMMAND."
   else
-    log "debug" "There is no sub command."
+    debug "There is no sub command."
   fi
 
 
 ## Include command specific file
 if [ -z "$COMMAND" ]; then
-    log "debug" "No command found."
+    debug "No command found."
   else
     includeCommand "$COMMAND" || abort 3
   fi
@@ -237,7 +237,7 @@ applyNiceLevel || abort 4
 
 ## Call command specific main method
 if [ -z "$COMMAND" ]; then
-    log "notice" "Nothing to do."
+    notice "Nothing to do."
     printUsage
     abort 5
   else

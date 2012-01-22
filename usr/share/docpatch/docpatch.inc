@@ -25,25 +25,25 @@
 
 ## Determines which revisions are meant.
 function determineRevisions {
-  log "info" "Determining revisions..."
+  info "Determining revisions..."
 
-  log "debug" "Parsing argument for revisions..."
+  debug "Parsing argument for revisions..."
   if [ -z "$REVISION" ]; then
-      log "debug" "No specific revision given. Assuming first revision."
+      debug "No specific revision given. Assuming first revision."
       CURRENT_REVISIONS=0
     elif [ "$REVISION" == "first" ]; then
-      log "debug" "It's the first revision."
+      debug "It's the first revision."
       CURRENT_REVISIONS=0
     elif [ "$REVISION" == "last" ]; then
-      log "debug" "It's the last revision."
+      debug "It's the last revision."
       CURRENT_REVISIONS=$(($REVISIONS - 1))
     elif [ "$REVISION" == "all" ]; then
-      log "debug" "All revisions selected."
+      debug "All revisions selected."
 
       for (( rev=1; rev < "$REVISIONS"; rev++ )); do
           if [ "$rev" -lt 0 ]; then
-              log "warning" "Inproperly named revision found: $rev"
-              log "error" "Failed to determine revisions."
+              warning "Inproperly named revision found: $rev"
+              log "$LOG_ERROR "Failed to determine revisions."
               return 1
             fi
 
@@ -52,23 +52,23 @@ function determineRevisions {
             fi
 
           CURRENT_REVISIONS="${CURRENT_REVISIONS}$rev"
-          log "debug" "Appended revision $rev to list."
+          debug "Appended revision $rev to list."
         done
     elif [[ "$REVISION" == ${REVISION//[^0-9]/} ]]; then
       if [ "$REVISION" -lt 0 ]; then
-          log "warning" "Inproperly named revision found: $REVISION"
-          log "error" "Failed to determine revisions."
+          warning "Inproperly named revision found: $REVISION"
+          log "$LOG_ERROR "Failed to determine revisions."
           return 1
         fi
-      log "debug" "Revision $REVISION is meant."
+      debug "Revision $REVISION is meant."
       CURRENT_REVISIONS="$REVISION"
     else
-      log "debug" "Looking for more than one revision..."
+      debug "Looking for more than one revision..."
       IFS=","
       for rev in $REVISION; do
           if [ "$rev" -lt 0 ]; then
-              log "warning" "Argument for one or more revisions is invalid."
-              log "error" "Failed to determine revisions."
+              warning "Argument for one or more revisions is invalid."
+              log "$LOG_ERROR "Failed to determine revisions."
               return 1
             fi
 
@@ -76,80 +76,80 @@ function determineRevisions {
               CURRENT_REVISIONS="$CURRENT_REVISIONS "
             fi
           CURRENT_REVISIONS="${CURRENT_REVISIONS}$rev"
-          log "debug" "Appended revision $rev to list."
+          debug "Appended revision $rev to list."
         done
       unset IFS
     fi
-  log "debug" "Found these revisions: $CURRENT_REVISIONS"
+  debug "Found these revisions: $CURRENT_REVISIONS"
 
-  log "debug" "Revisions determined."
+  debug "Revisions determined."
   return 0
 }
 
 
 ## Counts revisions.
 function countRevisions {
-  log "info" "Counting revisions..."
+  info "Counting revisions..."
   cd "$REPO_DIR"
   REVISIONS=`"$GIT" tag -l | "$WC" -l`
   if [ "$?" -gt 0 ]; then
-      log "error" "Cannot count revisions."
+      log "$LOG_ERROR "Cannot count revisions."
       return 1
     fi
   if [ "$REVISIONS" -eq 1 ]; then
-      log "debug" "There is 1 revision."
+      debug "There is 1 revision."
     else
-      log "debug" "There are $REVISIONS revisions."
+      debug "There are $REVISIONS revisions."
     fi
-  log "debug" "Revisions counted."
+  debug "Revisions counted."
   return 0
 }
 
 
 ## Determines Repository
 function determineRepository {
-  log "info" "Determining repository..."
+  info "Determining repository..."
 
-  log "debug" "Checking argument..."
+  debug "Checking argument..."
   if [ -z "$REPOSITORY" ]; then
-      log "debug" "Argument not set. Use default repository under ${REPO_DIR}."
+      debug "Argument not set. Use default repository under ${REPO_DIR}."
 
-      log "debug" "Checking for existing repository..."
+      debug "Checking for existing repository..."
       if [ ! -d "${REPO_DIR}/.git/" ]; then
-          log "notice" "There is no repository under ${REPO_DIR}."
-          log "warning" "Cannot use default repository."
-          log "error" "Failed to determine repository."
+          notice "There is no repository under ${REPO_DIR}."
+          warning "Cannot use default repository."
+          log "$LOG_ERROR "Failed to determine repository."
           return 1
         fi
-      log "debug" "Repository found under ${REPO_DIR}."
+      debug "Repository found under ${REPO_DIR}."
     else
-      log "debug" "Cloning repository ${REPOSITORY}..."
+      debug "Cloning repository ${REPOSITORY}..."
 
-      log "debug" "Checking for existing repository..."
+      debug "Checking for existing repository..."
       if [ -d "${REPO_DIR}/.git/" ]; then
-          log "notice" "Repository found under ${REPO_DIR}."
-          log "warning" "Cannot clone repository ${REPOSITORY}."
-          log "error" "Failed to determine repository."
+          notice "Repository found under ${REPO_DIR}."
+          warning "Cannot clone repository ${REPOSITORY}."
+          log "$LOG_ERROR "Failed to determine repository."
           return 1
         fi
-      log "debug" "There is no repository under ${REPO_DIR}."
+      debug "There is no repository under ${REPO_DIR}."
 
-      log "debug" "Creating empty directory..."
+      debug "Creating empty directory..."
       "$RM" -rf "$REPO_DIR"
       "$MKDIR" -p "$REPO_DIR"
-      log "debug" "Empty directory under $REPO_DIR created."
+      debug "Empty directory under $REPO_DIR created."
 
-      log "debug" "Cloning repository from ${REPOSITORY}..."
+      debug "Cloning repository from ${REPOSITORY}..."
       "$GIT" clone "$REPOSITORY" "$REPO_DIR"
       if [ "$?" -gt 0 ]; then
-          log "warning" "Cannot clone repository $REPOSITORY under ${REPO_DIR}."
-          log "error" "Failed to determine repository."
+          warning "Cannot clone repository $REPOSITORY under ${REPO_DIR}."
+          log "$LOG_ERROR "Failed to determine repository."
           return 1
         fi
-      log "debug" "Repository cloned under ${REPO_DIR}."
+      debug "Repository cloned under ${REPO_DIR}."
     fi
 
-  log "debug" "Repository determined."
+  debug "Repository determined."
   return 0
 }
 
@@ -157,52 +157,52 @@ function determineRepository {
 ## Switches repository to a revision.
 ##   $1 Revision
 function switchRevision {
-  log "info" "Switching revision..."
+  info "Switching revision..."
 
-  log "debug" "Changing into directory ${REPO_DIR}..."
+  debug "Changing into directory ${REPO_DIR}..."
   cd "$REPO_DIR"
 
-  log "debug" "Checking out revision ${1}..."
+  debug "Checking out revision ${1}..."
   "$GIT" checkout "$1"
   if [ "$?" -gt 0 ]; then
-      log "warning" "Cannot checkout revision ${1}."
-      log "error" "Failed to switch revision."
+      warning "Cannot checkout revision ${1}."
+      log "$LOG_ERROR "Failed to switch revision."
       return 1
     fi
-  log "debug" "Check out done."
+  debug "Check out done."
 
-  log "debug" "Revision switched."
+  debug "Revision switched."
   return 0
 }
 
 
 ## Creates output.
 function createOutput {
-  log "info" "Creating output..."
+  info "Creating output..."
 
-  log "debug" "Iterating through each destinated revision..."
+  debug "Iterating through each destinated revision..."
   for current_revision in $CURRENT_REVISIONS; do
-      log "debug" "Handling revision ${current_revision}..."
+      debug "Handling revision ${current_revision}..."
 
       switchRevision "$current_revision"
       if [ "$?" -gt 0 ]; then
-          log "warning" "Cannot handle revision ${current_revision}."
-          log "error" "Failed to create output."
+          warning "Cannot handle revision ${current_revision}."
+          log "$LOG_ERROR "Failed to create output."
           return 1
         fi
 
       produceOutput "$current_revision"
       if [ "$?" -gt 0 ]; then
-          log "warning" "Cannot handle revision ${current_revision}."
-          log "error" "Failed to create output."
+          warning "Cannot handle revision ${current_revision}."
+          log "$LOG_ERROR "Failed to create output."
           return 1
         fi
 
-      log "debug" "Handling done."
+      debug "Handling done."
     done
-  log "debug" "Iteration done."
+  debug "Iteration done."
 
-  log "debug" "Output created."
+  debug "Output created."
   return 0
 }
 
@@ -211,132 +211,132 @@ function createOutput {
 ##   TODO Look for FIXMEs and TODOs and DELETEMEs
 ##   TODO Look for syntax errors in sources, meta information, patches and templates
 function preChecks {
-  log "info" "Checking system requirements..."
+  info "Checking system requirements..."
 
-  log "debug" "Checking location..."
-  log "debug" "Base name: $BASE_NAME"
-  log "debug" "Dir name: $DIR_NAME"
+  debug "Checking location..."
+  debug "Base name: $BASE_NAME"
+  debug "Dir name: $DIR_NAME"
 
-  log "debug" "Checking directories..."
+  debug "Checking directories..."
 
-  log "debug" "Checking references..."
+  debug "Checking references..."
   if [ ! -d "$REF_DIR" ]; then
-      log "warning" "References not found under ${REF_DIR}."
-      log "error" "System checks failed."
+      warning "References not found under ${REF_DIR}."
+      log "$LOG_ERROR "System checks failed."
       return 1
     fi
-  log "debug" "References found in ${REF_DIR}."
+  debug "References found in ${REF_DIR}."
 
-  log "debug" "Checking sources..."
+  debug "Checking sources..."
   if [ ! -d "$SRC_DIR" ]; then
-      log "warning" "Sources not found under ${SRC_DIR}."
-      log "error" "System checks failed."
+      warning "Sources not found under ${SRC_DIR}."
+      log "$LOG_ERROR "System checks failed."
       return 1
     fi
-  log "debug" "Sources found in ${SRC_DIR}."
+  debug "Sources found in ${SRC_DIR}."
 
-  log "debug" "Checking meta information..."
+  debug "Checking meta information..."
   if [ ! -d "$META_DIR" ]; then
-      log "warning" "Meta information not found ${META_DIR}."
-      log "error" "System checks failed."
+      warning "Meta information not found ${META_DIR}."
+      log "$LOG_ERROR "System checks failed."
       return 1
     fi
-  log "debug" "Meta information found in ${META_DIR}."
+  debug "Meta information found in ${META_DIR}."
 
-  log "debug" "Checking special information..."
+  debug "Checking special information..."
   if [ ! -d "$ETC_DIR" ]; then
-      log "warning" "Special information not found under ${ETC_DIR}."
-      log "error" "System checks failed."
+      warning "Special information not found under ${ETC_DIR}."
+      log "$LOG_ERROR "System checks failed."
       return 1
     fi
-  log "debug" "Special information found in ${ETC_DIR}."
+  debug "Special information found in ${ETC_DIR}."
 
-  log "debug" "Checking patches..."
+  debug "Checking patches..."
   if [ ! -d "$PATCH_DIR" ]; then
-      log "warning" "Patches not found under ${PATCH_DIR}."
-      log "error" "System checks failed."
+      warning "Patches not found under ${PATCH_DIR}."
+      log "$LOG_ERROR "System checks failed."
       return 1
     fi
-  log "debug" "Patches found in ${PATCH_DIR}."
+  debug "Patches found in ${PATCH_DIR}."
 
-  log "debug" "Checking templates..."
+  debug "Checking templates..."
   if [ ! -d "$TPL_DIR" ]; then
-      log "warning" "Templates not found under ${TPL_DIR}."
-      log "error" "System checks failed."
+      warning "Templates not found under ${TPL_DIR}."
+      log "$LOG_ERROR "System checks failed."
       return 1
     fi
-  log "debug" "Templates found in ${TPL_DIR}."
+  debug "Templates found in ${TPL_DIR}."
 
-  log "debug" "Checking libraries..."
+  debug "Checking libraries..."
   if [ ! -d "$LIB_DIR" ]; then
-      log "warning" "Libraries not found under ${LIB_DIR}."
-      log "error" "System checks failed."
+      warning "Libraries not found under ${LIB_DIR}."
+      log "$LOG_ERROR "System checks failed."
       return 1
     fi
-  log "debug" "Libraries found in ${LIB_DIR}."
+  debug "Libraries found in ${LIB_DIR}."
 
-  log "debug" "Checking configuration..."
+  debug "Checking configuration..."
   if [ ! -d "$CONFIG_DIR" ]; then
-      log "debug" "Configuration not found under ${CONF_DIR}."
+      debug "Configuration not found under ${CONF_DIR}."
     else
-      log "debug" "Configuration found under ${CONF_DIR}."
+      debug "Configuration found under ${CONF_DIR}."
     fi
 
-  log "debug" "Checking examples..."
+  debug "Checking examples..."
   if [ ! -d "$EXAMPLE_DIR" ]; then
-      log "warning" "Examples not found under ${EXAMPLE_DIR}."
-      log "error" "System checks failed."
+      warning "Examples not found under ${EXAMPLE_DIR}."
+      log "$LOG_ERROR "System checks failed."
       return 1
     fi
-  log "debug" "Examples found in ${EXAMPLE_DIR}."
+  debug "Examples found in ${EXAMPLE_DIR}."
 
-  log "debug" "Checking temporary directory..."
+  debug "Checking temporary directory..."
   if [ ! -d "$TPL_DIR" ]; then
-      log "debug" "Temporary directory not found. Create it."
+      debug "Temporary directory not found. Create it."
       "$MKDIR" -p "$TPL_DIR"
       if [ "$?" -gt 0 ]; then
-          log "warning" "Cannot create temporary directory under ${TPL_DIR}."
-          log "error" "System checks failed."
+          warning "Cannot create temporary directory under ${TPL_DIR}."
+          log "$LOG_ERROR "System checks failed."
           return 1
         fi
-      log "debug" "Temporary directory created under ${TPL_DIR}."
+      debug "Temporary directory created under ${TPL_DIR}."
     else
-      log "debug" "Temporary directory found in ${TPL_DIR}."
+      debug "Temporary directory found in ${TPL_DIR}."
     fi
 
-  log "debug" "Directories checked."
+  debug "Directories checked."
 
-  log "debug" "System checked."
+  debug "System checked."
   return 0
 }
 
 
 ## Initiates configuration files.
 function initiateConfig {
-  log "info" "Initiate configuration files..."
-  log "debug" "Copy files..."
+  info "Initiate configuration files..."
+  debug "Copy files..."
   "$CP" ${EXAMPLE_DIR}/etc/* "$CONFIG_DIR"
   if [ "$?" -gt 0 ]; then
-      log "warning" "Cannot copy configuration files."
-      log "error" "Failed to initiate configuration files."
+      warning "Cannot copy configuration files."
+      log "$LOG_ERROR "Failed to initiate configuration files."
       return 1
     fi
-  log "debug" "Configuration files initiated."
+  debug "Configuration files initiated."
   return 0
 }
 
 
 ## Initiate auto completion in bash
 function initiateAutoCompletion {
-  log "info" "Initiate auto completion in bash..."
-  log "debug" "Copy file..."
+  info "Initiate auto completion in bash..."
+  debug "Copy file..."
   "$CP" ${EXAMPLE_DIR}/bash_completion.d/${PROJECT_NAME} /etc/bash_completion.d/
   if [ "$?" -gt 0 ]; then
-      log "warning" "Cannot copy auto completion file."
-      log "error" "Failed to initiate auto completion in bash."
+      warning "Cannot copy auto completion file."
+      log "$LOG_ERROR "Failed to initiate auto completion in bash."
       return 1
     fi
-  log "debug" "Auto completion in bash initiated."
+  debug "Auto completion in bash initiated."
   return 0
 }
 
@@ -344,66 +344,79 @@ function initiateAutoCompletion {
 ## Includes command specific file.
 ##   #1 Path to file
 function includeCommand {
-  log "info" "Including command specific file..."
+  info "Including command specific file..."
   local cmd_file="${LIB_DIR}/$1"
   if [ ! -r "$cmd_file" ]; then
-      log "warning" "File $cmd_file does not exist or is not readable."
-      log "error" "Cannot include command specific file."
+      warning "File $cmd_file does not exist or is not readable."
+      log "$LOG_ERROR "Cannot include command specific file."
       return 1
     fi
-  log "debug" "Include file..."
+  debug "Include file..."
   source "$cmd_file"
-  log "debug" "File $cmd_file included."
+  debug "File $cmd_file included."
+}
+
+## Executes command.
+##   $1 Command
+##   $2 (optional) Log level. Defaults to "debug".
+function exe {
+  debug "Executing command..."
+# FIXME
+#  debug "Command: $2"
+#  case "$VERBOSITY" in
+#      0) verbose_level="-q" ;;
+#      1|2) ;;
+#      3) verbose_level="-v" ;;
+#      4) verbose_level="-D" ;;
+#      *) warning "Strange verbose level. Ignore it." ;;
+#    esac
 }
 
 
-## Log events to standard output and log file
+## Logs events to standard output and log file.
 ##   $1 Log level
 ##   $2 Log message
 function log {
-  local now=`date +%F_%H:%M`
-  if [ \( "$1" = "fatal" -a "$VERBOSITY" -ge 1 \) -o \
-       \( "$1" = "error" -a "$VERBOSITY" -ge 1 \) -o \
-       \( "$1" = "warning" -a "$VERBOSITY" -ge 2 \) -o \
-       \( "$1" = "notice" -a "$VERBOSITY" -ge 2 \) -o \
-       \( "$1" = "info" -a "$VERBOSITY" -ge 3 \) -o \
-       \( "$1" = "debug" -a "$VERBOSITY" -ge 4 \) ]; then
-        prntLn "[$1] $2"
-    fi
-  if [ \( "$1" = "fatal" -a "$LOGLEVEL" -ge 1 \) -o \
-       \( "$1" = "error" -a "$LOGLEVEL" -ge 1 \) -o \
-       \( "$1" = "warning" -a "$LOGLEVEL" -ge 2 \) -o \
-       \( "$1" = "notice" -a "$LOGLEVEL" -ge 2 \) -o \
-       \( "$1" = "info" -a "$LOGLEVEL" -ge 3 \) -o \
-       \( "$1" = "debug" -a "$LOGLEVEL" -ge 4 \) ]; then
+  if [ "$1" & "$LOG_LEVEL" ]; then
       "$ECHO" "[$1] $2" >> "$LOG_FILE"
     fi
-  # Count log events
-  if [ "$1" == "fatal" ]; then
-      LOG_FATAL=$((LOG_FATAL + 1))
+
+
+  if [ "$1" & "$VERBOSITY" ]; then
+      prntLn "[$1] $2"
     fi
-  if [ "$1" == "error" ]; then
-      LOG_ERROR=$((LOG_ERROR + 1))
-    fi
-  if [ "$1" == "warning" ]; then
-      LOG_WARNING=$((LOG_WARNING + 1))
-    fi
-  if [ "$1" == "notice" ]; then
-      LOG_NOTICE=$((LOG_NOTICE + 1))
-    fi
-  if [ "$1" == "info" ]; then
-      LOG_INFO=$((LOG_INFO + 1))
-    fi
-  if [ "$1" == "debug" ]; then
-      LOG_DEBUG=$((LOG_DEBUG + 1))
-    fi
+
   return 0
+}
+
+function debug {
+  return log "$LOG_DEBUG" $1
+}
+
+function info {
+  return log "$LOG_INFO" $1
+}
+
+function notice {
+  return log "$LOG_NOTICE" $1
+}
+
+function warning {
+  return log "$LOG_WARNING" $1
+}
+
+function error {
+  return log "$LOG_ERROR" $1
+}
+
+function fatal {
+  return log "$LOG_FATAL" $1
 }
 
 
 ## Calculate spent time
 function calculateSpentTime {
-  log "info" "Calculate spent time..."
+  info "Calculate spent time..."
   local now=`date +%s`
   local sec=`expr $now - $START`
   local duration=""
@@ -441,51 +454,51 @@ function calculateSpentTime {
   if [ -z "$duration" ]; then
       duration="0 seconds"
     fi
-  log "debug" "Spent time calculated."
-  log "notice" "Everything done after ${duration}. Exiting."
+  debug "Spent time calculated."
+  notice "Everything done after ${duration}. Exiting."
   return 0
 }
 
 
 ## Clean up system
 function cleanUp {
-  log "info" "Cleaning up system..."
+  info "Cleaning up system..."
 
-  log "debug" "Removing temporary files..."
+  debug "Removing temporary files..."
   "$RM" -f ${TMP_DIR}/${PID}_*
   if [ $? -gt 0 ]; then
-      log "warning" "Cannot remove temporary files."
-      log "error" "Failed to clean up."
+      warning "Cannot remove temporary files."
+      log "$LOG_ERROR "Failed to clean up."
       return 1
     fi
-  log "debug" "Temporary files '${TMP_DIR}/${PID}_*' removed."
+  debug "Temporary files '${TMP_DIR}/${PID}_*' removed."
 
-  log "debug" "Checking left repository..."
+  debug "Checking left repository..."
   if [ -d "${REPO_DIR}/.git" ]; then
-      log "debug" "Left repository found in ${REPO_DIR}."
-      log "debug" "Checking out master branch..."
+      debug "Left repository found in ${REPO_DIR}."
+      debug "Checking out master branch..."
       "$GIT" checkout master
       if [ "$?" -gt 0 ]; then
-          log "warning" "Cannot check out master branch."
-          log "error" "Failed to clean up."
+          warning "Cannot check out master branch."
+          log "$LOG_ERROR "Failed to clean up."
           return 1
         fi
-      log "debug" "Checkout was successful."
+      debug "Checkout was successful."
     else
-      log "debug" "No repository left."
+      debug "No repository left."
     fi
 
-  log "debug" "System is cleaned up."
+  debug "System is cleaned up."
   return 0
 }
 
 
 ## Clean finishing
 function finishing {
-  log "info" "Finish operation..."
+  info "Finish operation..."
   cleanUp
   calculateSpentTime
-  log "debug" "Exit code: 0"
+  debug "Exit code: 0"
   exit 0
 }
 
@@ -493,27 +506,27 @@ function finishing {
 ## Clean abortion
 ##   $1 Exit code
 function abort {
-  log "info" "Abort script..."
+  info "Abort script..."
   cleanUp
   calculateSpentTime
-  log "debug" "Exit code: $1"
-  log "fatal" "Operation failed."
+  debug "Exit code: $1"
+  log "$LOG_FATAL "Operation failed."
   exit $1;
 }
 
 
 ## Apply nice level
 function applyNiceLevel {
-  log "info" "Apply nice level..."
+  info "Apply nice level..."
   PID="$$"
-  log "debug" "Current process ID is ${PID}."
+  debug "Current process ID is ${PID}."
   "$RENICE" "$NICE_LEVEL" "$PID" > /dev/null
   if [ "$?" -gt 0 ]; then
-      log "warning" "Re-nice failed."
-      log "error" "Failed to apply nice level."
+      warning "Re-nice failed."
+      log "$LOG_ERROR "Failed to apply nice level."
       return 1
     fi
-  log "debug" "New nice level is ${NICE_LEVEL}."
+  debug "New nice level is ${NICE_LEVEL}."
   return 0
 }
 
@@ -536,7 +549,7 @@ function prnt {
 
 ## Print global usage
 function printUsage {
-  log "info" "Print global usage..."
+  info "Print global usage..."
   local cmd_placeholder="[command]"
   if [ -n "$COMMAND" -a "$COMMAND" != "help" ]; then
       cmd_placeholder="$COMMAND"
@@ -570,39 +583,39 @@ function printUsage {
     else
       prntLn "See '$BASE_NAME help [command]' for more information on a specific command."
     fi
-  log "debug" "Usage printed."
+  debug "Usage printed."
   return 0
 }
 
 
 ## Print some information about this script
 function printVersion {
-  log "info" "Print some information about this script..."
+  info "Print some information about this script..."
   prntLn "$PROJECT_NAME $PROJECT_VERSION"
   prntLn "Copyright (C) 2011 $PROJECT_AUTHOR"
   prntLn "This program comes with ABSOLUTELY NO WARRANTY."
   prntLn "This is free software, and you are welcome to redistribute it"
   prntLn "under certain conditions. Type '--license' for details."
-  log "debug" "Information printed."
+  debug "Information printed."
   return 0
 }
 
 
 ## Print license information
 function printLicense {
-  log "info" "Print license information..."
-  log "debug" "Look for license text..."
+  info "Print license information..."
+  debug "Look for license text..."
   licenses[0]="/usr/share/common-licenses/GPL"
   licenses[1]="/usr/share/doc/licenses/gpl-3.0.txt"
   licenses[2]="/usr/share/doc/${PROJECT_NAME}/COPYING"
   for i in "${licenses[@]}"; do
       if [ -f "$i" ]; then
           "$CAT" "$i" 1>&2
-          log "debug" "Information printed."
+          debug "Information printed."
           return 0
         fi
     done
-  log "warning" "Cannot find any fitting license text on this system."
-  log "error" "Failed to print license. But it's the GPL3+."
+  warning "Cannot find any fitting license text on this system."
+  log "$LOG_ERROR "Failed to print license. But it's the GPL3+."
   return 1
 }

@@ -29,23 +29,23 @@ COMMAND_DESC="$COMMAND_PDF"
 
 ## Checks wether everything is prepared before creating output.
 function checks {
-  log "info" "Checking wether everything is prepared before creating output."
+  info "Checking wether everything is prepared before creating output."
 
-  log "debug" "Checking output directory..."
+  debug "Checking output directory..."
   if [ ! -d "$OUTPUT_DIR" ]; then
-      log "debug" "Output directory not found. Create it."
+      debug "Output directory not found. Create it."
       "$MKDIR" -p "$OUTPUT_DIR"
       if [ "$?" -gt 0 ]; then
-          log "warning" "Cannot create output directory under ${OUTPUT_DIR}."
-          log "error" "Checks failed."
+          warning "Cannot create output directory under ${OUTPUT_DIR}."
+          error "Checks failed."
           return 1
         fi
-      log "debug" "Output directory created under ${OUTPUT_DIR}."
+      debug "Output directory created under ${OUTPUT_DIR}."
     else
-      log "debug" "Output directory found in ${OUTPUT_DIR}."
+      debug "Output directory found in ${OUTPUT_DIR}."
     fi
 
-  log "debug" "Checks succeded."
+  debug "Checks succeded."
   return 0
 }
 
@@ -53,31 +53,31 @@ function checks {
 ## Produces PDF file.
 ##   $1 Revision
 function produceOutput {
-  log "info" "Producing PDF..."
+  info "Producing PDF..."
 
-  log "debug" "Checking for any template file..."
+  debug "Checking for any template file..."
   local tpl_option=""
   local tpl_file="${TPL_DIR}/tpl.tex"
   if [ -f "$tpl_file" ]; then
-      log "debug" "Template file found under ${tpl_file}."
+      debug "Template file found under ${tpl_file}."
       local tpl_option="--template=$tpl_file"
     else
-      log "debug" "No template file found under ${tpl_file}."
+      debug "No template file found under ${tpl_file}."
     fi
 
   local output_file="${OUTPUT_DIR}/${TITLE}_${1}.pdf"
-  log "debug" "Producing file..."
+  debug "Producing file..."
   local cmd="$MARKDOWN2PDF --toc $tpl_option --output=$output_file --from=markdown ${REPO_DIR}/*.md"
-  log "debug" "markdown2pdf: $cmd"
+  debug "markdown2pdf: $cmd"
   $cmd
   if [ "$?" -gt 0 ]; then
-      log "warning" "Cannot produce file ${output_file}."
-      log "error" "Failed to produce PDF."
+      warning "Cannot produce file ${output_file}."
+      error "Failed to produce PDF."
       return 1
     fi
-  log "debug" "Wrote content to file ${output_file}."
+  debug "Wrote content to file ${output_file}."
 
-  log "debug" "PDF produced."
+  debug "PDF produced."
   return 0
 }
 
@@ -88,7 +88,7 @@ function main {
   preChecks || abort 10
 
   # Main work
-  log "notice" "$COMMAND_DESC"
+  notice "$COMMAND_DESC"
 
   checks || abort 12
 
@@ -108,9 +108,9 @@ function main {
 
 ## Prints command specific options.
 function printCommandOptions {
-  log "info" "Printing command specific options..."
+  info "Printing command specific options..."
   prntLn "    -r, --rev, --revision REV\t\tGenerate output from revision REV. 'first', 'last', 'all' and a comma separated list of revisions are allowed. Defaults to 0."
   prntLn "    -R, --repo, --repository REPO\tSelect repository REPO which will be cloned. Defaults to existing repository under ${REPO_DIR}."
-  log "debug" "Options printed."
+  debug "Options printed."
   return 0
 }
