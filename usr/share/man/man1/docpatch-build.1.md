@@ -81,4 +81,4 @@ Benjamin Heisig <http://benjamin.heisig.name/>
 
 # SEE ALSO
 
-`docpatch`(1), `docpatch-epub`(1), `docpatch-pdf`(1)
+`docpatch`(1), `docpatch-create`(1),

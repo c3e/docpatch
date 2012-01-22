@@ -23,193 +23,7 @@
 ##
 
 
-## Determines which revisions are meant.
-function determineRevisions {
-  loginfo "Determining revisions..."
-
-  logdebug "Parsing argument for revisions..."
-  if [ -z "$REVISION" ]; then
-      logdebug "No specific revision given. Assuming first revision."
-      CURRENT_REVISIONS=0
-    elif [ "$REVISION" == "first" ]; then
-      logdebug "It's the first revision."
-      CURRENT_REVISIONS=0
-    elif [ "$REVISION" == "last" ]; then
-      logdebug "It's the last revision."
-      CURRENT_REVISIONS=$(($REVISIONS - 1))
-    elif [ "$REVISION" == "all" ]; then
-      logdebug "All revisions selected."
-
-      for (( rev=1; rev < "$REVISIONS"; rev++ )); do
-          if [ "$rev" -lt 0 ]; then
-              logwarning"Inproperly named revision found: $rev"
-              logerror "Failed to determine revisions."
-              return 1
-            fi
-
-          if [ -n "$CURRENT_REVISIONS" ]; then
-              CURRENT_REVISIONS="$CURRENT_REVISIONS "
-            fi
-
-          CURRENT_REVISIONS="${CURRENT_REVISIONS}$rev"
-          logdebug "Appended revision $rev to list."
-        done
-    elif [[ "$REVISION" == ${REVISION//[^0-9]/} ]]; then
-      if [ "$REVISION" -lt 0 ]; then
-          logwarning"Inproperly named revision found: $REVISION"
-          logerror "Failed to determine revisions."
-          return 1
-        fi
-      logdebug "Revision $REVISION is meant."
-      CURRENT_REVISIONS="$REVISION"
-    else
-      logdebug "Looking for more than one revision..."
-      IFS=","
-      for rev in $REVISION; do
-          if [ "$rev" -lt 0 ]; then
-              logwarning"Argument for one or more revisions is invalid."
-              logerror "Failed to determine revisions."
-              return 1
-            fi
-
-          if [ -n "$CURRENT_REVISIONS" ]; then
-              CURRENT_REVISIONS="$CURRENT_REVISIONS "
-            fi
-          CURRENT_REVISIONS="${CURRENT_REVISIONS}$rev"
-          logdebug "Appended revision $rev to list."
-        done
-      unset IFS
-    fi
-  logdebug "Found these revisions: $CURRENT_REVISIONS"
-
-  logdebug "Revisions determined."
-  return 0
-}
-
-
-## Counts revisions.
-function countRevisions {
-  loginfo "Counting revisions..."
-  cd "$REPO_DIR"
-  REVISIONS=`"$GIT" tag -l | "$WC" -l`
-  if [ "$?" -gt 0 ]; then
-      logerror "Cannot count revisions."
-      return 1
-    fi
-  if [ "$REVISIONS" -eq 1 ]; then
-      logdebug "There is 1 revision."
-    else
-      logdebug "There are $REVISIONS revisions."
-    fi
-  logdebug "Revisions counted."
-  return 0
-}
-
-
-## Determines Repository
-function determineRepository {
-  loginfo "Determining repository..."
-
-  logdebug "Checking argument..."
-  if [ -z "$REPOSITORY" ]; then
-      logdebug "Argument not set. Use default repository under ${REPO_DIR}."
-
-      logdebug "Checking for existing repository..."
-      if [ ! -d "${REPO_DIR}/.git/" ]; then
-          lognotice "There is no repository under ${REPO_DIR}."
-          logwarning"Cannot use default repository."
-          logerror "Failed to determine repository."
-          return 1
-        fi
-      logdebug "Repository found under ${REPO_DIR}."
-    else
-      logdebug "Cloning repository ${REPOSITORY}..."
-
-      logdebug "Checking for existing repository..."
-      if [ -d "${REPO_DIR}/.git/" ]; then
-          lognotice "Repository found under ${REPO_DIR}."
-          logwarning"Cannot clone repository ${REPOSITORY}."
-          logerror "Failed to determine repository."
-          return 1
-        fi
-      logdebug "There is no repository under ${REPO_DIR}."
-
-      logdebug "Creating empty directory..."
-      "$RM" -rf "$REPO_DIR"
-      "$MKDIR" -p "$REPO_DIR"
-      logdebug "Empty directory under $REPO_DIR created."
-
-      logdebug "Cloning repository from ${REPOSITORY}..."
-      "$GIT" clone "$REPOSITORY" "$REPO_DIR"
-      if [ "$?" -gt 0 ]; then
-          logwarning"Cannot clone repository $REPOSITORY under ${REPO_DIR}."
-          logerror "Failed to determine repository."
-          return 1
-        fi
-      logdebug "Repository cloned under ${REPO_DIR}."
-    fi
-
-  logdebug "Repository determined."
-  return 0
-}
-
-
-## Switches repository to a revision.
-##   $1 Revision
-function switchRevision {
-  loginfo "Switching revision..."
-
-  logdebug "Changing into directory ${REPO_DIR}..."
-  cd "$REPO_DIR"
-
-  logdebug "Checking out revision ${1}..."
-  "$GIT" checkout "$1"
-  if [ "$?" -gt 0 ]; then
-      logwarning"Cannot checkout revision ${1}."
-      logerror "Failed to switch revision."
-      return 1
-    fi
-  logdebug "Check out done."
-
-  logdebug "Revision switched."
-  return 0
-}
-
-
-## Creates output.
-function createOutput {
-  loginfo "Creating output..."
-
-  logdebug "Iterating through each destinated revision..."
-  for current_revision in $CURRENT_REVISIONS; do
-      logdebug "Handling revision ${current_revision}..."
-
-      switchRevision "$current_revision"
-      if [ "$?" -gt 0 ]; then
-          logwarning"Cannot handle revision ${current_revision}."
-          logerror "Failed to create output."
-          return 1
-        fi
-
-      produceOutput "$current_revision"
-      if [ "$?" -gt 0 ]; then
-          logwarning"Cannot handle revision ${current_revision}."
-          logerror "Failed to create output."
-          return 1
-        fi
-
-      logdebug "Handling done."
-    done
-  logdebug "Iteration done."
-
-  logdebug "Output created."
-  return 0
-}
-
-
 ## Checks system requirements.
-##   TODO Look for FIXMEs and TODOs and DELETEMEs
-##   TODO Look for syntax errors in sources, meta information, patches and templates
 function preChecks {
   loginfo "Checking system requirements..."
 
@@ -293,7 +107,7 @@ function preChecks {
   logdebug "Checking temporary directory..."
   if [ ! -d "$TPL_DIR" ]; then
       logdebug "Temporary directory not found. Create it."
-      "$MKDIR" -p "$TPL_DIR"
+      exe "$MKDIR -p $TPL_DIR"
       if [ "$?" -gt 0 ]; then
           logwarning"Cannot create temporary directory under ${TPL_DIR}."
           logerror "System checks failed."
@@ -307,36 +121,6 @@ function preChecks {
   logdebug "Directories checked."
 
   logdebug "System checked."
-  return 0
-}
-
-
-## Initiates configuration files.
-function initiateConfig {
-  loginfo "Initiate configuration files..."
-  logdebug "Copy files..."
-  "$CP" ${EXAMPLE_DIR}/etc/* "$CONFIG_DIR"
-  if [ "$?" -gt 0 ]; then
-      logwarning"Cannot copy configuration files."
-      logerror "Failed to initiate configuration files."
-      return 1
-    fi
-  logdebug "Configuration files initiated."
-  return 0
-}
-
-
-## Initiate auto completion in bash
-function initiateAutoCompletion {
-  loginfo "Initiate auto completion in bash..."
-  logdebug "Copy file..."
-  "$CP" ${EXAMPLE_DIR}/bash_completion.d/${PROJECT_NAME} /etc/bash_completion.d/
-  if [ "$?" -gt 0 ]; then
-      logwarning"Cannot copy auto completion file."
-      logerror "Failed to initiate auto completion in bash."
-      return 1
-    fi
-  logdebug "Auto completion in bash initiated."
   return 0
 }
 
@@ -358,18 +142,22 @@ function includeCommand {
 
 ## Executes command.
 ##   $1 Command
-##   $2 (optional) Log level. Defaults to "debug".
 function exe {
   logdebug "Executing command..."
-# FIXME
-#  logdebug "Command: $2"
-#  case "$VERBOSITY" in
-#      0) verbose_level="-q" ;;
-#      1|2) ;;
-#      3) verbose_level="-v" ;;
-#      4) verbose_level="-D" ;;
-#      *) logwarning"Strange verbose level. Ignore it." ;;
-#    esac
+
+  logdebug "Command: $1"
+
+  let "relevant = (($LOG_DEBUG & $VERBOSITY))"
+  if [ "$relevant" -gt 0 ]; then
+      $1
+      local status="$?"
+    else
+      logdebug "Suppress output."
+      $1 1> /dev/null 2> /dev/null
+      local status="$?"
+    fi
+
+  return $status
 }
 
 
@@ -476,7 +264,7 @@ function cleanUp {
   loginfo "Cleaning up system..."
 
   logdebug "Removing temporary files..."
-  "$RM" -f ${TMP_DIR}/${PID}_*
+  exe "$RM -f ${TMP_DIR}/${PID}_*"
   if [ $? -gt 0 ]; then
       logwarning"Cannot remove temporary files."
       logerror "Failed to clean up."
@@ -488,7 +276,7 @@ function cleanUp {
   if [ -d "${REPO_DIR}/.git" ]; then
       logdebug "Left repository found in ${REPO_DIR}."
       logdebug "Checking out master branch..."
-      "$GIT" checkout master
+      exe "$GIT checkout master"
       if [ "$?" -gt 0 ]; then
           logwarning"Cannot check out master branch."
           logerror "Failed to clean up."
@@ -528,15 +316,18 @@ function abort {
 
 ## Apply nice level
 function applyNiceLevel {
-  loginfo "Apply nice level..."
+  loginfo "Applying nice level..."
+
   PID="$$"
   logdebug "Current process ID is ${PID}."
-  "$RENICE" "$NICE_LEVEL" "$PID" > /dev/null
+
+  exe "$RENICE $NICE_LEVEL $PID"
   if [ "$?" -gt 0 ]; then
       logwarning"Re-nice failed."
       logerror "Failed to apply nice level."
       return 1
     fi
+
   logdebug "New nice level is ${NICE_LEVEL}."
   return 0
 }
@@ -560,11 +351,14 @@ function prnt {
 
 ## Print global usage
 function printUsage {
-  loginfo "Print global usage..."
+  loginfo "Printing global usage..."
+
   local cmd_placeholder="[command]"
   if [ -n "$COMMAND" -a "$COMMAND" != "help" ]; then
       cmd_placeholder="$COMMAND"
       prntLn "$COMMAND_DESC"
+    else
+      prntLn "Patching documents that matter."
     fi
   prntLn "Usage: '$BASE_NAME [output] $cmd_placeholder [options]'"
   prntLn ""
@@ -577,8 +371,7 @@ function printUsage {
   if [ -z "$COMMAND" ]; then
       prntLn "The most commonly used $PROJECT_NAME options are:"
       prntLn "    build\t\t${COMMAND_BUILD}"
-      prntLn "    epub\t\t${COMMAND_EPUB}"
-      prntLn "    pdf\t\t\t${COMMAND_PDF}"
+      prntLn "    create\t\t${COMMAND_CREATE}"
     else
       prntLn "Options:"
       printCommandOptions
@@ -594,6 +387,7 @@ function printUsage {
     else
       prntLn "See '$BASE_NAME help [command]' for more information on a specific command."
     fi
+
   logdebug "Usage printed."
   return 0
 }
@@ -601,12 +395,14 @@ function printUsage {
 
 ## Print some information about this script
 function printVersion {
-  loginfo "Print some information about this script..."
+  loginfo "Printing some information about this script..."
+
   prntLn "$PROJECT_NAME $PROJECT_VERSION"
   prntLn "Copyright (C) 2011 $PROJECT_AUTHOR"
   prntLn "This program comes with ABSOLUTELY NO WARRANTY."
   prntLn "This is free software, and you are welcome to redistribute it"
   prntLn "under certain conditions. Type '--license' for details."
+
   logdebug "Information printed."
   return 0
 }
@@ -614,11 +410,14 @@ function printVersion {
 
 ## Print license information
 function printLicense {
-  loginfo "Print license information..."
+  loginfo "Printing license information..."
+
   logdebug "Look for license text..."
+
   licenses[0]="/usr/share/common-licenses/GPL"
   licenses[1]="/usr/share/doc/licenses/gpl-3.0.txt"
   licenses[2]="/usr/share/doc/${PROJECT_NAME}/COPYING"
+
   for i in "${licenses[@]}"; do
       if [ -f "$i" ]; then
           "$CAT" "$i" 1>&2
@@ -626,6 +425,7 @@ function printLicense {
           return 0
         fi
     done
+
   logwarning"Cannot find any fitting license text on this system."
   logerror "Failed to print license. But it's the GPL3+."
   return 1

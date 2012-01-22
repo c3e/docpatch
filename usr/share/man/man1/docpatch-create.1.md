@@ -1,16 +1,16 @@
-% DOCPATCH-PDF(1) DocPatch User Manuals | Version 0.1
+% DOCPATCH-CREATE(1) DocPatch User Manuals | Version 0.1
 %
-% January 17, 2012
+% January 22, 2012
 
 
 # NAME
 
-docpatch-pdf - create PDF version
+docpatch-create - produce pretty output from source
 
 
 # SYNOPSIS
 
-docpatch [*output*] pdf [*options*]
+docpatch [*output*] create [*options*]
 
 
 # DESCRIPTION
@@ -35,11 +35,14 @@ FIXME
 
 # OPTIONS
 
+-f, \--format, \--output *FORMAT*
+:   Select output format *FORMAT*. Supported formats are "epub", "pdf", and "text". Defaults to "pdf".
+
 -r, \--rev, \--revision *REV*
-:   Generate output from revision *REV*. 'first', 'last', 'all' and a comma separated list of revisions are allowed. Defaults to `0`.
+:   Generate output from revision *REV*. 'first', 'last', 'all' and a comma separated list of revisions are allowed. Defaults to "0".
 
 -R, \--repo, \--repository *REPO*
-:   Select repository *REPO* which will be cloned. Defaults to existing repository under `repo/`.
+:   Select repository *REPO* which will be cloned. Defaults to existing repository under "repo/".
 
 -h, \--help
 :   Show this help and exit.
@@ -84,4 +87,4 @@ Benjamin Heisig <http://benjamin.heisig.name/>
 
 # SEE ALSO
 
-`docpatch`(1), `docpatch-build`(1), `docpatch-epub`(1)
+`docpatch`(1), `docpatch-build`(1)

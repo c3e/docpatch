@@ -37,13 +37,11 @@ BASE_NAME=`basename $0`
 ## Supported commands
 COMMANDS[0]="help"
 COMMANDS[1]="build"
-COMMANDS[2]="epub"
-COMMANDS[3]="pdf"
+COMMANDS[2]="create"
 
 ## Descriptions of supported commands
 COMMAND_BUILD="Build repository."
-COMMAND_EPUB="Create EPUB version."
-COMMAND_PDF="Create PDF version."
+COMMAND_CREATE="Produce pretty output from source."
 
 ## Required main command
 COMMAND=""
@@ -104,8 +102,8 @@ trap 'logwarning "Caught SIGTERM." ; abort 115' 15
 ## Process given options and arguments
 loginfo "Process given options and arguments..."
 ARGS=`"$GETOPT" \
--o qvVDhr:R:s \
---long help,version,license,rev:,revision:,repo:,repository:,sign -- "$@" 2> /dev/null`
+-o qvVDhf:r:R:s \
+--long help,version,license,format:,output:,rev:,revision:,repo:,repository:,sign -- "$@" 2> /dev/null`
 
 if [ $? != 0 -o "$#" = 0 ]; then
     logwarning "Bad request."
@@ -119,26 +117,26 @@ logdebug "Processed."
 
 
 ## Match options and arguments
-loginfo "Match options and arguments..."
+loginfo "Matching options and arguments..."
 
 while true ; do
     case "$1" in
     # Output:
         -q)
           VERBOSITY=$LOG_NONE
-          logdebug "New verbosity: $VERBOSITY"
+          logdebug "Set verbosity: $VERBOSITY"
           shift;;
         -v)
           VERBOSITY=$(($LOG_FATAL | $LOG_ERROR | $LOG_WARNING | $LOG_NOTICE))
-          logdebug "New verbosity: $VERBOSITY"
+          logdebug "Set verbosity: $VERBOSITY"
           shift;;
         -V)
           VERBOSITY=$(($LOG_ALL & ~$LOG_DEBUG))
-          logdebug "New verbosity: $VERBOSITY"
+          logdebug "Set verbosity: $VERBOSITY"
           shift;;
         -D)
           VERBOSITY=$LOG_ALL;
-          logdebug "New verbosity: $VERBOSITY"
+          logdebug "Set verbosity: $VERBOSITY"
           shift;;
     # Information:
         -h|--help)
@@ -154,6 +152,10 @@ while true ; do
           PRINT_LICENSE=1;
           shift;;
     # Options:
+        -f|--format|--output)
+          logdebug "Set FORMAT=$2"
+          FORMAT="$2";
+          shift 2;;
         -r|--rev|--revision)
           logdebug "Set REVISION=$2"
           REVISION="$2";
@@ -180,9 +182,9 @@ logdebug "Matched."
 
 
 ## Try to match commands with given options
-loginfo "Try to match commands with given options..."
+loginfo "Trying to match commands with given options..."
 
-loginfo "Try to match main command..."
+loginfo "Trying to match main command..."
 for x in "$@"; do
     for y in "${COMMANDS[@]}"; do
         if [ "$x" == "$y" ]; then
@@ -193,7 +195,7 @@ for x in "$@"; do
       done
   done
 
-loginfo "Try to match sub command..."
+loginfo "Trying to match sub command..."
 if [ -n "$2" -a "$2" != " " ]; then
     SUB_COMMAND="$2"
     logdebug "Sub command is $SUB_COMMAND."

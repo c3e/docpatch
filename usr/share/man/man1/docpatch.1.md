@@ -111,4 +111,4 @@ And everyone who keeps sending us feedback and improving this project! Thank you
 
 # SEE ALSO
 
-`docpatch-build`(1), `docpatch-epub`(1), `docpatch-pdf`(1), `git`(1), `markdown2pdf`(1), `pandoc(1)`, `quilt`(1)
+`docpatch-build`(1), `docpatch-create`(1), `git`(1), `markdown2pdf`(1), `pandoc(1)`, `quilt`(1)

@@ -23,11 +23,6 @@
 ##
 
 
-# TODO convert *.meta (really?!)
-# * Wordwrap after 80 chars (except 1. line)
-# * copy to $TMP_DIR/*.txt
-
-
 ## About this command
 COMMAND_DESC="$COMMAND_BUILD"
 
@@ -54,7 +49,7 @@ function createRepo {
   loginfo "Creating a new repository..."
 
   logdebug "Creating directory ${REPO_DIR}..."
-  "$MKDIR" -p "$REPO_DIR"
+  exe "$MKDIR -p $REPO_DIR"
   if [ "$?" -gt 0 ]; then
       logwarning "Cannot create directory ${REPO_DIR}."
       logerror "Failed to create a new repository."
@@ -66,7 +61,7 @@ function createRepo {
   cd "$REPO_DIR"
 
   logdebug "Initiating git repository..."
-  "$GIT" init
+  exe "$GIT init"
   if [ "$?" -gt 0 ]; then
       logwarning "Cannot initiate git repository under ${REPO_DIR}."
       logerror "Failed to create a new repository."
@@ -83,7 +78,7 @@ function createMetaInformation {
   loginfo "Creating meta information..."
 
   logdebug "Copying docpatch configuration file..."
-  "$CP" "$DOCPATCH_CONF_SOURCE" "$DOCPATCH_CONF_TARGET"
+  exe "$CP $DOCPATCH_CONF_SOURCE $DOCPATCH_CONF_TARGET"
   if [ "$?" -gt 0 ]; then
       logwarning "Cannot copy $DOCPATCH_CONF_SOURCE to ${DOCPATCH_CONF_TARGET}."
       logerror "Failed to create meta information."
@@ -95,7 +90,7 @@ function createMetaInformation {
   if [ ! -f "$GIT_CONF_SOURCE" ]; then
       lognotice "Git configuration file under $GIT_CONF_SOURCE is missing. Please consider creating it before building the repository."
     else
-      "$CP" "$GIT_CONF_SOURCE" "$GIT_CONF_TARGET"
+      exe "$CP $GIT_CONF_SOURCE $GIT_CONF_TARGET"
       if [ "$?" -gt 0 ]; then
           logwarning "Cannot copy $GIT_CONF_SOURCE to ${GIT_CONF_TARGET}."
           logerror "Failed to create meta information."
@@ -108,7 +103,7 @@ function createMetaInformation {
   if [ ! -f "$GIT_IGNORE_SOURCE" ]; then
       lognotice "Git ignore file under $GIT_IGNORE_SOURCE is missing. Please consider creating it before building the repository."
     else
-      "$CP" "$GIT_IGNORE_SOURCE" "$GIT_IGNORE_TARGET"
+      exe "$CP $GIT_IGNORE_SOURCE $GIT_IGNORE_TARGET"
       if [ "$?" -gt 0 ]; then
           logwarning "Cannot copy $GIT_IGNORE_SOURCE to ${GIT_IGNORE_TARGET}."
           logerror "Failed to create meta information."
@@ -121,7 +116,7 @@ function createMetaInformation {
   if [ ! -f "$README_SOURCE" ]; then
       lognotice "README file under $README_SOURCE is missing. Please consider creating it before building the repository."
     else
-      "$PANDOC" --from markdown --to text "$README_SOURCE" > "$README_TARGET"
+      exe "$PANDOC --from markdown --to text $README_SOURCE > $README_TARGET"
       if [ "$?" -gt 0 ]; then
           logwarning "Cannot copy $README_SOURCE to ${README_TARGET}."
           logerror "Failed to create meta information."
@@ -237,7 +232,7 @@ function nextPatch {
   cd "$SRC_DIR"
 
   logdebug "Calling quilt..."
-  "$QUILT" push
+  exe "$QUILT push"
   if [ "$?" -gt 0 ]; then
       logerror "Failed to apply next patch."
       return 1
@@ -256,7 +251,7 @@ function rewindPatches {
   cd "$SRC_DIR"
 
   logdebug "Calling quilt..."
-  "$QUILT" pop -a
+  exe "$QUILT pop -a"
   if [ "$?" -gt 0 ]; then
       logerror "Failed to revert all applied patches."
       return 1
@@ -276,7 +271,7 @@ function addAndCommitAll {
   cd "$REPO_DIR"
 
   logdebug "Putting all files under version control..."
-  "$GIT" add * --force
+  exe "$GIT add * --force"
   if [ "$?" -gt 0 ]; then
       logwarning "Cannot put all files under version control"
       logerror "Failed to put all files under version control and commit them."
@@ -296,7 +291,7 @@ function addAndCommitAll {
   if [ -f "$1" ]; then
       logdebug "Take commit message from ${1}."
 
-      "$GIT" commit -a -F "$1"
+      exe "$GIT commit -a -F $1"
       if [ "$?" -gt 0 ]; then
           logwarning "Cannot commit files."
           logerror "Failed to put all files under version control and commit them."
@@ -305,7 +300,7 @@ function addAndCommitAll {
     else
       logdebug "Commit message: ${1}"
 
-      "$GIT" commit -a -m "$1"
+      exe "$GIT commit -a -m $1"
       if [ "$?" -gt 0 ]; then
           logwarning "Cannot commit files."
           logerror "Failed to put all files under version control and commit them."
@@ -355,10 +350,9 @@ function createTag {
     fi
 
   cmd="$cmd -F $2 $1"
-  logdebug "git-tag: $cmd"
 
   logdebug "Calling git-tag..."
-  $cmd
+  exe "$cmd"
   if [ "$?" -gt 0 ]; then
       logwarning "Failed to call git-tag."
       logerror "Failed to tag current revision."
@@ -400,7 +394,7 @@ function copyDocuments {
   logdebug "Source files: ${SRC_DIR}/*.md"
   logdebug "Target directory: $REPO_DIR"
 
-  "$CP" "$SRC_DIR"/*.md "$REPO_DIR"
+  exe "$CP ${SRC_DIR}/*.md $REPO_DIR"
   if [ "$?" -gt 0 ]; then
       logerror "Failed to copy documents."
       return 1
