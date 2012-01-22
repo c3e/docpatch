@@ -135,7 +135,6 @@ function includeCommand {
       logerror "Cannot include command specific file."
       return 1
     fi
-  logdebug "Include file..."
   source "$cmd_file"
   logdebug "File $cmd_file included."
 }

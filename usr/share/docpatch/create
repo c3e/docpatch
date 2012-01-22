@@ -73,7 +73,7 @@ function loadMetaInformation {
 
   local docpatch_config="${REPO_DIR}/$DOCPATCH_CONF_TARGET"
 
-  if [ -r "$docpatch_config" ]; then
+  if [ ! -r "$docpatch_config" ]; then
       logwarning "Cannot access meta information."
       logerror "Failed to load meta information."
       return 1

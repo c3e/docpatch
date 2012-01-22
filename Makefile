@@ -15,18 +15,18 @@
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-SHELL = $(which sh)
+SHELL = /bin/sh
 
-INSTALL = $(which install)
+INSTALL = /usr/bin/install
 INSTALL_PROGRAM = $(INSTALL)
 INSTALL_DATA = $(INSTALL) -m 644
-FIND = $(which find)
-GZIP = $(which gzip)
-PANDOC = $(which pandoc)
-MARKDOWN2PDF = $(which markdown2pdf)
+FIND = /usr/bin/find
+GZIP = /bin/gzip
+PANDOC = /home/ben/.cabal/bin/pandoc
+MARKDOWN2PDF = /home/ben/.cabal/bin/markdown2pdf
 
 project = $(shell cat usr/share/docpatch/config.inc | sed -n 's/^PROJECT_NAME="\(.*\)"$$/\1/p')
-man1pages = $(project) $(project)-build $(project)-pdf $(project)-epub
+man1pages = $(project) $(project)-build $(project)-create
 metainfos = NEWS README TODO
 docs = 
 version = $(shell cat usr/share/docpatch/config.inc | sed -n 's/^PROJECT_VERSION="\(.*\)"$$/\1/p')
