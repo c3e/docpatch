@@ -389,13 +389,13 @@ function log {
       *) logwarning "Unknown log event triggered.";;
     esac
 
-  (($1 & $LOG_LEVEL))
-  if [ "$?" -gt 0 ]; then
+  let "relevant = (($1 & $LOG_LEVEL))"
+  if [ "$relevant" -gt 0 ]; then
       "$ECHO" "[$level] $2" >> "$LOG_FILE"
     fi
 
-  (($1 & $VERBOSITY))
-  if [ "$?" -gt 0 ]; then
+  let "relevant = (($1 & $VERBOSITY))"
+  if [ "$relevant" -gt 0 ]; then
       prntLn "[$level] $2"
     fi
 }
