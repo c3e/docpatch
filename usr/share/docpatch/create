@@ -36,7 +36,7 @@ function checks {
   logdebug "Checking output directory..."
   if [ ! -d "$OUTPUT_DIR" ]; then
       logdebug "Output directory not found. Create it."
-      exe "$MKDIR" -p "$OUTPUT_DIR"
+      exe "$MKDIR -p $OUTPUT_DIR"
       if [ "$?" -gt 0 ]; then
           logwarning "Cannot create output directory under ${OUTPUT_DIR}."
           logerror "Checks failed."
@@ -266,10 +266,20 @@ function createOutput {
           return 1
         fi
 
+      local status=0
       case "$OUTPUT_FORMAT" in
-          "epub") produceEPUB "$current_revision"; break;;
-          "pdf") producePDF "$current_revision"; break;;
-          "text") produceText "$current_revision"; break;;
+          "epub")
+            produceEPUB "$current_revision"
+            local status="$?"
+            break;;
+          "pdf")
+            producePDF "$current_revision"
+            local status="$?"
+            break;;
+          "text")
+            produceText "$current_revision"
+            local status="$?"
+            break;;
           *) logerror "Internal error."; return 1;;
         esac
       if [ "$?" -gt 0 ]; then
@@ -295,9 +305,9 @@ function produceEPUB {
   # TODO create metadata.xml
   # TODO --epub-metadata=tpl/metadata.xml --epub-cover-image=tpl/test.png
 
-  local output_file="${OUTPUT_DIR}/${TITLE}_${1}.epub"
+  local output_file="${OUTPUT_DIR}/${TITLE}_${1}_${DATE}.epub"
   logdebug "Producing file..."
-  exe "$PANDOC --from=markdown --toc --output=$output_file --smart ${REPO_DIR}/*.md"
+  exe "$PANDOC --from=markdown --toc --output='$output_file' --smart ${REPO_DIR}/*.md"
   if [ "$?" -gt 0 ]; then
       logwarning "Cannot produce file ${output_file}."
       logerror "Failed to produce EPUB."
@@ -325,9 +335,9 @@ function producePDF {
       logdebug "No template file found under ${tpl_file}."
     fi
 
-  local output_file="${OUTPUT_DIR}/${TITLE}_${1}.pdf"
+  local output_file="${OUTPUT_DIR}/${TITLE}_${1}_${DATE}.pdf"
   logdebug "Producing file..."
-  exe "$MARKDOWN2PDF --from=markdown --toc $tpl_option --output=$output_file ${REPO_DIR}/*.md"
+  exe "$MARKDOWN2PDF --from=markdown --toc $tpl_option --output='$output_file' ${REPO_DIR}/*.md"
   if [ "$?" -gt 0 ]; then
       logwarning "Cannot produce file ${output_file}."
       logerror "Failed to produce PDF."
@@ -345,9 +355,9 @@ function producePDF {
 function produceText {
   loginfo "Producing plaintext..."
 
-  local output_file="${OUTPUT_DIR}/${TITLE}_${1}.txt"
+  local output_file="${OUTPUT_DIR}/${TITLE}_${1}_${DATE}.txt"
   logdebug "Producing file..."
-  exe "$PANDOC --from=markdown --output=$output_file --to=plain --standalone ${REPO_DIR}/*.md"
+  exe "$PANDOC --from=markdown --output='$output_file' --to=plain --standalone ${REPO_DIR}/*.md"
   if [ "$?" -gt 0 ]; then
       logwarning "Cannot produce file ${output_file}."
       logerror "Failed to produce plaintext."
