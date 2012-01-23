@@ -157,8 +157,8 @@ while true ; do
           OUTPUT_FORMAT="$2";
           shift 2;;
         -r|--rev|--revision)
-          logdebug "Set REVISION=$2"
-          REVISION="$2";
+          logdebug "Set ARG_REVISION=$2"
+          ARG_REVISION="$2";
           shift 2;;
         -R|--repo|--repository)
           logdebug "Set REPOSITORY=$2"

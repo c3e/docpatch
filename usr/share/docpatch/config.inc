@@ -181,14 +181,17 @@ README_TARGET="${REPO_DIR}/README"
 ## Output format:
 OUTPUT_FORMAT="pdf"
 
-## Revision:
+## Revision taken from given arguments:
+ARG_REVISION=""
+
+## Current handled revision:
 REVISION=""
 
 ## Amount of revisions:
 REVISIONS=0
 
 ## All revisions that will be handled:
-CURRENT_REVISIONS=""
+LIST_OF_REVISIONS=""
 
 ## Repository:
 REPOSITORY=""

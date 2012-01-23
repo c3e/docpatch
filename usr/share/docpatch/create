@@ -71,8 +71,6 @@ function checks {
 function loadMetaInformation {
   loginfo "Loading meta information..."
 
-  CURRENT_REVISION="$1"
-
   if [ ! -r "$DOCPATCH_CONF_TARGET" ]; then
       logwarning "Cannot access meta information under ${DOCPATCH_CONF_TARGET}."
       logerror "Failed to load meta information."
@@ -163,16 +161,16 @@ function determineRevisions {
   loginfo "Determining revisions..."
 
   logdebug "Parsing argument for revisions..."
-  if [ -z "$REVISION" ]; then
+  if [ -z "$ARG_REVISION" ]; then
       logdebug "No specific revision given. Assuming first revision."
-      CURRENT_REVISIONS=0
-    elif [ "$REVISION" == "first" ]; then
+      LIST_OF_REVISIONS=0
+    elif [ "$ARG_REVISION" == "first" ]; then
       logdebug "It's the first revision."
-      CURRENT_REVISIONS=0
-    elif [ "$REVISION" == "last" ]; then
+      LIST_OF_REVISIONS=0
+    elif [ "$ARG_REVISION" == "last" ]; then
       logdebug "It's the last revision."
-      CURRENT_REVISIONS=$(($REVISIONS - 1))
-    elif [ "$REVISION" == "all" ]; then
+      LIST_OF_REVISIONS=$(($REVISIONS - 1))
+    elif [ "$ARG_REVISION" == "all" ]; then
       logdebug "All revisions selected."
 
       for (( rev=0; rev < "$REVISIONS"; rev++ )); do
@@ -182,40 +180,40 @@ function determineRevisions {
               return 1
             fi
 
-          if [ -n "$CURRENT_REVISIONS" ]; then
-              CURRENT_REVISIONS="$CURRENT_REVISIONS "
+          if [ -n "$LIST_OF_REVISIONS" ]; then
+              LIST_OF_REVISIONS="$LIST_OF_REVISIONS "
             fi
 
-          CURRENT_REVISIONS="${CURRENT_REVISIONS}$rev"
+          LIST_OF_REVISIONS="${LIST_OF_REVISIONS}$rev"
           logdebug "Appended revision $rev to list."
         done
-    elif [[ "$REVISION" == ${REVISION//[^0-9]/} ]]; then
-      if [ "$REVISION" -lt 0 ]; then
-          logwarning"Inproperly named revision found: $REVISION"
+    elif [[ "$ARG_REVISION" == ${ARG_REVISION//[^0-9]/} ]]; then
+      if [ "$ARG_REVISION" -lt 0 ]; then
+          logwarning"Inproperly named revision found: $ARG_REVISION"
           logerror "Failed to determine revisions."
           return 1
         fi
-      logdebug "Revision $REVISION is meant."
-      CURRENT_REVISIONS="$REVISION"
+      logdebug "Revision $ARG_REVISION is meant."
+      LIST_OF_REVISIONS="$ARG_REVISION"
     else
       logdebug "Looking for more than one revision..."
       IFS=","
-      for rev in $REVISION; do
+      for rev in $ARG_REVISION; do
           if [ "$rev" -lt 0 ]; then
               logwarning"Argument for one or more revisions is invalid."
               logerror "Failed to determine revisions."
               return 1
             fi
 
-          if [ -n "$CURRENT_REVISIONS" ]; then
-              CURRENT_REVISIONS="$CURRENT_REVISIONS "
+          if [ -n "$LIST_OF_REVISIONS" ]; then
+              LIST_OF_REVISIONS="$LIST_OF_REVISIONS "
             fi
-          CURRENT_REVISIONS="${CURRENT_REVISIONS}$rev"
+          LIST_OF_REVISIONS="${LIST_OF_REVISIONS}$rev"
           logdebug "Appended revision $rev to list."
         done
       unset IFS
     fi
-  logdebug "Found these revisions: $CURRENT_REVISIONS"
+  logdebug "Found these revisions: $LIST_OF_REVISIONS"
 
   logdebug "Revisions determined."
   return 0
@@ -249,19 +247,19 @@ function createOutput {
   loginfo "Creating output..."
 
   logdebug "Iterating through each destinated revision..."
-  for current_revision in $CURRENT_REVISIONS; do
-      logdebug "Handling revision ${current_revision}..."
+  for REVISION in $LIST_OF_REVISIONS; do
+      logdebug "Handling revision ${REVISION}..."
 
-      switchRevision "$current_revision"
+      switchRevision "$REVISION"
       if [ "$?" -gt 0 ]; then
-          logwarning"Cannot handle revision ${current_revision}."
+          logwarning"Cannot handle revision ${REVISION}."
           logerror "Failed to create output."
           return 1
         fi
 
-      loadMetaInformation "$current_revision"
+      loadMetaInformation "$REVISION"
       if [ "$?" -gt 0 ]; then
-          logwarning"Cannot handle revision ${current_revision}."
+          logwarning"Cannot handle revision ${REVISION}."
           logerror "Failed to create output."
           return 1
         fi
@@ -269,21 +267,21 @@ function createOutput {
       local status=0
       case "$OUTPUT_FORMAT" in
           "epub")
-            produceEPUB "$current_revision"
+            produceEPUB "$REVISION"
             local status="$?";;
           "pdf")
-            producePDF "$current_revision"
+            producePDF "$REVISION"
             local status="$?";;
           "man")
-            produceManPage "$current_revision"
+            produceManPage "$REVISION"
             local status="$?";;
           "text")
-            produceText "$current_revision"
+            produceText "$REVISION"
             local status="$?";;
           *) logerror "Internal error."; return 1;;
         esac
       if [ "$?" -gt 0 ]; then
-          logwarning"Cannot handle revision ${current_revision}."
+          logwarning"Cannot handle revision ${REVISION}."
           logerror "Failed to create output."
           return 1
         fi
