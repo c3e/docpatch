@@ -177,8 +177,8 @@ README_TARGET="${REPO_DIR}/README"
 ## Runtime settings
 ##
 
-## Format:
-FORMAT="pdf"
+## Output format:
+OUTPUT_FORMAT="pdf"
 
 ## Revision:
 REVISION=""

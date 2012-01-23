@@ -50,17 +50,17 @@ function checks {
   logdebug "Verifying format..."
   local found=0
   for format in $SUPPORTED_FORMATS; do
-      if [ "$FORMAT" == "$format" ]; then
+      if [ "$OUTPUT_FORMAT" == "$format" ]; then
           found=1
           break
         fi
     done
   if [ "$found" -eq 0 ]; then
-      logwarning "Format is not supported: $FORMAT"
+      logwarning "Format is not supported: $OUTPUT_FORMAT"
       logerror "Checks failed."
       return 1
     fi
-  logdebug "Format verified: $FORMAT"
+  logdebug "Format verified: $OUTPUT_FORMAT"
 
   logdebug "Checks succeded."
   return 0
@@ -79,6 +79,10 @@ function loadMetaInformation {
       return 1
     fi
   logdebug "Meta information found under ${DOCPATCH_CONF_TARGET}."
+
+  logdebug "Including file..."
+  source "$DOCPATCH_CONF_TARGET"
+  logdebug "File included."
 
   logdebug "Meta information loaded."
   return 0
@@ -136,6 +140,7 @@ function determineRepository {
 ## Counts revisions.
 function countRevisions {
   loginfo "Counting revisions..."
+
   cd "$REPO_DIR"
   REVISIONS=`"$GIT" tag -l | "$WC" -l`
   if [ "$?" -gt 0 ]; then
@@ -147,6 +152,7 @@ function countRevisions {
     else
       logdebug "There are $REVISIONS revisions."
     fi
+
   logdebug "Revisions counted."
   return 0
 }
@@ -260,10 +266,10 @@ function createOutput {
           return 1
         fi
 
-      case "$FORMAT" in
-          "epub") produceEPUB "$current_revision";;
-          "pdf") producePDF "$current_revision";;
-          "text") produceText "$current_revision";;
+      case "$OUTPUT_FORMAT" in
+          "epub") produceEPUB "$current_revision"; break;;
+          "pdf") producePDF "$current_revision"; break;;
+          "text") produceText "$current_revision"; break;;
           *) logerror "Internal error."; return 1;;
         esac
       if [ "$?" -gt 0 ]; then
