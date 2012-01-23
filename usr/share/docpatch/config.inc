@@ -45,24 +45,25 @@ PROJECT_VERSION="0.1"
 ##
 
 ## Main tools:
-GIT="/usr/bin/git"
-GPG="/usr/bin/gpg"
-MARKDOWN2PDF="/home/ben/.cabal/bin/markdown2pdf"
-PANDOC="/home/ben/.cabal/bin/pandoc"
-QUILT="/usr/bin/quilt"
+GIT=$(which git)
+GPG=$(which gpg)
+MARKDOWN2PDF=$(which markdown2pdf)
+PANDOC=$(which pandoc)
+QUILT=$(which quilt)
 
 ## Helping tools:
-CAT="/bin/cat"
-CP="/bin/cp"
-ECHO="/bin/echo"
-GETOPT="/usr/bin/getopt"
-HEAD="/usr/bin/head"
-MAN="/usr/bin/man"
-MKDIR="/bin/mkdir"
-PWD="/bin/pwd"
-RENICE="/usr/bin/renice"
-RM="/bin/rm"
-WC="/usr/bin/wc"
+CAT=$(which cat)
+CP=$(which cp)
+ECHO=$(which echo)
+GETOPT=$(which getopt)
+GZIP=$(which gzip)
+HEAD=$(which head)
+MAN=$(which man)
+MKDIR=$(which mkdir)
+PWD=$(which pwd)
+RENICE=$(which renice)
+RM=$(which rm)
+WC=$(which wc)
 
 
 ##

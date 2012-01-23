@@ -15,15 +15,15 @@
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-SHELL = /bin/sh
+SHELL = $(which sh)
 
-INSTALL = /usr/bin/install
+INSTALL = $(which install)
 INSTALL_PROGRAM = $(INSTALL)
 INSTALL_DATA = $(INSTALL) -m 644
-FIND = /usr/bin/find
-GZIP = /bin/gzip
-PANDOC = /home/ben/.cabal/bin/pandoc
-MARKDOWN2PDF = /home/ben/.cabal/bin/markdown2pdf
+FIND = $(which find)
+GZIP = $(which gzip)
+PANDOC = $(which pandoc)
+MARKDOWN2PDF = $(which markdown2pdf)
 
 project = $(shell cat usr/share/docpatch/config.inc | sed -n 's/^PROJECT_NAME="\(.*\)"$$/\1/p')
 man1pages = $(project) $(project)-build $(project)-create
@@ -196,6 +196,8 @@ distclean :
 	@echo "Remove meta information about $(project)..."
 	@rm -f usr/share/doc/$(project)/COPYING
 	@rm -f usr/share/doc/$(project)/NEWS
+	@rm -f README
+	@rm -f usr/share/doc/$(project)/README
 	@rm -f usr/share/doc/$(project)/TODO
 
 mostlyclean : clean

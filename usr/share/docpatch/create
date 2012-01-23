@@ -26,12 +26,12 @@
 ## About this command
 COMMAND_DESC="$COMMAND_CREATE"
 
-SUPPORTED_FORMATS="epub pdf text"
+SUPPORTED_FORMATS="epub man pdf text"
 
 
 ## Checks wether everything is prepared before creating output.
 function checks {
-  loginfo "Checking wether everything is prepared before creating output."
+  loginfo "Checking wether everything is prepared before creating output..."
 
   logdebug "Checking output directory..."
   if [ ! -d "$OUTPUT_DIR" ]; then
@@ -274,6 +274,9 @@ function createOutput {
           "pdf")
             producePDF "$current_revision"
             local status="$?";;
+          "man")
+            produceManPage "$current_revision"
+            local status="$?";;
           "text")
             produceText "$current_revision"
             local status="$?";;
@@ -363,6 +366,26 @@ function produceText {
   logdebug "Wrote content to file ${output_file}."
 
   logdebug "Plaintext produced."
+  return 0
+}
+
+
+## Produces man page.
+##   $1 Revision
+function produceManPage {
+  loginfo "Producing man page..."
+
+  local output_file="${OUTPUT_DIR}/${IDENTIFIER}.txt"
+  logdebug "Producing file..."
+  exe "$PANDOC --from=markdown --to=man --standalone ${REPO_DIR}/*.md | $GZIP -c > ${output_file}.1.gz"
+  if [ "$?" -gt 0 ]; then
+      logwarning "Cannot produce file ${output_file}."
+      logerror "Failed to produce man page."
+      return 1
+    fi
+  logdebug "Wrote content to file ${output_file}."
+
+  logdebug "Man page produced."
   return 0
 }
 

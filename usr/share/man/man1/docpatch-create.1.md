@@ -36,10 +36,10 @@ FIXME
 # OPTIONS
 
 -f, \--format, \--output *FORMAT*
-:   Select output format *FORMAT*. Supported formats are "epub", "pdf", and "text". Defaults to "pdf".
+:   Select output format *FORMAT*. Supported formats are "epub", "man", "pdf", and "text". Defaults to "pdf".
 
 -r, \--rev, \--revision *REV*
-:   Generate output from revision *REV*. 'first', 'last', 'all' and a comma separated list of revisions are allowed. Defaults to "0".
+:   Generate output from revision *REV*. "first", "last", "all" and a comma separated list of revisions are allowed. Defaults to "0".
 
 -R, \--repo, \--repository *REPO*
 :   Select repository *REPO* which will be cloned. Defaults to existing repository under "repo/".
