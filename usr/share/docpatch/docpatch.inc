@@ -418,7 +418,7 @@ function printLicense {
   licenses[2]="/usr/share/doc/${PROJECT_NAME}/COPYING"
 
   for i in "${licenses[@]}"; do
-      if [ -f "$i" ]; then
+      if [ -r "$i" ]; then
           "$CAT" "$i" 1>&2
           logdebug "Information printed."
           return 0

@@ -87,7 +87,7 @@ function createMetaInformation {
   logdebug "File copied."
 
   logdebug "Copying git configuration file..."
-  if [ ! -f "$GIT_CONF_SOURCE" ]; then
+  if [ ! -r "$GIT_CONF_SOURCE" ]; then
       lognotice "Git configuration file under $GIT_CONF_SOURCE is missing. Please consider creating it before building the repository."
     else
       exe "$CP $GIT_CONF_SOURCE $GIT_CONF_TARGET"
@@ -100,7 +100,7 @@ function createMetaInformation {
     fi
 
   logdebug "Copying git ignore file..."
-  if [ ! -f "$GIT_IGNORE_SOURCE" ]; then
+  if [ ! -r "$GIT_IGNORE_SOURCE" ]; then
       lognotice "Git ignore file under $GIT_IGNORE_SOURCE is missing. Please consider creating it before building the repository."
     else
       exe "$CP $GIT_IGNORE_SOURCE $GIT_IGNORE_TARGET"
@@ -113,7 +113,7 @@ function createMetaInformation {
     fi
 
   logdebug "Converting and copying README file..."
-  if [ ! -f "$README_SOURCE" ]; then
+  if [ ! -r "$README_SOURCE" ]; then
       lognotice "README file under $README_SOURCE is missing. Please consider creating it before building the repository."
     else
       exe "$PANDOC --from markdown --to text $README_SOURCE > $README_TARGET"
@@ -151,7 +151,7 @@ function createRevisions {
 
   logdebug "Checking series file..."
   local series_file="${PATCH_DIR}/series"
-  if [ ! -f "$series_file" ]; then
+  if [ ! -r "$series_file" ]; then
       logwarning "Cannot access series file ${series_file}."
       logerror "Failed to create all revisions."
       return 1
@@ -163,7 +163,7 @@ function createRevisions {
 
       logdebug "Checking patch file..."
       local patch_file="${PATCH_DIR}/$patch"
-      if [ ! -f "$patch_file" ]; then
+      if [ ! -r "$patch_file" ]; then
           logwarning "Cannot access patch file ${patch_file}."
           logerror "Failed to create all revisions."
           rewindPatches
@@ -173,7 +173,7 @@ function createRevisions {
 
       logdebug "Checking message file..."
       local meta_file="${META_DIR}/${patch}.meta"
-      if [ ! -f "$meta_file" ]; then
+      if [ ! -r "$meta_file" ]; then
           logwarning "Cannot access message file ${meta_file}."
           logerror "Failed to create all revisions."
           rewindPatches
@@ -288,10 +288,10 @@ function addAndCommitAll {
   logdebug "Commit messages seems okay."
 
   logdebug "Committing files..."
-  if [ -f "$1" ]; then
+  if [ -r "$1" ]; then
       logdebug "Take commit message from ${1}."
 
-      exe "$GIT commit -a -F $1"
+      exe "$GIT commit --all --file $1"
       if [ "$?" -gt 0 ]; then
           logwarning "Cannot commit files."
           logerror "Failed to put all files under version control and commit them."
@@ -300,7 +300,7 @@ function addAndCommitAll {
     else
       logdebug "Commit message: ${1}"
 
-      exe "$GIT commit -a -m $1"
+      exe "$GIT commit --all --message='$1'"
       if [ "$?" -gt 0 ]; then
           logwarning "Cannot commit files."
           logerror "Failed to put all files under version control and commit them."
@@ -329,7 +329,7 @@ function createTag {
   logdebug "Version number: $1"
 
   logdebug "Checking message file..."
-  if [ ! -f "$2" ]; then
+  if [ ! -r "$2" ]; then
       logwarning "Cannot access message file."
       logerror "Failed to tag current revision."
       return 1
