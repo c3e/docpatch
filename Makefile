@@ -46,7 +46,7 @@ man1dir = $(mandir)/man1
 
 ## Build
 
-all : man info meta
+all : man info readme meta
 	@echo "$(project) built. Ready to install. Continue with '(sudo) make install'"
 
 man : $(man1pages)
@@ -76,7 +76,12 @@ ps :
 meta : $(metainfos)
 	@echo "Copy meta information COPYING..."
 	@cp COPYING usr/share/doc/$(project)/COPYING
+	@cp README usr/share/doc/$(project)/README
 	@echo "Meta information built."
+
+readme :
+	@echo "Build README from man page..."
+	@$(PANDOC) --from markdown --to plain --standalone usr/share/man/man1/docpatch.1.md > README
 
 % : usr/share/man/man1/%.1.md
 	@echo "Build man1 page $@..."
@@ -153,7 +158,7 @@ dist : changelog
 	  -exec chmod 777 $(project)-$(version)/{} \;
 	@find docs usr -type f -exec cp {} $(project)-$(version)/{} \; \
 	  -exec chmod 755 $(project)-$(version)/{} \;
-	@$(INSTALL_PROGRAM) -m 755 ChangeLog configure COPYING Makefile NEWS.md README.md TODO.md $(project)-$(version)
+	@$(INSTALL_PROGRAM) -m 755 ChangeLog configure COPYING Makefile NEWS.md README TODO.md $(project)-$(version)
 	@echo "Create tarball $(project)-$(version).tar.gz..."
 	@tar czf $(project)-$(version).tar.gz $(project)-$(version)
 	@echo "Release made."
@@ -191,7 +196,6 @@ distclean :
 	@echo "Remove meta information about $(project)..."
 	@rm -f usr/share/doc/$(project)/COPYING
 	@rm -f usr/share/doc/$(project)/NEWS
-	@rm -f usr/share/doc/$(project)/README
 	@rm -f usr/share/doc/$(project)/TODO
 
 mostlyclean : clean
@@ -199,4 +203,4 @@ mostlyclean : clean
 maintainer-clean : clean
 
 
-.PHONY : man info html pdf dvi ps meta install install-html install-pdf uninstall dist changelog clean distclean mostlyclean maintainer-clean
+.PHONY : man info html pdf dvi ps meta readme install install-html install-pdf uninstall dist changelog clean distclean mostlyclean maintainer-clean

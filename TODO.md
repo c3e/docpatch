@@ -16,6 +16,7 @@
 ## Installation
 
 * ./configure should build Makefile
+* Check wether `make [all]` has been executed before `make install`
 
 
 ## make rules

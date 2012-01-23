@@ -71,6 +71,8 @@ function checks {
 function loadMetaInformation {
   loginfo "Loading meta information..."
 
+  CURRENT_REVISION="$1"
+
   if [ ! -r "$DOCPATCH_CONF_TARGET" ]; then
       logwarning "Cannot access meta information under ${DOCPATCH_CONF_TARGET}."
       logerror "Failed to load meta information."
@@ -251,6 +253,13 @@ function createOutput {
           return 1
         fi
 
+      loadMetaInformation "$current_revision"
+      if [ "$?" -gt 0 ]; then
+          logwarning"Cannot handle revision ${current_revision}."
+          logerror "Failed to create output."
+          return 1
+        fi
+
       case "$FORMAT" in
           "epub") produceEPUB "$current_revision";;
           "pdf") producePDF "$current_revision";;
@@ -282,7 +291,7 @@ function produceEPUB {
 
   local output_file="${OUTPUT_DIR}/${TITLE}_${1}.epub"
   logdebug "Producing file..."
-  exe "$PANDOC --from=markdown --toc --output=$output_file -S ${REPO_DIR}/*.md"
+  exe "$PANDOC --from=markdown --toc --output=$output_file --smart ${REPO_DIR}/*.md"
   if [ "$?" -gt 0 ]; then
       logwarning "Cannot produce file ${output_file}."
       logerror "Failed to produce EPUB."
@@ -332,7 +341,7 @@ function produceText {
 
   local output_file="${OUTPUT_DIR}/${TITLE}_${1}.txt"
   logdebug "Producing file..."
-  exe "$PANDOC --from=markdown --output=$output_file --to=plain ${REPO_DIR}/*.md"
+  exe "$PANDOC --from=markdown --output=$output_file --to=plain --standalone ${REPO_DIR}/*.md"
   if [ "$?" -gt 0 ]; then
       logwarning "Cannot produce file ${output_file}."
       logerror "Failed to produce plaintext."
@@ -355,13 +364,11 @@ function main {
 
   checks || abort 21
 
-  loadMetaInformation || abort 22
+  countRevisions || abort 22
 
-  countRevisions || abort 23
+  determineRepository || abort 23
 
-  determineRepository || abort 24
-
-  determineRevisions || abort 25
+  determineRevisions || abort 24
 
   createOutput || abort 26
 
