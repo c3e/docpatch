@@ -100,7 +100,7 @@ LIB_DIR="/usr/share/${PROJECT_NAME}"
 CONFIG_DIR="/etc/${PROJECT_NAME}"
 
 ## Path to temporary files:
-TMP_DIR="/tmp/${PROJECT_NAME}"
+TMP_DIR="/tmp"
 
 ## Path to examples (configuration and template files)
 EXAMPLE_DIR="/usr/share/doc/${PROJECT_NAME}/examples"

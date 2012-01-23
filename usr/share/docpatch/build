@@ -271,7 +271,7 @@ function addAndCommitAll {
   cd "$REPO_DIR"
 
   logdebug "Putting all files under version control..."
-  exe "$GIT add * --force"
+  exe "$GIT add --all --force"
   if [ "$?" -gt 0 ]; then
       logwarning "Cannot put all files under version control"
       logerror "Failed to put all files under version control and commit them."
@@ -298,9 +298,15 @@ function addAndCommitAll {
           return 1
         fi
     else
-      logdebug "Commit message: ${1}"
+      logdebug "Take commit message from command line."
 
-      exe "$GIT commit --all --message='$1'"
+      # TODO This is a workaround because using --message causes the git error
+      # "Paths with -a does not make sense."
+      logdebug "Writing message to file..."
+      local msg_file="${TMP_DIR}/${PID}_commit_msg"
+      exe "$ECHO $1 > $msg_file"
+
+      exe "$GIT commit --all --file $msg_file"
       if [ "$?" -gt 0 ]; then
           logwarning "Cannot commit files."
           logerror "Failed to put all files under version control and commit them."
@@ -309,7 +315,7 @@ function addAndCommitAll {
     fi
   logdebug "Commit was successful."
 
-  log "All files put under version control and committed."
+  logdebug "All files put under version control and committed."
   return 0
 }
 
