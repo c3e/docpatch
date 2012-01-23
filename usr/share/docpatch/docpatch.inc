@@ -152,7 +152,7 @@ function exe {
       local status="$?"
     else
       logdebug "Suppress output."
-      $1 1> /dev/null 2> /dev/null
+      $1 &> /dev/null
       local status="$?"
     fi
 
