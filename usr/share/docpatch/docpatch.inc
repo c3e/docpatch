@@ -35,7 +35,7 @@ function preChecks {
 
   logdebug "Checking references..."
   if [ ! -d "$REF_DIR" ]; then
-      logwarning"References not found under ${REF_DIR}."
+      logwarning "References not found under ${REF_DIR}."
       logerror "System checks failed."
       return 1
     fi
@@ -43,7 +43,7 @@ function preChecks {
 
   logdebug "Checking sources..."
   if [ ! -d "$SRC_DIR" ]; then
-      logwarning"Sources not found under ${SRC_DIR}."
+      logwarning "Sources not found under ${SRC_DIR}."
       logerror "System checks failed."
       return 1
     fi
@@ -51,7 +51,7 @@ function preChecks {
 
   logdebug "Checking meta information..."
   if [ ! -d "$META_DIR" ]; then
-      logwarning"Meta information not found ${META_DIR}."
+      logwarning "Meta information not found ${META_DIR}."
       logerror "System checks failed."
       return 1
     fi
@@ -59,7 +59,7 @@ function preChecks {
 
   logdebug "Checking special information..."
   if [ ! -d "$ETC_DIR" ]; then
-      logwarning"Special information not found under ${ETC_DIR}."
+      logwarning "Special information not found under ${ETC_DIR}."
       logerror "System checks failed."
       return 1
     fi
@@ -67,7 +67,7 @@ function preChecks {
 
   logdebug "Checking patches..."
   if [ ! -d "$PATCH_DIR" ]; then
-      logwarning"Patches not found under ${PATCH_DIR}."
+      logwarning "Patches not found under ${PATCH_DIR}."
       logerror "System checks failed."
       return 1
     fi
@@ -75,7 +75,7 @@ function preChecks {
 
   logdebug "Checking templates..."
   if [ ! -d "$TPL_DIR" ]; then
-      logwarning"Templates not found under ${TPL_DIR}."
+      logwarning "Templates not found under ${TPL_DIR}."
       logerror "System checks failed."
       return 1
     fi
@@ -83,7 +83,7 @@ function preChecks {
 
   logdebug "Checking libraries..."
   if [ ! -d "$LIB_DIR" ]; then
-      logwarning"Libraries not found under ${LIB_DIR}."
+      logwarning "Libraries not found under ${LIB_DIR}."
       logerror "System checks failed."
       return 1
     fi
@@ -98,7 +98,7 @@ function preChecks {
 
   logdebug "Checking examples..."
   if [ ! -d "$EXAMPLE_DIR" ]; then
-      logwarning"Examples not found under ${EXAMPLE_DIR}."
+      logwarning "Examples not found under ${EXAMPLE_DIR}."
       logerror "System checks failed."
       return 1
     fi
@@ -109,7 +109,7 @@ function preChecks {
       logdebug "Temporary directory not found. Create it."
       exe "$MKDIR -p $TPL_DIR"
       if [ "$?" -gt 0 ]; then
-          logwarning"Cannot create temporary directory under ${TPL_DIR}."
+          logwarning "Cannot create temporary directory under ${TPL_DIR}."
           logerror "System checks failed."
           return 1
         fi
@@ -131,7 +131,7 @@ function includeCommand {
   loginfo "Including command specific file..."
   local cmd_file="${LIB_DIR}/$1"
   if [ ! -r "$cmd_file" ]; then
-      logwarning"File $cmd_file does not exist or is not readable."
+      logwarning "File $cmd_file does not exist or is not readable."
       logerror "Cannot include command specific file."
       return 1
     fi
@@ -265,7 +265,7 @@ function cleanUp {
   logdebug "Removing temporary files..."
   exe "$RM -f ${TMP_DIR}/${PID}_*"
   if [ $? -gt 0 ]; then
-      logwarning"Cannot remove temporary files."
+      logwarning "Cannot remove temporary files."
       logerror "Failed to clean up."
       return 1
     fi
@@ -277,7 +277,7 @@ function cleanUp {
       logdebug "Checking out master branch..."
       exe "$GIT checkout master"
       if [ "$?" -gt 0 ]; then
-          logwarning"Cannot check out master branch."
+          logwarning "Cannot check out master branch."
           logerror "Failed to clean up."
           return 1
         fi
@@ -322,7 +322,7 @@ function applyNiceLevel {
 
   exe "$RENICE $NICE_LEVEL $PID"
   if [ "$?" -gt 0 ]; then
-      logwarning"Re-nice failed."
+      logwarning "Re-nice failed."
       logerror "Failed to apply nice level."
       return 1
     fi
@@ -425,7 +425,7 @@ function printLicense {
         fi
     done
 
-  logwarning"Cannot find any fitting license text on this system."
+  logwarning "Cannot find any fitting license text on this system."
   logerror "Failed to print license. But it's the GPL3+."
   return 1
 }
