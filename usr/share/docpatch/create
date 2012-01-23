@@ -175,7 +175,7 @@ function determineRevisions {
     elif [ "$REVISION" == "all" ]; then
       logdebug "All revisions selected."
 
-      for (( rev=1; rev < "$REVISIONS"; rev++ )); do
+      for (( rev=0; rev < "$REVISIONS"; rev++ )); do
           if [ "$rev" -lt 0 ]; then
               logwarning"Inproperly named revision found: $rev"
               logerror "Failed to determine revisions."
@@ -305,7 +305,7 @@ function produceEPUB {
   # TODO create metadata.xml
   # TODO --epub-metadata=tpl/metadata.xml --epub-cover-image=tpl/test.png
 
-  local output_file="${OUTPUT_DIR}/${TITLE}_${1}_${DATE}.epub"
+  local output_file="${OUTPUT_DIR}/${IDENTIFIER}.epub"
   logdebug "Producing file..."
   exe "$PANDOC --from=markdown --toc --output='$output_file' --smart ${REPO_DIR}/*.md"
   if [ "$?" -gt 0 ]; then
@@ -335,7 +335,7 @@ function producePDF {
       logdebug "No template file found under ${tpl_file}."
     fi
 
-  local output_file="${OUTPUT_DIR}/${TITLE}_${1}_${DATE}.pdf"
+  local output_file="${OUTPUT_DIR}/${IDENTIFIER}.pdf"
   logdebug "Producing file..."
   exe "$MARKDOWN2PDF --from=markdown --toc $tpl_option --output='$output_file' ${REPO_DIR}/*.md"
   if [ "$?" -gt 0 ]; then
@@ -355,7 +355,7 @@ function producePDF {
 function produceText {
   loginfo "Producing plaintext..."
 
-  local output_file="${OUTPUT_DIR}/${TITLE}_${1}_${DATE}.txt"
+  local output_file="${OUTPUT_DIR}/${IDENTIFIER}.txt"
   logdebug "Producing file..."
   exe "$PANDOC --from=markdown --output='$output_file' --to=plain --standalone ${REPO_DIR}/*.md"
   if [ "$?" -gt 0 ]; then

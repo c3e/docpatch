@@ -31,6 +31,12 @@
     * Copy to $TMP_DIR/*.txt
 
 
+## Create
+
+* Handle non-numeric revisions.
+* Reduce code overhead for each format.
+
+
 ## Checks
 
 * Look for FIXMEs and TODOs and DELETEMEs
