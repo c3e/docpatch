@@ -1,0 +1,27 @@
+## Supported formats
+
+## Name		File Extension	Standalone	Smart
+native		.pandoc		-1
+json		.json		-1
+html		.html		1		1
+html+lhs	.html		1		1
+s5		.html		1
+slidy		.html		1
+docbook		.db		1
+opendocument	.xml		1
+latex		.tex		1
+latex+lhs	.tex		1
+context		.tex		1
+texinfo		.texi		1
+man		.gz		1
+markdown	.md		-1
+markdown+lhs	.md		-1
+plain		.txt		-1
+rst		.text		1
+rst+lhs		.text		1
+mediawiki	.wiki		1
+textile		.textile	1
+rtf		.rtf		1
+org		.org		1
+odt		.odt		-1
+epub		.epub		-1
