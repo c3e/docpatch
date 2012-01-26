@@ -148,11 +148,11 @@ function exe {
 
   let "relevant = (($LOG_DEBUG & $VERBOSITY))"
   if [ "$relevant" -gt 0 ]; then
-      $1
+      eval $1
       local status="$?"
     else
       logdebug "Suppress output."
-      $1 &> /dev/null
+      eval $1 &> /dev/null
       local status="$?"
     fi
 
