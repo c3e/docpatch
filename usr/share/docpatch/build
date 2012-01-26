@@ -23,7 +23,7 @@
 ##
 
 
-## About this command
+## About this command:
 COMMAND_DESC="$COMMAND_BUILD"
 
 
@@ -116,7 +116,7 @@ function createMetaInformation {
   if [ ! -r "$README_SOURCE" ]; then
       lognotice "README file under $README_SOURCE is missing. Please consider creating it before building the repository."
     else
-      exe "$PANDOC --from markdown --to text $README_SOURCE > $README_TARGET"
+      exe "$PANDOC --from $INPUT_FORMAT --to text $README_SOURCE > $README_TARGET"
       if [ "$?" -gt 0 ]; then
           logwarning "Cannot copy $README_SOURCE to ${README_TARGET}."
           logerror "Failed to create meta information."
@@ -397,10 +397,10 @@ function countPatches {
 function copyDocuments {
   loginfo "Copying documents..."
 
-  logdebug "Source files: ${SRC_DIR}/*.md"
+  logdebug "Source files: ${SRC_DIR}/*$INPUT_FORMAT_EXT"
   logdebug "Target directory: $REPO_DIR"
 
-  exe "$CP ${SRC_DIR}/*.md $REPO_DIR"
+  exe "$CP ${SRC_DIR}/*$INPUT_FORMAT_EXT $REPO_DIR"
   if [ "$?" -gt 0 ]; then
       logerror "Failed to copy documents."
       return 1
@@ -413,12 +413,6 @@ function copyDocuments {
 
 ## Main method
 function main {
-  # Before work:
-  preChecks || abort 10
-
-  # Main work:
-  lognotice "$COMMAND_DESC"
-
   checks || abort 11
 
   createRepo || abort 12
@@ -436,10 +430,6 @@ function main {
 
   lognotice "Importing revisions..."
   createRevisions || abort 18
-
-  # After work:
-  cleanUp || abort 19
-  finishing
 }
 
 

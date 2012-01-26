@@ -106,6 +106,9 @@ TMP_DIR="/tmp"
 ## Path to examples (configuration and template files)
 EXAMPLE_DIR="/usr/share/doc/${PROJECT_NAME}/examples"
 
+## Path to file with information about output formats:
+OUTPUT_FORMAT_FILE="${LIB_DIR}/output_formats.txt"
+
 
 ##
 ## Logging and output
@@ -129,6 +132,7 @@ LOG_LEVEL=$LOG_NONE
 
 ## Verbose level:
 VERBOSITY=$(($LOG_FATAL | $LOG_ERROR))
+
 
 ##
 ## Meta information
@@ -178,6 +182,12 @@ README_TARGET="${REPO_DIR}/README"
 ## Runtime settings
 ##
 
+## Input format:
+INPUT_FORMAT="markdown"
+
+## File extension of input format:
+INPUT_FORMAT_EXT=".md"
+
 ## Output format:
 OUTPUT_FORMAT="pdf"
 
@@ -198,6 +208,12 @@ REPOSITORY=""
 
 ## Add OpenPGP signature taken from git configuration file:
 SIGN=0
+
+## Prints table of contents (TOC) to output:
+TOC=0
+
+## Embed output format (otherwise create standalone version):
+EMBED=0
 
 ## Own nice level:
 NICE_LEVEL=0

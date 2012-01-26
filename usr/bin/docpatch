@@ -102,8 +102,8 @@ trap 'logwarning "Caught SIGTERM." ; abort 115' 15
 ## Process given options and arguments
 loginfo "Process given options and arguments..."
 ARGS=`"$GETOPT" \
--o qvVDhf:r:R:s \
---long help,version,license,format:,output:,rev:,revision:,repo:,repository:,sign -- "$@" 2> /dev/null`
+-o qvVDhef:r:R:s:t \
+--long help,version,license,embed,embedded,format:,output:,rev:,revision:,repo:,repository:,sign,toc -- "$@" 2> /dev/null`
 
 if [ $? != 0 -o "$#" = 0 ]; then
     logwarning "Bad request."
@@ -152,6 +152,10 @@ while true ; do
           PRINT_LICENSE=1;
           shift;;
     # Options:
+        -e|--embed|--embedded)
+          logdebug "Set EMBEDDED=1"
+          EMBEDDED=1;
+          shift 1;;
         -f|--format|--output)
           logdebug "Set OUTPUT_FORMAT=$2"
           OUTPUT_FORMAT="$2";
@@ -167,6 +171,10 @@ while true ; do
         -s|--sign)
           logdebug "Set SIGN=1"
           SIGN=1;
+          shift;;
+        -t|--toc)
+          logdebug "Set TOC=1"
+          TOC=1;
           shift;;
         --)
           shift;
@@ -243,5 +251,16 @@ if [ -z "$COMMAND" ]; then
     printUsage
     abort 5
   else
+    # Before work
+    if [ "$COMMAND" != "help" ]; then
+        preChecks || abort 5
+
+        lognotice "$COMMAND_DESC"
+      fi
+
+    # Main work
     main
+
+    # After work
+    finishing
   fi

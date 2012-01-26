@@ -41,8 +41,6 @@ function main {
       abort 1
     fi
   logdebug "Man page called."
-
-  finishing
 }
 
 

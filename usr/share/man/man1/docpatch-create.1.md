@@ -36,7 +36,7 @@ FIXME
 # OPTIONS
 
 -f, \--format, \--output *FORMAT*
-:   Select output format *FORMAT*. Supported formats are "epub", "man", "pdf", and "text". Defaults to "pdf".
+:   Select output format *FORMAT*. Supported formats are "epub", "html", "man", "pdf", and "text". Defaults to "pdf".
 
 -r, \--rev, \--revision *REV*
 :   Generate output from revision *REV*. "first", "last", "all" and a comma separated list of revisions are allowed. Defaults to "0".

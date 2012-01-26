@@ -23,10 +23,12 @@
 ##
 
 
-## About this command
+## About this command:
 COMMAND_DESC="$COMMAND_CREATE"
 
-SUPPORTED_FORMATS="epub man pdf text"
+
+## 'pdf' is one more supported output format:
+SUPPORTED_FORMATS="epub html man pdf text"
 
 
 ## Checks wether everything is prepared before creating output.
@@ -63,6 +65,30 @@ function checks {
   logdebug "Format verified: $OUTPUT_FORMAT"
 
   logdebug "Checks succeded."
+  return 0
+}
+
+
+## Fetches supported output formats:
+## FIXME Parse and match output_formats.txt
+function fetchSupportedOutputFormats {
+  loginfo "Fetching supported output formats..."
+
+  logdebug "Fetching raw formats..."
+  local formats=`"$PANDOC" --help | "$GREP" 'Output formats' | "$AWK" 'BEGIN{FS="  "}{print $NF}'`
+
+  logdebug "Parsing formats..."
+  IFS=", "
+  for supported_format in $formats; do
+      if [ -n "$SUPPORTED_FORMATS" ]; then
+          SUPPORTED_FORMATS="$SUPPORTED_FORMATS "
+        fi
+      $SUPPORTED_FORMATS="${SUPPORTED_FORMATS}$supported_format"
+      logdebug "Appended output format $supported_format to list."
+    done
+  unset IFS
+
+  logdebug "Fetched supported output formats."
   return 0
 }
 
@@ -269,18 +295,21 @@ function createOutput {
           "epub")
             produceEPUB "$REVISION"
             local status="$?";;
-          "pdf")
-            producePDF "$REVISION"
+          "html")
+            produceManPage "$REVISION"
             local status="$?";;
           "man")
             produceManPage "$REVISION"
+            local status="$?";;
+          "pdf")
+            producePDF "$REVISION"
             local status="$?";;
           "text")
             produceText "$REVISION"
             local status="$?";;
           *) logerror "Internal error."; return 1;;
         esac
-      if [ "$?" -gt 0 ]; then
+      if [ "$status" -gt 0 ]; then
           logwarning"Cannot handle revision ${REVISION}."
           logerror "Failed to create output."
           return 1
@@ -305,7 +334,7 @@ function produceEPUB {
 
   local output_file="${OUTPUT_DIR}/${IDENTIFIER}.epub"
   logdebug "Producing file..."
-  exe "$PANDOC --from=markdown --toc --output=$output_file --smart ${REPO_DIR}/*.md"
+  exe "$PANDOC --from=$INPUT_FORMAT --toc --output=$output_file --smart ${REPO_DIR}/*$INPUT_FORMAT_EXT"
   if [ "$?" -gt 0 ]; then
       logwarning "Cannot produce file ${output_file}."
       logerror "Failed to produce EPUB."
@@ -314,6 +343,46 @@ function produceEPUB {
   logdebug "Wrote content to file ${output_file}."
 
   logdebug "EPUB produced."
+  return 0
+}
+
+
+## Produces HTML.
+##   $1 Revision
+function produceHTML {
+  loginfo "Producing HTML..."
+
+  local output_file="${OUTPUT_DIR}/${IDENTIFIER}.html"
+  logdebug "Producing file..."
+  exe "$PANDOC --from=$INPUT_FORMAT --to=html --toc --standalone --smart --output=$output_file ${REPO_DIR}/*$INPUT_FORMAT_EXT"
+  if [ "$?" -gt 0 ]; then
+      logwarning "Cannot produce file ${output_file}."
+      logerror "Failed to produce HTML."
+      return 1
+    fi
+  logdebug "Wrote content to file ${output_file}."
+
+  logdebug "HTML produced."
+  return 0
+}
+
+
+## Produces man page.
+##   $1 Revision
+function produceManPage {
+  loginfo "Producing man page..."
+
+  local output_file="${OUTPUT_DIR}/${IDENTIFIER}.txt"
+  logdebug "Producing file..."
+  exe "$PANDOC --from=$INPUT_FORMAT --to=man --standalone ${REPO_DIR}/*$INPUT_FORMAT_EXT | $GZIP -c > ${output_file}.1.gz"
+  if [ "$?" -gt 0 ]; then
+      logwarning "Cannot produce file ${output_file}."
+      logerror "Failed to produce man page."
+      return 1
+    fi
+  logdebug "Wrote content to file ${output_file}."
+
+  logdebug "Man page produced."
   return 0
 }
 
@@ -335,7 +404,7 @@ function producePDF {
 
   local output_file="${OUTPUT_DIR}/${IDENTIFIER}.pdf"
   logdebug "Producing file..."
-  exe "$MARKDOWN2PDF --from=markdown --toc $tpl_option --output=$output_file ${REPO_DIR}/*.md"
+  exe "$MARKDOWN2PDF --from=$INPUT_FORMAT --toc $tpl_option --output=$output_file ${REPO_DIR}/*$INPUT_FORMAT_EXT"
   if [ "$?" -gt 0 ]; then
       logwarning "Cannot produce file ${output_file}."
       logerror "Failed to produce PDF."
@@ -355,7 +424,7 @@ function produceText {
 
   local output_file="${OUTPUT_DIR}/${IDENTIFIER}.txt"
   logdebug "Producing file..."
-  exe "$PANDOC --from=markdown --output=$output_file --to=plain --standalone ${REPO_DIR}/*.md"
+  exe "$PANDOC --from=$INPUT_FORMAT --output=$output_file --to=plain --standalone ${REPO_DIR}/*$INPUT_FORMAT_EXT"
   if [ "$?" -gt 0 ]; then
       logwarning "Cannot produce file ${output_file}."
       logerror "Failed to produce plaintext."
@@ -368,34 +437,8 @@ function produceText {
 }
 
 
-## Produces man page.
-##   $1 Revision
-function produceManPage {
-  loginfo "Producing man page..."
-
-  local output_file="${OUTPUT_DIR}/${IDENTIFIER}.txt"
-  logdebug "Producing file..."
-  exe "$PANDOC --from=markdown --to=man --standalone ${REPO_DIR}/*.md | $GZIP -c > ${output_file}.1.gz"
-  if [ "$?" -gt 0 ]; then
-      logwarning "Cannot produce file ${output_file}."
-      logerror "Failed to produce man page."
-      return 1
-    fi
-  logdebug "Wrote content to file ${output_file}."
-
-  logdebug "Man page produced."
-  return 0
-}
-
-
 ## Main method
 function main {
-  # Before work
-  preChecks || abort 20
-
-  # Main work
-  lognotice "$COMMAND_DESC"
-
   checks || abort 21
 
   countRevisions || abort 22
@@ -404,10 +447,9 @@ function main {
 
   determineRevisions || abort 24
 
-  createOutput || abort 26
+  #fetchSupportedOutputFormats || abort 25
 
-  # After work
-  finishing
+  createOutput || abort 26
 }
 
 
