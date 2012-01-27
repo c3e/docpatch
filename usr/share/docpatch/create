@@ -296,7 +296,7 @@ function createOutput {
             produceEPUB "$REVISION"
             local status="$?";;
           "html")
-            produceManPage "$REVISION"
+            produceHTML "$REVISION"
             local status="$?";;
           "man")
             produceManPage "$REVISION"
