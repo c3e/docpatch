@@ -5,7 +5,7 @@
 
 ## Meta information
 
-* Use meta information to create output.
+* Use a format which is better machine-readable like JSON.
 
 
 ## Documentation
@@ -34,7 +34,6 @@
 ## Create
 
 * Handle non-numeric revisions.
-* Reduce code overhead for each format.
 
 
 ## Checks

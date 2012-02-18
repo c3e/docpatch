@@ -78,7 +78,7 @@ function fetchSupportedOutputFormats {
       if [ -n "$SUPPORTED_FORMATS" ]; then
           SUPPORTED_FORMATS="$SUPPORTED_FORMATS "
         fi
-      $SUPPORTED_FORMATS="${SUPPORTED_FORMATS}$supported_format"
+      SUPPORTED_FORMATS="${SUPPORTED_FORMATS}$supported_format"
       logdebug "Appended output format $supported_format to list."
     done < <(cat "$OUTPUT_FORMAT_FILE" | grep -v '^#' | grep -v '^$' | awk '{print $1}')
 
@@ -289,18 +289,12 @@ function createOutput {
           "epub")
             produceEPUB
             local status="$?";;
-          #"html")
-          #  produceHTML
-          #  local status="$?";;
           "man")
             produceManPage
             local status="$?";;
           "pdf")
             producePDF
             local status="$?";;
-          #"text")
-          #  produceText
-          #  local status="$?";;
           *)
             produceGeneric "$OUTPUT_FORMAT"
             local status="$?";;
@@ -319,6 +313,9 @@ function createOutput {
   return 0
 }
 
+
+## Produces a file (the generic way).
+##   $1 Output format
 function produceGeneric {
   local $output_format="$1"
   loginfo "Producing ${output_format}..."
@@ -470,26 +467,6 @@ function produceEPUB {
 }
 
 
-## Produces HTML.
-## TODO DELETEME
-function produceHTML {
-  loginfo "Producing HTML..."
-
-  local output_file="${OUTPUT_DIR}/${IDENTIFIER}.html"
-  logdebug "Producing file..."
-  exe "$PANDOC --from=$INPUT_FORMAT --to=html --toc --standalone --smart --output=$output_file ${REPO_DIR}/*$INPUT_FORMAT_EXT"
-  if [ "$?" -gt 0 ]; then
-      logwarning "Cannot produce file ${output_file}."
-      logerror "Failed to produce HTML."
-      return 1
-    fi
-  logdebug "Wrote content to file ${output_file}."
-
-  logdebug "HTML produced."
-  return 0
-}
-
-
 ## Produces man page.
 function produceManPage {
   loginfo "Producing man page..."
@@ -538,31 +515,11 @@ function producePDF {
 }
 
 
-## Produces plaintext files.
-## TODO DELETEME
-function produceText {
-  loginfo "Producing plaintext..."
-
-  local output_file="${OUTPUT_DIR}/${IDENTIFIER}.txt"
-  logdebug "Producing file..."
-  exe "$PANDOC --from=$INPUT_FORMAT --output=$output_file --to=plain --standalone ${REPO_DIR}/*$INPUT_FORMAT_EXT"
-  if [ "$?" -gt 0 ]; then
-      logwarning "Cannot produce file ${output_file}."
-      logerror "Failed to produce plaintext."
-      return 1
-    fi
-  logdebug "Wrote content to file ${output_file}."
-
-  logdebug "Plaintext produced."
-  return 0
-}
-
-
 ## Main method
 function main {
-  checks || abort 21
+  fetchSupportedOutputFormats || abort 21
 
-  fetchSupportedOutputFormats || abort 22
+  checks || abort 22
 
   countRevisions || abort 23
 
@@ -588,12 +545,12 @@ function printCommandOptions {
       formats="${formats}'$format'"
     done
 
-  prntLn "    -f, --format, --output\t\tSelect output format FORMAT. Supported formats are ${formats}. Defaults to 'pdf'."
+  prntLn "    -f, --format, --output FORMAT\tSelect output format FORMAT. Supported formats are ${formats}. Defaults to 'pdf'."
   prntLn "    -e, --embed, --embedded\t\tCreate an embedded version."
   prntLn "    -r, --rev, --revision REV\t\tGenerate output from revision REV. 'first', 'last', 'all' and a comma separated list of revisions are allowed. Defaults to 0."
   prntLn "    -R, --repo, --repository REPO\tSelect repository REPO which will be cloned. Defaults to existing repository under ${REPO_DIR}."
   prntLn "    -S, --simple, --not-smart\t\tDo not create a smart version."
-  prntLn "    -t, --toc\t\t\tAdd table of contents (TOC)."
+  prntLn "    -t, --toc\t\t\t\tAdd table of contents (TOC)."
 
   logdebug "Options printed."
   return 0
