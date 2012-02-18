@@ -80,7 +80,7 @@ function fetchSupportedOutputFormats {
         fi
       $SUPPORTED_FORMATS="${SUPPORTED_FORMATS}$supported_format"
       logdebug "Appended output format $supported_format to list."
-    done < "$CAT" "$OUTPUT_FORMAT_FILE" | "$GREP" -v '^#' | "$GREP" -v '^$' | "$AWK" '{print $1}'
+    done < `"$CAT" "$OUTPUT_FORMAT_FILE" | "$GREP" -v '^#' | "$GREP" -v '^$' | "$AWK" '{print $1}'`
 
   logdebug "Fetched supported output formats from ${OUTPUT_FORMAT_FILE}."
   return 0
@@ -562,13 +562,13 @@ function produceText {
 function main {
   checks || abort 21
 
-  countRevisions || abort 22
+  fetchSupportedOutputFormats || abort 22
 
-  determineRepository || abort 23
+  countRevisions || abort 23
 
-  determineRevisions || abort 24
+  determineRepository || abort 24
 
-  #fetchSupportedOutputFormats || abort 25
+  determineRevisions || abort 25
 
   createOutput || abort 26
 }
@@ -577,6 +577,8 @@ function main {
 ## Prints command specific options.
 function printCommandOptions {
   loginfo "Printing command specific options..."
+
+  fetchSupportedOutputFormats || return 1
 
   local formats=""
   for format in $SUPPORTED_FORMATS; do
