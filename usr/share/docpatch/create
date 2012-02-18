@@ -333,7 +333,7 @@ function produceGeneric {
       logdebug "Create embedded version."
   elif [ "$EMBED" -eq 0 -a "$standalone_support" -eq 1 ]; then
       logdebug "Create standalone version."
-      arg_standalone="--standalone"
+      arg_standalone=" --standalone"
     fi
 
   logdebug "Determining wether to use smart option or not..."
@@ -345,7 +345,7 @@ function produceGeneric {
       logdebug "Create simple version."
   elif [ "$SIMPLE" -eq 0 -a "$smart_support" -eq 1 ]; then
       logdebug "Create smart version."
-      arg_smart="--smart"
+      arg_smart=" --smart"
     fi
 
   logdebug "Determining wether to add table of contents..."
@@ -355,7 +355,7 @@ function produceGeneric {
       logdebug "Do not add table of contents."
   else
       logdebug "Add table of contents."
-      arg_toc="--toc"
+      arg_toc=" --toc"
     fi
 
   local output_file="${OUTPUT_DIR}/${IDENTIFIER}$file_extension"
