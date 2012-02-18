@@ -212,8 +212,12 @@ SIGN=0
 ## Prints table of contents (TOC) to output:
 TOC=0
 
-## Embed output format (otherwise create standalone version):
+## Embed output format (otherwise create standalone version if supported):
 EMBED=0
+
+## Use simple mode to create output (otherwise create smart version if
+## supported)
+SIMPLE=0
 
 ## Own nice level:
 NICE_LEVEL=0

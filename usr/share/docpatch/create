@@ -28,7 +28,7 @@ COMMAND_DESC="$COMMAND_CREATE"
 
 
 ## 'pdf' is one more supported output format:
-SUPPORTED_FORMATS="epub html man pdf text"
+SUPPORTED_FORMATS="pdf"
 
 
 ## Checks wether everything is prepared before creating output.
@@ -70,25 +70,19 @@ function checks {
 
 
 ## Fetches supported output formats:
-## FIXME Parse and match output_formats.txt
 function fetchSupportedOutputFormats {
   loginfo "Fetching supported output formats..."
 
-  logdebug "Fetching raw formats..."
-  local formats=`"$PANDOC" --help | "$GREP" 'Output formats' | "$AWK" 'BEGIN{FS="  "}{print $NF}'`
-
   logdebug "Parsing formats..."
-  IFS=", "
-  for supported_format in $formats; do
+  while read supported_format; do
       if [ -n "$SUPPORTED_FORMATS" ]; then
           SUPPORTED_FORMATS="$SUPPORTED_FORMATS "
         fi
       $SUPPORTED_FORMATS="${SUPPORTED_FORMATS}$supported_format"
       logdebug "Appended output format $supported_format to list."
-    done
-  unset IFS
+    done < "$CAT" "$OUTPUT_FORMAT_FILE" | "$GREP" -v '^#' | "$GREP" -v '^$' | "$AWK" '{print $1}'
 
-  logdebug "Fetched supported output formats."
+  logdebug "Fetched supported output formats from ${OUTPUT_FORMAT_FILE}."
   return 0
 }
 
@@ -293,21 +287,23 @@ function createOutput {
       local status=0
       case "$OUTPUT_FORMAT" in
           "epub")
-            produceEPUB "$REVISION"
+            produceEPUB
             local status="$?";;
-          "html")
-            produceHTML "$REVISION"
-            local status="$?";;
+          #"html")
+          #  produceHTML
+          #  local status="$?";;
           "man")
-            produceManPage "$REVISION"
+            produceManPage
             local status="$?";;
           "pdf")
-            producePDF "$REVISION"
+            producePDF
             local status="$?";;
-          "text")
-            produceText "$REVISION"
+          #"text")
+          #  produceText
+          #  local status="$?";;
+          *)
+            produceGeneric "$OUTPUT_FORMAT"
             local status="$?";;
-          *) logerror "Internal error."; return 1;;
         esac
       if [ "$status" -gt 0 ]; then
           logwarning"Cannot handle revision ${REVISION}."
@@ -323,18 +319,145 @@ function createOutput {
   return 0
 }
 
+function produceGeneric {
+  local $output_format="$1"
+  loginfo "Producing ${output_format}..."
+
+  logdebug "Determining file extension..."
+  local $file_extension=`"$CAT" "$OUTPUT_FORMAT_FILE" | "$GREP" "$output_format" | "$AWK" '{print $2}'`
+  logdebug "File extension is $file_extension"
+
+  logdebug "Determining wether standalone or embedded version will be created..."
+  local $standalone_support=`"$CAT" "$OUTPUT_FORMAT_FILE" | "$GREP" "$output_format" | "$AWK" '{print $3}'`
+  local $arg_standalone=""
+  if [ "$EMBED" -eq 1 -o "$standalone_support" -eq -1 ]; then
+      logdebug "Create embedded version."
+  elif [ "$EMBED" -eq 0 -a "$standalone_support" -eq 0 ]; then
+      logdebug "Create embedded version."
+  elif [ "$EMBED" -eq 0 -a "$standalone_support" -eq 1 ]; then
+      logdebug "Create standalone version."
+      arg_standalone="--standalone"
+    fi
+
+  logdebug "Determining wether to use smart option or not..."
+  local $smart_support=`"$CAT" "$OUTPUT_FORMAT_FILE" | "$GREP" "$output_format" | "$AWK" '{print $4}'`
+  local $arg_smart=""
+  if [ "$SIMPLE" -eq 1 -o "$smart_support" -eq -1 ]; then
+      logdebug "Create simple version."
+  elif [ "$SIMPLE" -eq 0 -a "$smart_support" -eq 0 ]; then
+      logdebug "Create simple version."
+  elif [ "$SIMPLE" -eq 0 -a "$smart_support" -eq 1 ]; then
+      logdebug "Create smart version."
+      arg_smart="--smart"
+    fi
+
+  logdebug "Determining wether to add table of contents..."
+  local $toc_support=`"$CAT" "$OUTPUT_FORMAT_FILE" | "$GREP" "$output_format" | "$AWK" '{print $5}'`
+  local $arg_toc=""
+  if [ "$TOC" -eq 0 -o "$smart_support" -eq -1 ]; then
+      logdebug "Do not add table of contents."
+  else
+      logdebug "Add table of contents."
+      arg_toc="--toc"
+    fi
+
+  local output_file="${OUTPUT_DIR}/${IDENTIFIER}.$file_extension"
+  logdebug "Producing file..."
+  exe "$PANDOC --from=$INPUT_FORMAT --to=${1}${arg_standalone}${arg_smart}${arg_toc} --output=$output_file ${REPO_DIR}/*$INPUT_FORMAT_EXT"
+  if [ "$?" -gt 0 ]; then
+      logwarning "Cannot produce file ${output_file}."
+      logerror "Failed to produce ${output_format}."
+      return 1
+    fi
+  logdebug "Wrote content to file ${output_file}."
+
+  logdebug "Produced ${output_format}."
+  return 0
+}
+
 
 ## Produces EPUB file.
-##   $1 Revision
+## TODO Support epub tempplate files and cover image.
 function produceEPUB {
   loginfo "Producing EPUB..."
 
-  # TODO create metadata.xml
-  # TODO --epub-metadata=tpl/metadata.xml --epub-cover-image=tpl/test.png
+  logdebug "Creating meta information..."
+  local meta_file="${TPL_DIR}/metadata.xml"
+  logdebug "Cleaning up meta information..."
+  exe "$RM -f $meta_file && touch $meta_file"
+  if [ "$?" -gt 0 ]; then
+      logwarning "Cannot clean up meta information under ${meta_file}."
+      logerror "Failed to produce EPUB."
+      return 1
+    fi
+  logdebug "Cleaned up meta information."
+  logdebug "Updating meta information..."
+  if [ -n "$CONTRIBUTOR" ]; then
+      loginfo "Contributor is: $CONTRIBUTOR"
+      "$ECHO" "<dc:contributor>${CONTRIBUTOR}</dc:contributor>" > $meta_file
+    fi
+  if [ -n "$COVERAGE" ]; then
+      loginfo "Coverage is: $COVERAGE"
+      "$ECHO" "<dc:coverage>${COVERAGE}</dc:coverage>" > $meta_file
+    fi
+  if [ -n "$CREATOR" ]; then
+      loginfo "Creator is: $CREATOR"
+      "$ECHO" "<dc:creator>${CREATOR}</dc:creator>" > $meta_file
+    fi
+  if [ -n "$DATE" ]; then
+      loginfo "Date is: $DATE"
+      "$ECHO" "<dc:date>${DATE}</dc:date>" > $meta_file
+    fi
+  if [ -n "$DESCRIPTION" ]; then
+      loginfo "Description is: $DESCRIPTION"
+      "$ECHO" "<dc:description>${DESCRIPTION}</dc:description>" > $meta_file
+    fi
+  if [ -n "$FORMAT" ]; then
+      loginfo "Format is: $FORMAT"
+      "$ECHO" "<dc:format>${FORMAT}</dc:format>" > $meta_file
+    fi
+  if [ -n "$IDENTIFIER" ]; then
+      loginfo "Identifier is: $IDENTIFIER"
+      "$ECHO" "<dc:identifier>${IDENTIFIER}</dc:identifier>" > $meta_file
+    fi
+  if [ -n "$LANGUAGE" ]; then
+      loginfo "Language is: $LANGUAGE"
+      "$ECHO" "<dc:language>${LANGUAGE}</dc:language>" > $meta_file
+    fi
+  if [ -n "$PUBLISHER" ]; then
+      loginfo "Publisher is: $PUBLISHER"
+      "$ECHO" "<dc:publisher>${PUBLISHER}</dc:publisher>" > $meta_file
+    fi
+  if [ -n "$RELATION" ]; then
+      loginfo "Relation is: $RELATION"
+      "$ECHO" "<dc:relation>${RELATION}</dc:relation>" > $meta_file
+    fi
+  if [ -n "$RIGHTS" ]; then
+      loginfo "Rights is: $RIGHTS"
+      "$ECHO" "<dc:rights>${RIGHTS}</dc:rights>" > $meta_file
+    fi
+  if [ -n "$SOURCE" ]; then
+      loginfo "Source is: $SOURCE"
+      "$ECHO" "<dc:source>${SOURCE}</dc:source>" > $meta_file
+    fi
+  if [ -n "$SUBJECT" ]; then
+      loginfo "Subject is: $SUBJECT"
+      "$ECHO" "<dc:subject>${SUBJECT}</dc:subject>" > $meta_file
+    fi
+  if [ -n "$TITLE" ]; then
+      loginfo "Title is: $TITLE"
+      "$ECHO" "<dc:title>${TITLE}</dc:title>" > $meta_file
+    fi
+  if [ -n "$TYPE" ]; then
+      loginfo "Type is: $TYPE"
+      "$ECHO" "<dc:type>${TYPE}</dc:type>" > $meta_file
+    fi
+  logdebug "Updated meta information."
+  logdebug "Produced meta information under ${meta_file}."
 
   local output_file="${OUTPUT_DIR}/${IDENTIFIER}.epub"
   logdebug "Producing file..."
-  exe "$PANDOC --from=$INPUT_FORMAT --toc --output=$output_file --smart ${REPO_DIR}/*$INPUT_FORMAT_EXT"
+  exe "$PANDOC --from=$INPUT_FORMAT --toc --output=$output_file --smart --epub-metadata=$meta_file ${REPO_DIR}/*$INPUT_FORMAT_EXT"
   if [ "$?" -gt 0 ]; then
       logwarning "Cannot produce file ${output_file}."
       logerror "Failed to produce EPUB."
@@ -348,7 +471,7 @@ function produceEPUB {
 
 
 ## Produces HTML.
-##   $1 Revision
+## TODO DELETEME
 function produceHTML {
   loginfo "Producing HTML..."
 
@@ -368,7 +491,6 @@ function produceHTML {
 
 
 ## Produces man page.
-##   $1 Revision
 function produceManPage {
   loginfo "Producing man page..."
 
@@ -388,7 +510,6 @@ function produceManPage {
 
 
 ## Produces PDF file.
-##   $1 Revision
 function producePDF {
   loginfo "Producing PDF..."
 
@@ -418,7 +539,7 @@ function producePDF {
 
 
 ## Produces plaintext files.
-##   $1 Revision
+## TODO DELETEME
 function produceText {
   loginfo "Producing plaintext..."
 

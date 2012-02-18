@@ -102,8 +102,8 @@ trap 'logwarning "Caught SIGTERM." ; abort 115' 15
 ## Process given options and arguments
 loginfo "Process given options and arguments..."
 ARGS=`"$GETOPT" \
--o qvVDhef:r:R:s:t \
---long help,version,license,embed,embedded,format:,output:,rev:,revision:,repo:,repository:,sign,toc -- "$@" 2> /dev/null`
+-o qvVDhef:r:R:s:St \
+--long help,version,license,embed,embedded,format:,not-smart,output:,rev:,revision:,repo:,repository:,sign,simple,toc -- "$@" 2> /dev/null`
 
 if [ $? != 0 -o "$#" = 0 ]; then
     logwarning "Bad request."
@@ -155,6 +155,10 @@ while true ; do
         -e|--embed|--embedded)
           logdebug "Set EMBEDDED=1"
           EMBEDDED=1;
+          shift 1;;
+        -S|--simple|--not-smart)
+          logdebug "Set SIMPLE=1"
+          SIMPLE=1;
           shift 1;;
         -f|--format|--output)
           logdebug "Set OUTPUT_FORMAT=$2"
