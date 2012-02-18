@@ -80,7 +80,7 @@ function fetchSupportedOutputFormats {
         fi
       $SUPPORTED_FORMATS="${SUPPORTED_FORMATS}$supported_format"
       logdebug "Appended output format $supported_format to list."
-    done < `"$CAT" "$OUTPUT_FORMAT_FILE" | "$GREP" -v '^#' | "$GREP" -v '^$' | "$AWK" '{print $1}'`
+    done < <(cat "$OUTPUT_FORMAT_FILE" | grep -v '^#' | grep -v '^$' | awk '{print $1}')
 
   logdebug "Fetched supported output formats from ${OUTPUT_FORMAT_FILE}."
   return 0
@@ -582,15 +582,18 @@ function printCommandOptions {
 
   local formats=""
   for format in $SUPPORTED_FORMATS; do
-      if [ -n $formats ]; then
-          $formats="${formats}, "
+      if [ -n "$formats" ]; then
+          formats="${formats}, "
         fi
-      $formats="${formats}'$format'"
+      formats="${formats}'$format'"
     done
 
   prntLn "    -f, --format, --output\t\tSelect output format FORMAT. Supported formats are ${formats}. Defaults to 'pdf'."
+  prntLn "    -e, --embed, --embedded\t\tCreate an embedded version."
   prntLn "    -r, --rev, --revision REV\t\tGenerate output from revision REV. 'first', 'last', 'all' and a comma separated list of revisions are allowed. Defaults to 0."
   prntLn "    -R, --repo, --repository REPO\tSelect repository REPO which will be cloned. Defaults to existing repository under ${REPO_DIR}."
+  prntLn "    -S, --simple, --not-smart\t\tDo not create a smart version."
+  prntLn "    -t, --toc\t\t\tAdd table of contents (TOC)."
 
   logdebug "Options printed."
   return 0
