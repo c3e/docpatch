@@ -317,16 +317,16 @@ function createOutput {
 ## Produces a file (the generic way).
 ##   $1 Output format
 function produceGeneric {
-  local $output_format="$1"
+  local output_format="$1"
   loginfo "Producing ${output_format}..."
 
   logdebug "Determining file extension..."
-  local $file_extension=`"$CAT" "$OUTPUT_FORMAT_FILE" | "$GREP" "$output_format" | "$AWK" '{print $2}'`
+  local file_extension=`"$CAT" "$OUTPUT_FORMAT_FILE" | "$GREP" "$output_format" | "$AWK" '{print $2}'`
   logdebug "File extension is $file_extension"
 
   logdebug "Determining wether standalone or embedded version will be created..."
-  local $standalone_support=`"$CAT" "$OUTPUT_FORMAT_FILE" | "$GREP" "$output_format" | "$AWK" '{print $3}'`
-  local $arg_standalone=""
+  local standalone_support=`"$CAT" "$OUTPUT_FORMAT_FILE" | "$GREP" "$output_format" | "$AWK" '{print $3}'`
+  local arg_standalone=""
   if [ "$EMBED" -eq 1 -o "$standalone_support" -eq -1 ]; then
       logdebug "Create embedded version."
   elif [ "$EMBED" -eq 0 -a "$standalone_support" -eq 0 ]; then
@@ -337,8 +337,8 @@ function produceGeneric {
     fi
 
   logdebug "Determining wether to use smart option or not..."
-  local $smart_support=`"$CAT" "$OUTPUT_FORMAT_FILE" | "$GREP" "$output_format" | "$AWK" '{print $4}'`
-  local $arg_smart=""
+  local smart_support=`"$CAT" "$OUTPUT_FORMAT_FILE" | "$GREP" "$output_format" | "$AWK" '{print $4}'`
+  local arg_smart=""
   if [ "$SIMPLE" -eq 1 -o "$smart_support" -eq -1 ]; then
       logdebug "Create simple version."
   elif [ "$SIMPLE" -eq 0 -a "$smart_support" -eq 0 ]; then
@@ -349,8 +349,8 @@ function produceGeneric {
     fi
 
   logdebug "Determining wether to add table of contents..."
-  local $toc_support=`"$CAT" "$OUTPUT_FORMAT_FILE" | "$GREP" "$output_format" | "$AWK" '{print $5}'`
-  local $arg_toc=""
+  local toc_support=`"$CAT" "$OUTPUT_FORMAT_FILE" | "$GREP" "$output_format" | "$AWK" '{print $5}'`
+  local arg_toc=""
   if [ "$TOC" -eq 0 -o "$smart_support" -eq -1 ]; then
       logdebug "Do not add table of contents."
   else
