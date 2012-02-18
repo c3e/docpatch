@@ -358,7 +358,7 @@ function produceGeneric {
       arg_toc="--toc"
     fi
 
-  local output_file="${OUTPUT_DIR}/${IDENTIFIER}.$file_extension"
+  local output_file="${OUTPUT_DIR}/${IDENTIFIER}$file_extension"
   logdebug "Producing file..."
   exe "$PANDOC --from=$INPUT_FORMAT --to=${1}${arg_standalone}${arg_smart}${arg_toc} --output=$output_file ${REPO_DIR}/*$INPUT_FORMAT_EXT"
   if [ "$?" -gt 0 ]; then

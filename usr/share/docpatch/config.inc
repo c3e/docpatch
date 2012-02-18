@@ -52,10 +52,12 @@ PANDOC=$(which pandoc)
 QUILT=$(which quilt)
 
 ## Helping tools:
+AWK=$(which awk)
 CAT=$(which cat)
 CP=$(which cp)
 ECHO=$(which echo)
 GETOPT=$(which getopt)
+GREP=$(which grep)
 GZIP=$(which gzip)
 HEAD=$(which head)
 MAN=$(which man)
