@@ -321,17 +321,17 @@ function produceGeneric {
   loginfo "Producing ${output_format}..."
 
   logdebug "Determining file extension..."
-  local file_extension=`"$CAT" "$OUTPUT_FORMAT_FILE" | "$GREP" "$output_format" | "$AWK" '{print $2}'`
+  local file_extension=`"$CAT" "$OUTPUT_FORMAT_FILE" | "$GREP" "^$output_format" | "$AWK" '{print $2}'`
   logdebug "File extension is $file_extension"
 
   logdebug "Determining wether standalone or embedded version will be created..."
   local standalone_support=`"$CAT" "$OUTPUT_FORMAT_FILE" | "$GREP" "$output_format" | "$AWK" '{print $3}'`
   local arg_standalone=""
-  if [ "$EMBED" -eq 1 -o "$standalone_support" -eq -1 ]; then
+  if [ "$EMBED" -eq 1 -o "$standalone_support" == "-1" ]; then
       logdebug "Create embedded version."
-  elif [ "$EMBED" -eq 0 -a "$standalone_support" -eq 0 ]; then
+    elif [ "$EMBED" -eq 0 -a "$standalone_support" == "0" ]; then
       logdebug "Create embedded version."
-  elif [ "$EMBED" -eq 0 -a "$standalone_support" -eq 1 ]; then
+    elif [ "$EMBED" -eq 0 -o "$standalone_support" == "1" ]; then
       logdebug "Create standalone version."
       arg_standalone=" --standalone"
     fi
@@ -339,11 +339,11 @@ function produceGeneric {
   logdebug "Determining wether to use smart option or not..."
   local smart_support=`"$CAT" "$OUTPUT_FORMAT_FILE" | "$GREP" "$output_format" | "$AWK" '{print $4}'`
   local arg_smart=""
-  if [ "$SIMPLE" -eq 1 -o "$smart_support" -eq -1 ]; then
+  if [ "$SIMPLE" -eq 1 -o "$smart_support" == "-1" ]; then
       logdebug "Create simple version."
-  elif [ "$SIMPLE" -eq 0 -a "$smart_support" -eq 0 ]; then
+    elif [ "$SIMPLE" -eq 0 -a "$smart_support" == "0" ]; then
       logdebug "Create simple version."
-  elif [ "$SIMPLE" -eq 0 -a "$smart_support" -eq 1 ]; then
+    elif [ "$SIMPLE" -eq 0 -a "$smart_support" == "1" ]; then
       logdebug "Create smart version."
       arg_smart=" --smart"
     fi
@@ -351,9 +351,9 @@ function produceGeneric {
   logdebug "Determining wether to add table of contents..."
   local toc_support=`"$CAT" "$OUTPUT_FORMAT_FILE" | "$GREP" "$output_format" | "$AWK" '{print $5}'`
   local arg_toc=""
-  if [ "$TOC" -eq 0 -o "$smart_support" -eq -1 ]; then
+  if [ "$TOC" -eq 0 -o "$toc_support" == "-1" ]; then
       logdebug "Do not add table of contents."
-  else
+    else
       logdebug "Add table of contents."
       arg_toc=" --toc"
     fi
