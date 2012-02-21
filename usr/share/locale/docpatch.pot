@@ -1,0 +1,1117 @@
+#: usr/bin/docpatch:43
+msgid "Build repository."
+msgstr ""
+#: usr/bin/docpatch:44
+msgid "Produce pretty output from source."
+msgstr ""
+#: usr/bin/docpatch:106
+msgid "Process given options and arguments..."
+msgstr ""
+#: usr/bin/docpatch:112
+msgid "Bad request."
+msgstr ""
+#: usr/bin/docpatch:119
+msgid "Processed."
+msgstr ""
+#: usr/bin/docpatch:123
+msgid "Matching options and arguments..."
+msgstr ""
+#: usr/bin/docpatch:130
+msgid "Set verbosity: $VERBOSITY"
+msgstr ""
+#: usr/bin/docpatch:134
+msgstr ""
+#: usr/bin/docpatch:138
+msgstr ""
+#: usr/bin/docpatch:142
+msgstr ""
+#: usr/bin/docpatch:146
+msgid "Set PRINT_USAGE=1"
+msgstr ""
+#: usr/bin/docpatch:150
+msgid "Set PRINT_VERSION=1"
+msgstr ""
+#: usr/bin/docpatch:154
+msgid "Set PRINT_LICENSE=1"
+msgstr ""
+#: usr/bin/docpatch:159
+msgid "Set EMBEDDED=1"
+msgstr ""
+#: usr/bin/docpatch:163
+msgid "Set SIMPLE=1"
+msgstr ""
+#: usr/bin/docpatch:167
+msgid "Set OUTPUT_FORMAT=$2"
+msgstr ""
+#: usr/bin/docpatch:171
+msgid "Set ARG_REVISION=$2"
+msgstr ""
+#: usr/bin/docpatch:175
+msgid "Set REPOSITORY=$2"
+msgstr ""
+#: usr/bin/docpatch:179
+msgid "Set SIGN=1"
+msgstr ""
+#: usr/bin/docpatch:183
+msgid "Set TOC=1"
+msgstr ""
+#: usr/bin/docpatch:190
+msgid "Unkown option ${1}."
+msgstr ""
+#: usr/bin/docpatch:196
+msgid "Matched."
+msgstr ""
+#: usr/bin/docpatch:200
+msgid "Trying to match commands with given options..."
+msgstr ""
+#: usr/bin/docpatch:202
+msgid "Trying to match main command..."
+msgstr ""
+#: usr/bin/docpatch:207
+msgid "Main command is $COMMAND."
+msgstr ""
+#: usr/bin/docpatch:213
+msgid "Trying to match sub command..."
+msgstr ""
+#: usr/bin/docpatch:216
+msgid "Sub command is $SUB_COMMAND."
+msgstr ""
+#: usr/bin/docpatch:218
+msgid "There is no sub command."
+msgstr ""
+#: usr/bin/docpatch:224
+msgid "No command found."
+msgstr ""
+#: usr/bin/docpatch:257
+msgid "Nothing to do."
+msgstr ""
+#: usr/bin/docpatch:265
+msgid "$COMMAND_DESC"
+msgstr ""
+#: usr/share/docpatch/build:32
+msgid "Checking wether everything is prepared before building the repository."
+msgstr ""
+#: usr/share/docpatch/build:34
+msgid "Checking wether repository is already built..."
+msgstr ""
+#: usr/share/docpatch/build:36
+msgid "Repository is already built."
+msgstr ""
+#: usr/share/docpatch/build:37
+msgid "Checks failed."
+msgstr ""
+#: usr/share/docpatch/build:40
+msgid "Repository has not been built yet."
+msgstr ""
+#: usr/share/docpatch/build:42
+msgid "Checks succeeded."
+msgstr ""
+#: usr/share/docpatch/build:49
+msgid "Creating a new repository..."
+msgstr ""
+#: usr/share/docpatch/build:51
+msgid "Creating directory ${REPO_DIR}..."
+msgstr ""
+#: usr/share/docpatch/build:54
+msgid "Cannot create directory ${REPO_DIR}."
+msgstr ""
+#: usr/share/docpatch/build:55
+msgid "Failed to create a new repository."
+msgstr ""
+#: usr/share/docpatch/build:58
+msgid "Directory created."
+msgstr ""
+#: usr/share/docpatch/build:60
+msgid "Changing into directory ${REPO_DIR}..."
+msgstr ""
+#: usr/share/docpatch/build:63
+msgid "Initiating git repository..."
+msgstr ""
+#: usr/share/docpatch/build:66
+msgid "Cannot initiate git repository under ${REPO_DIR}."
+msgstr ""
+#: usr/share/docpatch/build:67
+msgstr ""
+#: usr/share/docpatch/build:71
+msgid "New repository is created under ${REPO_DIR}."
+msgstr ""
+#: usr/share/docpatch/build:78
+msgid "Creating meta information..."
+msgstr ""
+#: usr/share/docpatch/build:80
+msgid "Copying docpatch configuration file..."
+msgstr ""
+#: usr/share/docpatch/build:83
+msgid "Cannot copy $DOCPATCH_CONF_SOURCE to ${DOCPATCH_CONF_TARGET}."
+msgstr ""
+#: usr/share/docpatch/build:84
+msgid "Failed to create meta information."
+msgstr ""
+#: usr/share/docpatch/build:87
+msgid "File copied."
+msgstr ""
+#: usr/share/docpatch/build:89
+msgid "Copying git configuration file..."
+msgstr ""
+#: usr/share/docpatch/build:91
+msgid "Git configuration file under $GIT_CONF_SOURCE is missing. Please consider creating it before building the repository."
+msgstr ""
+#: usr/share/docpatch/build:95
+msgid "Cannot copy $GIT_CONF_SOURCE to ${GIT_CONF_TARGET}."
+msgstr ""
+#: usr/share/docpatch/build:96
+msgstr ""
+#: usr/share/docpatch/build:99
+msgstr ""
+#: usr/share/docpatch/build:102
+msgid "Copying git ignore file..."
+msgstr ""
+#: usr/share/docpatch/build:104
+msgid "Git ignore file under $GIT_IGNORE_SOURCE is missing. Please consider creating it before building the repository."
+msgstr ""
+#: usr/share/docpatch/build:108
+msgid "Cannot copy $GIT_IGNORE_SOURCE to ${GIT_IGNORE_TARGET}."
+msgstr ""
+#: usr/share/docpatch/build:109
+msgstr ""
+#: usr/share/docpatch/build:112
+msgstr ""
+#: usr/share/docpatch/build:115
+msgid "Converting and copying README file..."
+msgstr ""
+#: usr/share/docpatch/build:117
+msgid "README file under $README_SOURCE is missing. Please consider creating it before building the repository."
+msgstr ""
+#: usr/share/docpatch/build:121
+msgid "Cannot copy $README_SOURCE to ${README_TARGET}."
+msgstr ""
+#: usr/share/docpatch/build:122
+msgstr ""
+#: usr/share/docpatch/build:125
+msgstr ""
+#: usr/share/docpatch/build:128
+msgid "Meta information created."
+msgstr ""
+#: usr/share/docpatch/build:135
+msgid "Creating initial version..."
+msgstr ""
+#: usr/share/docpatch/build:139
+msgid "Failed to create initial version."
+msgstr ""
+#: usr/share/docpatch/build:143
+msgid "Initial version created."
+msgstr ""
+#: usr/share/docpatch/build:150
+msgid "Creating all revisions..."
+msgstr ""
+#: usr/share/docpatch/build:152
+msgid "Checking series file..."
+msgstr ""
+#: usr/share/docpatch/build:155
+msgid "Cannot access series file ${series_file}."
+msgstr ""
+#: usr/share/docpatch/build:156
+msgid "Failed to create all revisions."
+msgstr ""
+#: usr/share/docpatch/build:160
+msgid "Iterating through each patch..."
+msgstr ""
+#: usr/share/docpatch/build:162
+msgid "Handling patch ${patch}..."
+msgstr ""
+#: usr/share/docpatch/build:164
+msgid "Checking patch file..."
+msgstr ""
+#: usr/share/docpatch/build:167
+msgid "Cannot access patch file ${patch_file}."
+msgstr ""
+#: usr/share/docpatch/build:168
+msgstr ""
+#: usr/share/docpatch/build:172
+msgid "Patch file $patch_file is ready to apply."
+msgstr ""
+#: usr/share/docpatch/build:174
+msgid "Checking message file..."
+msgstr ""
+#: usr/share/docpatch/build:177
+msgid "Cannot access message file ${meta_file}."
+msgstr ""
+#: usr/share/docpatch/build:178
+msgstr ""
+#: usr/share/docpatch/build:185
+msgstr ""
+#: usr/share/docpatch/build:192
+msgstr ""
+#: usr/share/docpatch/build:200
+msgstr ""
+#: usr/share/docpatch/build:207
+msgstr ""
+#: usr/share/docpatch/build:212
+msgid "Finished with patch ${patch}."
+msgstr ""
+#: usr/share/docpatch/build:214
+msgid "Each patch applied."
+msgstr ""
+#: usr/share/docpatch/build:218
+msgstr ""
+#: usr/share/docpatch/build:222
+msgid "All revisions created."
+msgstr ""
+#: usr/share/docpatch/build:229
+msgid "Applying next patch..."
+msgstr ""
+#: usr/share/docpatch/build:231
+msgid "Changing into directory ${SRC_DIR}..."
+msgstr ""
+#: usr/share/docpatch/build:234
+msgid "Calling quilt..."
+msgstr ""
+#: usr/share/docpatch/build:237
+msgid "Failed to apply next patch."
+msgstr ""
+#: usr/share/docpatch/build:241
+msgid "Next patch applied."
+msgstr ""
+#: usr/share/docpatch/build:248
+msgid "Reverting all applied patches..."
+msgstr ""
+#: usr/share/docpatch/build:250
+msgstr ""
+#: usr/share/docpatch/build:253
+msgstr ""
+#: usr/share/docpatch/build:256
+msgid "Failed to revert all applied patches."
+msgstr ""
+#: usr/share/docpatch/build:260
+msgid "All applied patches reverted."
+msgstr ""
+#: usr/share/docpatch/build:268
+msgid "Putting all files under version control and committing them."
+msgstr ""
+#: usr/share/docpatch/build:270
+msgstr ""
+#: usr/share/docpatch/build:273
+msgid "Putting all files under version control..."
+msgstr ""
+#: usr/share/docpatch/build:276
+msgid "Cannot put all files under version control"
+msgstr ""
+#: usr/share/docpatch/build:277
+msgid "Failed to put all files under version control and commit them."
+msgstr ""
+#: usr/share/docpatch/build:280
+msgid "Putting was successful."
+msgstr ""
+#: usr/share/docpatch/build:282
+msgid "Checking commit message..."
+msgstr ""
+#: usr/share/docpatch/build:284
+msgid "There is no commit message."
+msgstr ""
+#: usr/share/docpatch/build:285
+msgstr ""
+#: usr/share/docpatch/build:288
+msgid "Commit messages seems okay."
+msgstr ""
+#: usr/share/docpatch/build:290
+msgid "Committing files..."
+msgstr ""
+#: usr/share/docpatch/build:292
+msgid "Take commit message from ${1}."
+msgstr ""
+#: usr/share/docpatch/build:296
+msgid "Cannot commit files."
+msgstr ""
+#: usr/share/docpatch/build:297
+msgstr ""
+#: usr/share/docpatch/build:301
+msgid "Take commit message from command line."
+msgstr ""
+#: usr/share/docpatch/build:305
+msgid "Writing message to file..."
+msgstr ""
+#: usr/share/docpatch/build:311
+msgstr ""
+#: usr/share/docpatch/build:312
+msgstr ""
+#: usr/share/docpatch/build:316
+msgid "Commit was successful."
+msgstr ""
+#: usr/share/docpatch/build:318
+msgid "All files put under version control and committed."
+msgstr ""
+#: usr/share/docpatch/build:327
+msgid "Tagging current revision..."
+msgstr ""
+#: usr/share/docpatch/build:329
+msgid "Checking version number..."
+msgstr ""
+#: usr/share/docpatch/build:331
+msgid "Version number is invalid."
+msgstr ""
+#: usr/share/docpatch/build:332
+msgid "Failed to tag current revision."
+msgstr ""
+#: usr/share/docpatch/build:335
+msgid "Version number: $1"
+msgstr ""
+#: usr/share/docpatch/build:337
+msgstr ""
+#: usr/share/docpatch/build:339
+msgid "Cannot access message file."
+msgstr ""
+#: usr/share/docpatch/build:340
+msgstr ""
+#: usr/share/docpatch/build:343
+msgid "Message file: $2"
+msgstr ""
+#: usr/share/docpatch/build:345
+msgstr ""
+#: usr/share/docpatch/build:350
+msgid "Check wether tag will be signed..."
+msgstr ""
+#: usr/share/docpatch/build:352
+msgid "Tag will be signed."
+msgstr ""
+#: usr/share/docpatch/build:355
+msgid "Tag won\\'t be signed."
+msgstr ""
+#: usr/share/docpatch/build:360
+msgid "Calling git-tag..."
+msgstr ""
+#: usr/share/docpatch/build:363
+msgid "Failed to call git-tag."
+msgstr ""
+#: usr/share/docpatch/build:364
+msgstr ""
+#: usr/share/docpatch/build:367
+msgid "git-tag succeeded."
+msgstr ""
+#: usr/share/docpatch/build:369
+msgid "Revision tagged."
+msgstr ""
+#: usr/share/docpatch/build:377
+msgid "Counting patches..."
+msgstr ""
+#: usr/share/docpatch/build:381
+msgid "Cannot count patches."
+msgstr ""
+#: usr/share/docpatch/build:386
+msgid "There is 1 patch."
+msgstr ""
+#: usr/share/docpatch/build:388
+msgid "There are $PATCHES patches."
+msgstr ""
+#: usr/share/docpatch/build:391
+msgid "Patches counted."
+msgstr ""
+#: usr/share/docpatch/build:398
+msgid "Copying documents..."
+msgstr ""
+#: usr/share/docpatch/build:400
+msgid "Source files: ${SRC_DIR}/*$INPUT_FORMAT_EXT"
+msgstr ""
+#: usr/share/docpatch/build:401
+msgid "Target directory: $REPO_DIR"
+msgstr ""
+#: usr/share/docpatch/build:405
+msgid "Failed to copy documents."
+msgstr ""
+#: usr/share/docpatch/build:409
+msgid "Documents copied."
+msgstr ""
+#: usr/share/docpatch/build:423
+msgid "$message"
+msgstr ""
+#: usr/share/docpatch/build:427
+msgid "Importing initial version..."
+msgstr ""
+#: usr/share/docpatch/build:431
+msgid "Importing revisions..."
+msgstr ""
+#: usr/share/docpatch/build:438
+msgid "Printing command specific options..."
+msgstr ""
+#: usr/share/docpatch/build:440
+msgid "Options printed."
+msgstr ""
+#: usr/share/docpatch/create:36
+msgid "Checking wether everything is prepared before creating output..."
+msgstr ""
+#: usr/share/docpatch/create:38
+msgid "Checking output directory..."
+msgstr ""
+#: usr/share/docpatch/create:40
+msgid "Output directory not found. Create it."
+msgstr ""
+#: usr/share/docpatch/create:43
+msgid "Cannot create output directory under ${OUTPUT_DIR}."
+msgstr ""
+#: usr/share/docpatch/create:44
+msgstr ""
+#: usr/share/docpatch/create:47
+msgid "Output directory created under ${OUTPUT_DIR}."
+msgstr ""
+#: usr/share/docpatch/create:49
+msgid "Output directory found in ${OUTPUT_DIR}."
+msgstr ""
+#: usr/share/docpatch/create:52
+msgid "Verifying format..."
+msgstr ""
+#: usr/share/docpatch/create:61
+msgid "Format is not supported: $OUTPUT_FORMAT"
+msgstr ""
+#: usr/share/docpatch/create:62
+msgstr ""
+#: usr/share/docpatch/create:65
+msgid "Format verified: $OUTPUT_FORMAT"
+msgstr ""
+#: usr/share/docpatch/create:67
+msgid "Checks succeded."
+msgstr ""
+#: usr/share/docpatch/create:74
+msgid "Fetching supported output formats..."
+msgstr ""
+#: usr/share/docpatch/create:76
+msgid "Parsing formats..."
+msgstr ""
+#: usr/share/docpatch/create:82
+msgid "Appended output format $supported_format to list."
+msgstr ""
+#: usr/share/docpatch/create:85
+msgid "Fetched supported output formats from ${OUTPUT_FORMAT_FILE}."
+msgstr ""
+#: usr/share/docpatch/create:92
+msgid "Loading meta information..."
+msgstr ""
+#: usr/share/docpatch/create:95
+msgid "Cannot access meta information under ${DOCPATCH_CONF_TARGET}."
+msgstr ""
+#: usr/share/docpatch/create:96
+msgid "Failed to load meta information."
+msgstr ""
+#: usr/share/docpatch/create:99
+msgid "Meta information found under ${DOCPATCH_CONF_TARGET}."
+msgstr ""
+#: usr/share/docpatch/create:101
+msgid "Including file..."
+msgstr ""
+#: usr/share/docpatch/create:103
+msgid "File included."
+msgstr ""
+#: usr/share/docpatch/create:105
+msgid "Meta information loaded."
+msgstr ""
+#: usr/share/docpatch/create:112
+msgid "Determining repository..."
+msgstr ""
+#: usr/share/docpatch/create:114
+msgid "Checking argument..."
+msgstr ""
+#: usr/share/docpatch/create:116
+msgid "Argument not set. Use default repository under ${REPO_DIR}."
+msgstr ""
+#: usr/share/docpatch/create:118
+msgid "Checking for existing repository..."
+msgstr ""
+#: usr/share/docpatch/create:120
+msgid "There is no repository under ${REPO_DIR}."
+msgstr ""
+#: usr/share/docpatch/create:122
+msgid "Failed to determine repository."
+msgstr ""
+#: usr/share/docpatch/create:125
+msgid "Repository found under ${REPO_DIR}."
+msgstr ""
+#: usr/share/docpatch/create:127
+msgid "Cloning repository ${REPOSITORY}..."
+msgstr ""
+#: usr/share/docpatch/create:129
+msgstr ""
+#: usr/share/docpatch/create:131
+msgstr ""
+#: usr/share/docpatch/create:133
+msgstr ""
+#: usr/share/docpatch/create:136
+msgstr ""
+#: usr/share/docpatch/create:138
+msgid "Creating empty directory..."
+msgstr ""
+#: usr/share/docpatch/create:141
+msgid "Empty directory under $REPO_DIR created."
+msgstr ""
+#: usr/share/docpatch/create:143
+msgid "Cloning repository from ${REPOSITORY}..."
+msgstr ""
+#: usr/share/docpatch/create:147
+msgstr ""
+#: usr/share/docpatch/create:150
+msgid "Repository cloned under ${REPO_DIR}."
+msgstr ""
+#: usr/share/docpatch/create:153
+msgid "Repository determined."
+msgstr ""
+#: usr/share/docpatch/create:160
+msgid "Counting revisions..."
+msgstr ""
+#: usr/share/docpatch/create:165
+msgid "Cannot count revisions."
+msgstr ""
+#: usr/share/docpatch/create:169
+msgid "There is 1 revision."
+msgstr ""
+#: usr/share/docpatch/create:171
+msgid "There are $REVISIONS revisions."
+msgstr ""
+#: usr/share/docpatch/create:174
+msgid "Revisions counted."
+msgstr ""
+#: usr/share/docpatch/create:181
+msgid "Determining revisions..."
+msgstr ""
+#: usr/share/docpatch/create:183
+msgid "Parsing argument for revisions..."
+msgstr ""
+#: usr/share/docpatch/create:185
+msgid "No specific revision given. Assuming first revision."
+msgstr ""
+#: usr/share/docpatch/create:188
+msgid "It's the first revision."
+msgstr ""
+#: usr/share/docpatch/create:191
+msgid "It's the last revision."
+msgstr ""
+#: usr/share/docpatch/create:194
+msgid "All revisions selected."
+msgstr ""
+#: usr/share/docpatch/create:199
+msgid "Failed to determine revisions."
+msgstr ""
+#: usr/share/docpatch/create:208
+msgid "Appended revision $rev to list."
+msgstr ""
+#: usr/share/docpatch/create:213
+msgstr ""
+#: usr/share/docpatch/create:216
+msgid "Revision $ARG_REVISION is meant."
+msgstr ""
+#: usr/share/docpatch/create:219
+msgid "Looking for more than one revision..."
+msgstr ""
+#: usr/share/docpatch/create:224
+msgstr ""
+#: usr/share/docpatch/create:232
+msgstr ""
+#: usr/share/docpatch/create:236
+msgid "Found these revisions: $LIST_OF_REVISIONS"
+msgstr ""
+#: usr/share/docpatch/create:238
+msgid "Revisions determined."
+msgstr ""
+#: usr/share/docpatch/create:246
+msgid "Switching revision..."
+msgstr ""
+#: usr/share/docpatch/create:248
+msgstr ""
+#: usr/share/docpatch/create:251
+msgid "Checking out revision ${1}..."
+msgstr ""
+#: usr/share/docpatch/create:255
+msgid "Failed to switch revision."
+msgstr ""
+#: usr/share/docpatch/create:258
+msgid "Check out done."
+msgstr ""
+#: usr/share/docpatch/create:260
+msgid "Revision switched."
+msgstr ""
+#: usr/share/docpatch/create:267
+msgid "Creating output..."
+msgstr ""
+#: usr/share/docpatch/create:269
+msgid "Iterating through each destinated revision..."
+msgstr ""
+#: usr/share/docpatch/create:271
+msgid "Handling revision ${REVISION}..."
+msgstr ""
+#: usr/share/docpatch/create:276
+msgid "Failed to create output."
+msgstr ""
+#: usr/share/docpatch/create:283
+msgstr ""
+#: usr/share/docpatch/create:304
+msgstr ""
+#: usr/share/docpatch/create:308
+msgid "Handling done."
+msgstr ""
+#: usr/share/docpatch/create:310
+msgid "Iteration done."
+msgstr ""
+#: usr/share/docpatch/create:312
+msgid "Output created."
+msgstr ""
+#: usr/share/docpatch/create:321
+msgid "Producing ${output_format}..."
+msgstr ""
+#: usr/share/docpatch/create:323
+msgid "Determining file extension..."
+msgstr ""
+#: usr/share/docpatch/create:325
+msgid "File extension is $file_extension"
+msgstr ""
+#: usr/share/docpatch/create:327
+msgid "Determining wether standalone or embedded version will be created..."
+msgstr ""
+#: usr/share/docpatch/create:331
+msgid "Create embedded version."
+msgstr ""
+#: usr/share/docpatch/create:333
+msgstr ""
+#: usr/share/docpatch/create:335
+msgid "Create standalone version."
+msgstr ""
+#: usr/share/docpatch/create:339
+msgid "Determining wether to use smart option or not..."
+msgstr ""
+#: usr/share/docpatch/create:343
+msgid "Create simple version."
+msgstr ""
+#: usr/share/docpatch/create:345
+msgstr ""
+#: usr/share/docpatch/create:347
+msgid "Create smart version."
+msgstr ""
+#: usr/share/docpatch/create:351
+msgid "Determining wether to add table of contents..."
+msgstr ""
+#: usr/share/docpatch/create:355
+msgid "Do not add table of contents."
+msgstr ""
+#: usr/share/docpatch/create:357
+msgid "Add table of contents."
+msgstr ""
+#: usr/share/docpatch/create:362
+msgid "Producing file..."
+msgstr ""
+#: usr/share/docpatch/create:365
+msgid "Cannot produce file ${output_file}."
+msgstr ""
+#: usr/share/docpatch/create:366
+msgid "Failed to produce ${output_format}."
+msgstr ""
+#: usr/share/docpatch/create:369
+msgid "Wrote content to file ${output_file}."
+msgstr ""
+#: usr/share/docpatch/create:371
+msgid "Produced ${output_format}."
+msgstr ""
+#: usr/share/docpatch/create:379
+msgid "Producing EPUB..."
+msgstr ""
+#: usr/share/docpatch/create:381
+msgstr ""
+#: usr/share/docpatch/create:383
+msgid "Cleaning up meta information..."
+msgstr ""
+#: usr/share/docpatch/create:386
+msgid "Cannot clean up meta information under ${meta_file}."
+msgstr ""
+#: usr/share/docpatch/create:387
+msgid "Failed to produce EPUB."
+msgstr ""
+#: usr/share/docpatch/create:390
+msgid "Cleaned up meta information."
+msgstr ""
+#: usr/share/docpatch/create:391
+msgid "Updating meta information..."
+msgstr ""
+#: usr/share/docpatch/create:393
+msgid "Contributor is: $CONTRIBUTOR"
+msgstr ""
+#: usr/share/docpatch/create:397
+msgid "Coverage is: $COVERAGE"
+msgstr ""
+#: usr/share/docpatch/create:401
+msgid "Creator is: $CREATOR"
+msgstr ""
+#: usr/share/docpatch/create:405
+msgid "Date is: $DATE"
+msgstr ""
+#: usr/share/docpatch/create:409
+msgid "Description is: $DESCRIPTION"
+msgstr ""
+#: usr/share/docpatch/create:413
+msgid "Format is: $FORMAT"
+msgstr ""
+#: usr/share/docpatch/create:417
+msgid "Identifier is: $IDENTIFIER"
+msgstr ""
+#: usr/share/docpatch/create:421
+msgid "Language is: $LANGUAGE"
+msgstr ""
+#: usr/share/docpatch/create:425
+msgid "Publisher is: $PUBLISHER"
+msgstr ""
+#: usr/share/docpatch/create:429
+msgid "Relation is: $RELATION"
+msgstr ""
+#: usr/share/docpatch/create:433
+msgid "Rights is: $RIGHTS"
+msgstr ""
+#: usr/share/docpatch/create:437
+msgid "Source is: $SOURCE"
+msgstr ""
+#: usr/share/docpatch/create:441
+msgid "Subject is: $SUBJECT"
+msgstr ""
+#: usr/share/docpatch/create:445
+msgid "Title is: $TITLE"
+msgstr ""
+#: usr/share/docpatch/create:449
+msgid "Type is: $TYPE"
+msgstr ""
+#: usr/share/docpatch/create:452
+msgid "Updated meta information."
+msgstr ""
+#: usr/share/docpatch/create:453
+msgid "Produced meta information under ${meta_file}."
+msgstr ""
+#: usr/share/docpatch/create:456
+msgstr ""
+#: usr/share/docpatch/create:459
+msgstr ""
+#: usr/share/docpatch/create:460
+msgstr ""
+#: usr/share/docpatch/create:463
+msgstr ""
+#: usr/share/docpatch/create:465
+msgid "EPUB produced."
+msgstr ""
+#: usr/share/docpatch/create:472
+msgid "Producing man page..."
+msgstr ""
+#: usr/share/docpatch/create:475
+msgstr ""
+#: usr/share/docpatch/create:478
+msgstr ""
+#: usr/share/docpatch/create:479
+msgid "Failed to produce man page."
+msgstr ""
+#: usr/share/docpatch/create:482
+msgstr ""
+#: usr/share/docpatch/create:484
+msgid "Man page produced."
+msgstr ""
+#: usr/share/docpatch/create:491
+msgid "Producing PDF..."
+msgstr ""
+#: usr/share/docpatch/create:493
+msgid "Checking for any template file..."
+msgstr ""
+#: usr/share/docpatch/create:497
+msgid "Template file found under ${tpl_file}."
+msgstr ""
+#: usr/share/docpatch/create:500
+msgid "No template file found under ${tpl_file}."
+msgstr ""
+#: usr/share/docpatch/create:504
+msgstr ""
+#: usr/share/docpatch/create:507
+msgstr ""
+#: usr/share/docpatch/create:508
+msgid "Failed to produce PDF."
+msgstr ""
+#: usr/share/docpatch/create:511
+msgstr ""
+#: usr/share/docpatch/create:513
+msgid "PDF produced."
+msgstr ""
+#: usr/share/docpatch/create:536
+msgstr ""
+#: usr/share/docpatch/create:555
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:28
+msgid "Checking system requirements..."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:30
+msgid "Checking location..."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:31
+msgid "Base name: $BASE_NAME"
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:32
+msgid "Dir name: $DIR_NAME"
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:34
+msgid "Checking directories..."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:36
+msgid "Checking references..."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:38
+msgid "References not found under ${REF_DIR}."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:39
+msgid "System checks failed."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:42
+msgid "References found in ${REF_DIR}."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:44
+msgid "Checking sources..."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:46
+msgid "Sources not found under ${SRC_DIR}."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:47
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:50
+msgid "Sources found in ${SRC_DIR}."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:52
+msgid "Checking meta information..."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:54
+msgid "Meta information not found ${META_DIR}."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:55
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:58
+msgid "Meta information found in ${META_DIR}."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:60
+msgid "Checking special information..."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:62
+msgid "Special information not found under ${ETC_DIR}."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:63
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:66
+msgid "Special information found in ${ETC_DIR}."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:68
+msgid "Checking patches..."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:70
+msgid "Patches not found under ${PATCH_DIR}."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:71
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:74
+msgid "Patches found in ${PATCH_DIR}."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:76
+msgid "Checking templates..."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:78
+msgid "Templates not found under ${TPL_DIR}."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:79
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:82
+msgid "Templates found in ${TPL_DIR}."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:84
+msgid "Checking libraries..."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:86
+msgid "Libraries not found under ${LIB_DIR}."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:87
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:90
+msgid "Libraries found in ${LIB_DIR}."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:92
+msgid "Checking configuration..."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:94
+msgid "Configuration not found under ${CONF_DIR}."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:96
+msgid "Configuration found under ${CONF_DIR}."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:99
+msgid "Checking examples..."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:101
+msgid "Examples not found under ${EXAMPLE_DIR}."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:102
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:105
+msgid "Examples found in ${EXAMPLE_DIR}."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:107
+msgid "Checking temporary directory..."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:109
+msgid "Temporary directory not found. Create it."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:112
+msgid "Cannot create temporary directory under ${TPL_DIR}."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:113
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:116
+msgid "Temporary directory created under ${TPL_DIR}."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:118
+msgid "Temporary directory found in ${TPL_DIR}."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:121
+msgid "Directories checked."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:123
+msgid "System checked."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:131
+msgid "Including command specific file..."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:134
+msgid "File $cmd_file does not exist or is not readable."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:135
+msgid "Cannot include command specific file."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:139
+msgid "File $cmd_file included."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:145
+msgid "Executing command..."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:147
+msgid "Command: $1"
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:154
+msgid "Suppress output."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:176
+msgid "Unknown log event triggered."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:217
+msgid "Calculate spent time..."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:255
+msgid "Spent time calculated."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:256
+msgid "Everything done after ${duration}. Exiting."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:263
+msgid "Cleaning up system..."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:265
+msgid "Removing temporary files..."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:268
+msgid "Cannot remove temporary files."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:269
+msgid "Failed to clean up."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:272
+msgid "Temporary files '${TMP_DIR}/${PID}_*' removed."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:274
+msgid "Checking left repository..."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:276
+msgid "Left repository found in ${REPO_DIR}."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:277
+msgid "Checking out master branch..."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:280
+msgid "Cannot check out master branch."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:281
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:284
+msgid "Checkout was successful."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:286
+msgid "No repository left."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:289
+msgid "System is cleaned up."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:296
+msgid "Finish operation..."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:299
+msgid "Exit code: 0"
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:307
+msgid "Abort script..."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:310
+msgid "Exit code: $1"
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:311
+msgid "Operation failed."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:318
+msgid "Applying nice level..."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:321
+msgid "Current process ID is ${PID}."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:325
+msgid "Re-nice failed."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:326
+msgid "Failed to apply nice level."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:330
+msgid "New nice level is ${NICE_LEVEL}."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:353
+msgid "Printing global usage..."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:390
+msgid "Usage printed."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:397
+msgid "Printing some information about this script..."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:405
+msgid "Information printed."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:412
+msgid "Printing license information..."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:414
+msgid "Look for license text..."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:423
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:428
+msgid "Cannot find any fitting license text on this system."
+msgstr ""
+#: usr/share/docpatch/docpatch.inc:429
+msgid "Failed to print license. But it's the GPL3+."
+msgstr ""
+#: usr/share/docpatch/help:28
+msgid "How can I help you?"
+msgstr ""
+#: usr/share/docpatch/help:36
+msgid "Calling man page..."
+msgstr ""
+#: usr/share/docpatch/help:39
+msgid "Application for man pages returned with an error."
+msgstr ""
+#: usr/share/docpatch/help:40
+msgid "Cannot show man page for ${manpage}."
+msgstr ""
+#: usr/share/docpatch/help:43
+msgid "Man page called."
+msgstr ""
+#: usr/share/docpatch/help:49
+msgstr ""
+#: usr/share/docpatch/help:50
+msgid "    No options"
+msgstr ""
+#: usr/share/docpatch/help:51
+msgstr ""

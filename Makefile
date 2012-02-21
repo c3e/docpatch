@@ -46,7 +46,7 @@ man1dir = $(mandir)/man1
 
 ## Build
 
-all : man info readme meta
+all : man info readme meta pot
 	@echo "$(project) built. Ready to install. Continue with '(sudo) make install'"
 
 man : $(man1pages)
@@ -215,4 +215,4 @@ mostlyclean : clean
 maintainer-clean : clean
 
 
-.PHONY : man info html pdf dvi ps meta readme install install-html install-pdf uninstall dist changelog clean distclean mostlyclean maintainer-clean
+.PHONY : man info html pdf dvi ps meta readme pot install install-html install-pdf uninstall dist changelog clean distclean mostlyclean maintainer-clean
