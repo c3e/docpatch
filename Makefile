@@ -24,11 +24,13 @@ FIND = $(which find)
 GZIP = $(which gzip)
 PANDOC = $(which pandoc)
 MARKDOWN2PDF = $(which markdown2pdf)
+BASH = $(which bash)
 
 project = $(shell cat usr/share/docpatch/config.inc | sed -n 's/^PROJECT_NAME="\(.*\)"$$/\1/p')
 man1pages = $(project) $(project)-build $(project)-create
 metainfos = NEWS README TODO
 docs = 
+languages = de
 version = $(shell cat usr/share/docpatch/config.inc | sed -n 's/^PROJECT_VERSION="\(.*\)"$$/\1/p')
 
 prefix = /usr
@@ -42,6 +44,7 @@ htmldir = $(docdir)/html
 pdfdir = $(docdir)/pdf
 mandir = $(datarootdir)/man
 man1dir = $(mandir)/man1
+localedir = $(datadir)/locale
 
 
 ## Build
@@ -104,7 +107,10 @@ pot :
 
 ## Install/Uninstall
 
-install :
+install : normal-install $(languages) post-install
+	@echo "$(project) installed."
+
+normal-install :
 	$(NORMAL_INSTALL)
 	@echo "Install $(project)..."
 	@if [ ! -d $(DESTDIR)$(bindir) ]; then \
@@ -120,10 +126,11 @@ install :
 	  usr/share/doc/$(project)/README \
 	  usr/share/doc/$(project)/TODO $(DESTDIR)$(docdir)
 	@mkdir -p $(DESTDIR)$(docdir)/examples
-	@mkdir -p $(DESTDIR)$(docdir)/examples/bash_completion.d
 	@mkdir -p $(DESTDIR)$(docdir)/examples/etc
-	@$(INSTALL_DATA) usr/share/doc/$(project)/examples/bash_completion.d/* $(DESTDIR)$(docdir)/examples/bash_completion.d
 	@$(INSTALL_DATA) usr/share/doc/$(project)/examples/etc/* $(DESTDIR)$(docdir)/examples/etc
+	@$(INSTALL_DATA) usr/share/doc/$(project)/examples/bash_completion.d/* $(DESTDIR)/etc/bash_completion.d
+
+post-install :
 	$(POST_INSTALL)
 	@echo "Install info documentation..."
 	#@if [ ! -d $(DESTDIR)$(infodir) ]; then \
@@ -135,7 +142,11 @@ install :
 	    mkdir -p $(DESTDIR)$(man1dir); \
 	  fi
 	@$(INSTALL_DATA) usr/share/man/man1/*.1.gz $(DESTDIR)$(man1dir)
-	@echo "$(project) installed."
+
+% : usr/share/locale/%
+	@echo "Copy po files for language $@..."
+	@mkdir -p $(DESTDIR)$(localedir)/$@
+	@$(INSTALL_DATA) usr/share/locale/$@/$(project).po $(DESTDIR)$(localedir)/$@/
 
 install-html :
 	@echo "Install HTML documentation..."
@@ -155,6 +166,8 @@ uninstall :
 	@rm -r $(DESTDIR)$(datadir)/$(project)/
 	@rm -r $(DESTDIR)$(docdir)
 	@rm $(DESTDIR)$(man1dir)/$(project).1.gz
+	@rm $(DESTDIR)$(localedir)/de/$(project).po
+	@rm $(DESTDIR)/etc/bash_completion.d/$(project)
 
 
 ## Release
@@ -215,4 +228,4 @@ mostlyclean : clean
 maintainer-clean : clean
 
 
-.PHONY : man info html pdf dvi ps meta readme pot install install-html install-pdf uninstall dist changelog clean distclean mostlyclean maintainer-clean
+.PHONY : man info html pdf dvi ps meta readme pot install normal-install post-install install-html install-pdf uninstall dist changelog clean distclean mostlyclean maintainer-clean
