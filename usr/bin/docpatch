@@ -23,32 +23,8 @@
 ##
 
 
-##
-## Substantials
-##
-
-
 ## Start time
 START=`date +%s`
-
-BASE_DIR=`pwd`
-BASE_NAME=`basename $0`
-
-## Supported commands
-COMMANDS[0]="help"
-COMMANDS[1]="build"
-COMMANDS[2]="create"
-
-## Descriptions of supported commands
-COMMAND_BUILD=$"Build repository."
-COMMAND_CREATE=$"Produce pretty output from source."
-
-## Required main command
-COMMAND=""
-
-## Optional sub command
-SUB_COMMAND=""
-
 
 
 ##

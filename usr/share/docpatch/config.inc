@@ -41,6 +41,42 @@ PROJECT_VERSION="0.1"
 
 
 ##
+## Localization
+##
+
+## Path to locale files:
+if [ -z "${TEXTDOMAINDIR+1}" ]; then
+    TEXTDOMAINDIR="/usr/share/locale"
+fi
+
+## Domain:
+TEXTDOMAIN="$PROJECT_NAME"
+
+
+##
+## Substantials
+##
+
+BASE_DIR=`pwd`
+BASE_NAME=`basename $0`
+
+## Supported commands
+COMMANDS[0]="help"
+COMMANDS[1]="build"
+COMMANDS[2]="create"
+
+## Descriptions of supported commands
+COMMAND_BUILD=$"Build repository."
+COMMAND_CREATE=$"Produce pretty output from source."
+
+## Required main command
+COMMAND=""
+
+## Optional sub command
+SUB_COMMAND=""
+
+
+##
 ## Executables
 ##
 
@@ -204,19 +240,6 @@ fi
 if [ -z "${VERBOSITY+1}" ]; then
     VERBOSITY=$(($LOG_FATAL | $LOG_ERROR))
 fi
-
-
-##
-## Localization
-##
-
-## Path to locale files:
-if [ -z "${TEXTDOMAINDIR+1}" ]; then
-    TEXTDOMAINDIR="/usr/share/locale"
-fi
-
-## Domain:
-TEXTDOMAIN="$PROJECT_NAME"
 
 
 ##
