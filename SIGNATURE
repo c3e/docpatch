@@ -1,0 +1,32 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+740df0896af140e0c5d7c344ebea2fc59678a581  configure
+a6adc13d0c809ab8cb68e6e3b6eb7571bd0e2920  COPYING
+43328bcf288717c8f39cef9a11bbcd17388cde5f  Makefile
+cccc7ceb698ab53a81cc35c1c99502f072e4c8f7  MANIFEST
+a702222e92dd23db20ce258724631fa46bb8bcb7  NEWS.md
+340a44206980eed530b2902292a0ba2c7adebece  README
+d08f82e3e3b304d3d1c2c219c393cdc4b8816439  TODO.md
+f1f527498413db5b59c73f7de3afd5ebe372a43b  usr/share/doc/docpatch/examples/etc/docpatch.conf
+bc7977cea8ecd6ee19945f477146d2cad716cbb2  usr/share/doc/docpatch/examples/bash_completion.d/docpatch
+b8d6cd9781a427a650a3c97a1307b92670387016  usr/share/docpatch/output_formats.txt
+eecd130de8fe077ae1fafcd036d24d2e081ee779  usr/share/docpatch/config.inc
+06b8b958ee32d5e1f73f25b2cbe403d5ff1544fc  usr/share/docpatch/help
+d1112a6679fdbd21ecc7d4ce9a6687a674575524  usr/share/docpatch/build
+b8bd2625f6df56dba246c9323b79ce69f5b50a57  usr/share/docpatch/create
+568dfcb9b69099969f80862747b92f9783d5e7bb  usr/share/docpatch/docpatch.inc
+6ea27d3c425c312912ba88d422873b546f1740dd  usr/share/locale/en/docpatch.po
+6ea27d3c425c312912ba88d422873b546f1740dd  usr/share/locale/docpatch.pot
+5ed1f3ea9290e649c40eeb73a5599407ae9ef13a  usr/share/locale/de/docpatch.po
+b99841e18a7cc07604035c547ea118c46642d504  usr/share/man/man1/docpatch.1.md
+fe4bf7a7187bbd400e134cda426df4a018719195  usr/share/man/man1/docpatch-create.1.md
+d25cf1ccfc0467628e629f18b73c1568341b6da5  usr/share/man/man1/docpatch-build.1.md
+0c2874d9b0dda2d810e48caeb8df1a1308ae6c91  usr/bin/docpatch
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.11 (GNU/Linux)
+
+iEYEARECAAYFAk9DrogACgkQWFkxZRfLwXLUJwCgzrhrMKM7K4XYr3ffP7HhlGpx
+e3kAnibxz9uYLegr0cUminLUQB5lHTYB
+=4tYL
+-----END PGP SIGNATURE-----

@@ -25,6 +25,8 @@ GZIP = $(which gzip)
 PANDOC = $(which pandoc)
 MARKDOWN2PDF = $(which markdown2pdf)
 BASH = $(which bash)
+GPG = $(which gpg)
+TOUCH = $(which touch)
 
 project = $(shell cat usr/share/docpatch/config.inc | sed -n 's/^PROJECT_NAME="\(.*\)"$$/\1/p')
 man1pages = $(project) $(project)-build $(project)-create
@@ -49,7 +51,7 @@ localedir = $(datadir)/locale
 
 ## Build
 
-all : man info readme meta pot
+all : man info readme meta
 	@echo "$(project) built. Ready to install. Continue with '(sudo) make install'"
 
 man : $(man1pages)
@@ -103,6 +105,24 @@ pot :
 	@bash --dump-po-strings usr/share/$(project)/$(project).inc >> usr/share/locale/$(project).pot
 	@bash --dump-po-strings usr/share/$(project)/help >> usr/share/locale/$(project).pot
 	@echo "pot file built."
+
+manifest :
+	@echo "Create manifest..."
+	@touch MANIFEST
+	@$(FIND) * > MANIFEST
+
+signature : checksums
+	@echo "Create signature..."
+	@gpg --clearsign SIGNATURE
+	@mv SIGNATURE.asc SIGNATURE
+
+checksums :
+	@echo "Create checksums..."
+	@while read line; do sha1sum $line >> SIGNATURE 2> /dev/null ; done < <(cat MANIFEST)
+
+verify :
+	@echo "Verify files..."
+	#
 
 
 ## Install/Uninstall
@@ -181,7 +201,7 @@ dist : changelog
 	  -exec chmod 777 $(project)-$(version)/{} \;
 	@find docs usr -type f -exec cp {} $(project)-$(version)/{} \; \
 	  -exec chmod 755 $(project)-$(version)/{} \;
-	@$(INSTALL_PROGRAM) -m 755 ChangeLog configure COPYING Makefile NEWS.md README TODO.md $(project)-$(version)
+	@$(INSTALL_PROGRAM) -m 755 ChangeLog configure COPYING Makefile MANIFEST NEWS.md README SIGNATURE TODO.md $(project)-$(version)
 	@echo "Create tarball $(project)-$(version).tar.gz..."
 	@tar czf $(project)-$(version).tar.gz $(project)-$(version)
 	@echo "Release made."
@@ -228,4 +248,4 @@ mostlyclean : clean
 maintainer-clean : clean
 
 
-.PHONY : man info html pdf dvi ps meta readme pot install normal-install post-install install-html install-pdf uninstall dist changelog clean distclean mostlyclean maintainer-clean
+.PHONY : man info html pdf dvi ps meta readme pot install normal-install post-install install-html install-pdf uninstall dist changelog clean distclean mostlyclean maintainer-clean manifest signature checksums verify
