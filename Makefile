@@ -91,6 +91,16 @@ readme :
 	@echo "Build meta information $@..."
 	@$(PANDOC) --from markdown --to plain $< > usr/share/doc/$(project)/$@
 
+pot :
+	@echo "Build pot file..."
+	@bash --dump-po-strings usr/bin/$(project) > usr/share/locale/$(project).pot
+	@bash --dump-po-strings usr/share/$(project)/build >> usr/share/locale/$(project).pot
+	@bash --dump-po-strings usr/share/$(project)/config.inc >> usr/share/locale/$(project).pot
+	@bash --dump-po-strings usr/share/$(project)/create >> usr/share/locale/$(project).pot
+	@bash --dump-po-strings usr/share/$(project)/$(project).inc >> usr/share/locale/$(project).pot
+	@bash --dump-po-strings usr/share/$(project)/help >> usr/share/locale/$(project).pot
+	@echo "pot file built."
+
 
 ## Install/Uninstall
 

@@ -62,7 +62,6 @@ if [ -z "${QUILT+1}" ]; then
 fi
 
 ## Helping tools:
-fi
 if [ -z "${AWK+1}" ]; then
     AWK=$(which awk)
 fi
@@ -205,6 +204,19 @@ fi
 if [ -z "${VERBOSITY+1}" ]; then
     VERBOSITY=$(($LOG_FATAL | $LOG_ERROR))
 fi
+
+
+##
+## Localization
+##
+
+## Path to locale files:
+if [ -z "${TEXTDOMAINDIR+1}" ]; then
+    TEXTDOMAINDIR="/usr/share/locale"
+fi
+
+## Domain:
+TEXTDOMAIN="$PROJECT_NAME"
 
 
 ##
