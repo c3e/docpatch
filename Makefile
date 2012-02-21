@@ -104,11 +104,13 @@ pot :
 	@bash --dump-po-strings usr/share/$(project)/create >> usr/share/locale/$(project).pot
 	@bash --dump-po-strings usr/share/$(project)/$(project).inc >> usr/share/locale/$(project).pot
 	@bash --dump-po-strings usr/share/$(project)/help >> usr/share/locale/$(project).pot
+	@awk '/^msgid/&&!seen[$0]++;!/^msgid/' usr/share/locale/$(project).pot > usr/share/locale/$(project).pot.tmp
+	@mv usr/share/locale/$(project).pot.tmp usr/share/locale/$(project).pot
 	@echo "pot file built."
 
 manifest :
 	@echo "Create manifest..."
-	@touch MANIFEST
+	@test -r MANIFEST && cp MANIFEST MANIFEST.bak || touch MANIFEST
 	@$(FIND) * > MANIFEST
 
 signature : checksums
@@ -119,10 +121,6 @@ signature : checksums
 checksums :
 	@echo "Create checksums..."
 	@while read line; do sha1sum $line >> SIGNATURE 2> /dev/null ; done < <(cat MANIFEST)
-
-verify :
-	@echo "Verify files..."
-	#
 
 
 ## Install/Uninstall
@@ -248,4 +246,4 @@ mostlyclean : clean
 maintainer-clean : clean
 
 
-.PHONY : man info html pdf dvi ps meta readme pot install normal-install post-install install-html install-pdf uninstall dist changelog clean distclean mostlyclean maintainer-clean manifest signature checksums verify
+.PHONY : man info html pdf dvi ps meta readme pot install normal-install post-install install-html install-pdf uninstall dist changelog clean distclean mostlyclean maintainer-clean manifest signature checksums
