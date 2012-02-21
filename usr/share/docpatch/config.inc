@@ -45,27 +45,66 @@ PROJECT_VERSION="0.1"
 ##
 
 ## Main tools:
-GIT=$(which git)
-GPG=$(which gpg)
-MARKDOWN2PDF=$(which markdown2pdf)
-PANDOC=$(which pandoc)
-QUILT=$(which quilt)
+if [ -z "${GIT+1}" ]; then
+    GIT=$(which git)
+fi
+if [ -z "${GPG+1}" ]; then
+    GPG=$(which gpg)
+fi
+if [ -z "${MARKDOWN2PDF+1}" ]; then
+    MARKDOWN2PDF=$(which markdown2pdf)
+fi
+if [ -z "${PANDOC+1}" ]; then
+    PANDOC=$(which pandoc)
+fi
+if [ -z "${QUILT+1}" ]; then
+    QUILT=$(which quilt)
+fi
 
 ## Helping tools:
-AWK=$(which awk)
-CAT=$(which cat)
-CP=$(which cp)
-ECHO=$(which echo)
-GETOPT=$(which getopt)
-GREP=$(which grep)
-GZIP=$(which gzip)
-HEAD=$(which head)
-MAN=$(which man)
-MKDIR=$(which mkdir)
-PWD=$(which pwd)
-RENICE=$(which renice)
-RM=$(which rm)
-WC=$(which wc)
+fi
+if [ -z "${AWK+1}" ]; then
+    AWK=$(which awk)
+fi
+if [ -z "${CAT+1}" ]; then
+    CAT=$(which cat)
+fi
+if [ -z "${CP+1}" ]; then
+    CP=$(which cp)
+fi
+if [ -z "${ECHO+1}" ]; then
+    ECHO=$(which echo)
+fi
+if [ -z "${GETOPT+1}" ]; then
+    GETOPT=$(which getopt)
+fi
+if [ -z "${GREP+1}" ]; then
+    GREP=$(which grep)
+fi
+if [ -z "${GZIP+1}" ]; then
+    GZIP=$(which gzip)
+fi
+if [ -z "${HEAD+1}" ]; then
+    HEAD=$(which head)
+fi
+if [ -z "${MAN+1}" ]; then
+    MAN=$(which man)
+fi
+if [ -z "${MKDIR+1}" ]; then
+    MKDIR=$(which mkdir)
+fi
+if [ -z "${PWD+1}" ]; then
+    PWD=$(which pwd)
+fi
+if [ -z "${RENICE+1}" ]; then
+    RENICE=$(which renice)
+fi
+if [ -z "${RM+1}" ]; then
+    RM=$(which rm)
+fi
+if [ -z "${WC+1}" ]; then
+    WC=$(which wc)
+fi
 
 
 ##
@@ -73,51 +112,74 @@ WC=$(which wc)
 ##
 
 ## References:
-REF_DIR="${BASE_DIR}/ref"
+if [ -z "${REF_DIR+1}" ]; then
+    REF_DIR="${BASE_DIR}/ref"
+fi
 
 ## Source:
-SRC_DIR="${BASE_DIR}/src"
+if [ -z "${SRC_DIR+1}" ]; then
+    SRC_DIR="${BASE_DIR}/src"
+fi
 
 ## Meta information:
-META_DIR="${BASE_DIR}/meta"
+if [ -z "${META_DIR+1}" ]; then
+    META_DIR="${BASE_DIR}/meta"
+fi
 
 ## Meta information:
-ETC_DIR="${BASE_DIR}/etc"
+if [ -z "${ETC_DIR+1}" ]; then
+    ETC_DIR="${BASE_DIR}/etc"
+fi
 
 ## Patches:
-PATCH_DIR="${BASE_DIR}/src/patches"
+if [ -z "${PATCH_DIR+1}" ]; then
+    PATCH_DIR="${BASE_DIR}/src/patches"
+fi
 
 ## Templates:
-TPL_DIR="${BASE_DIR}/tpl";
+if [ -z "${TPL_DIR+1}" ]; then
+    TPL_DIR="${BASE_DIR}/tpl";
+fi
 
 ## Outputs:
-OUTPUT_DIR="${BASE_DIR}/out"
+if [ -z "${OUTPUT_DIR+1}" ]; then
+    OUTPUT_DIR="${BASE_DIR}/out"
+fi
 
 ## Repository:
-REPO_DIR="${BASE_DIR}/repo"
+if [ -z "${REPO_DIR+1}" ]; then
+    REPO_DIR="${BASE_DIR}/repo"
+fi
 
 ## Path to shared libraries:
-LIB_DIR="/usr/share/${PROJECT_NAME}"
+if [ -z "${LIB_DIR+1}" ]; then
+    LIB_DIR="/usr/share/${PROJECT_NAME}"
+fi
 
 ## Path to configuration files:
-CONFIG_DIR="/etc/${PROJECT_NAME}"
+if [ -z "${CONFIG_DIR+1}" ]; then
+    CONFIG_DIR="/etc/${PROJECT_NAME}"
+fi
 
 ## Path to temporary files:
-TMP_DIR="/tmp"
+if [ -z "${TMP_DIR+1}" ]; then
+    TMP_DIR="/tmp"
+fi
 
 ## Path to examples (configuration and template files)
-EXAMPLE_DIR="/usr/share/doc/${PROJECT_NAME}/examples"
+if [ -z "${EXAMPLE_DIR+1}" ]; then
+    EXAMPLE_DIR="/usr/share/doc/${PROJECT_NAME}/examples"
+fi
 
 ## Path to file with information about output formats:
-OUTPUT_FORMAT_FILE="${LIB_DIR}/output_formats.txt"
+if [ -z "${OUTPUT_FORMAT_FILE+1}" ]; then
+    OUTPUT_FORMAT_FILE="${LIB_DIR}/output_formats.txt"
+fi
 
 
 ##
 ## Logging and output
 ##
-
-## Main log file
-LOG_FILE="${BASE_DIR}/${PROJECT_NAME}.log"
 
 ## Log events:
 LOG_NONE=0
@@ -129,11 +191,20 @@ LOG_INFO=16
 LOG_DEBUG=32
 LOG_ALL=63
 
+## Main log file
+if [ -z "${LOG_FILE+1}" ]; then
+    LOG_FILE="${BASE_DIR}/${PROJECT_NAME}.log"
+fi
+
 ## Log level:
-LOG_LEVEL=$LOG_NONE
+if [ -z "${LOG_LEVEL+1}" ]; then
+    LOG_LEVEL=$LOG_NONE
+fi
 
 ## Verbose level:
-VERBOSITY=$(($LOG_FATAL | $LOG_ERROR))
+if [ -z "${VERBOSITY+1}" ]; then
+    VERBOSITY=$(($LOG_FATAL | $LOG_ERROR))
+fi
 
 
 ##
@@ -142,21 +213,51 @@ VERBOSITY=$(($LOG_FATAL | $LOG_ERROR))
 ## <http://dublincore.org/documents/dces/>)
 ##
 
-CONTRIBUTOR=""
-COVERAGE=""
-CREATOR=""
-DATE=""
-DESCRIPTION=""
-FORMAT=""
-IDENTIFIER=""
-LANGUAGE=""
-PUBLISHER=""
-RELATION=""
-RIGHTS=""
-SOURCE=""
-SUBJECT=""
-TITLE=""
-TYPE=""
+if [ -z "${CONTRIBUTOR+1}" ]; then
+    CONTRIBUTOR=""
+fi
+if [ -z "${COVERAGE+1}" ]; then
+    COVERAGE=""
+fi
+if [ -z "${CREATOR+1}" ]; then
+    CREATOR=""
+fi
+if [ -z "${DATE+1}" ]; then
+    DATE=""
+fi
+if [ -z "${DESCRIPTION+1}" ]; then
+    DESCRIPTION=""
+fi
+if [ -z "${FORMAT+1}" ]; then
+    FORMAT=""
+fi
+if [ -z "${IDENTIFIER+1}" ]; then
+    IDENTIFIER=""
+fi
+if [ -z "${LANGUAGE+1}" ]; then
+    LANGUAGE=""
+fi
+if [ -z "${PUBLISHER+1}" ]; then
+    PUBLISHER=""
+fi
+if [ -z "${RELATION+1}" ]; then
+    RELATION=""
+fi
+if [ -z "${RIGHTS+1}" ]; then
+    RIGHTS=""
+fi
+if [ -z "${SOURCE+1}" ]; then
+    SOURCE=""
+fi
+if [ -z "${SUBJECT+1}" ]; then
+    SUBJECT=""
+fi
+if [ -z "${TITLE+1}" ]; then
+    TITLE=""
+fi
+if [ -z "${TYPE+1}" ]; then
+    TYPE=""
+fi
 
 
 ##
@@ -164,65 +265,107 @@ TYPE=""
 ##
 
 ## Docpatch configuration file:
-DOCPATCH_CONF_SOURCE="${ETC_DIR}/docpatch.conf"
-DOCPATCH_CONF_TARGET="${REPO_DIR}/.docpatch"
+if [ -z "${DOCPATCH_CONF_SOURCE+1}" ]; then
+    DOCPATCH_CONF_SOURCE="${ETC_DIR}/docpatch.conf"
+fi
+if [ -z "${DOCPATCH_CONF_TARGET+1}" ]; then
+    DOCPATCH_CONF_TARGET="${REPO_DIR}/.docpatch"
+fi
 
 ## git configuration file:
-GIT_CONF_SOURCE="${ETC_DIR}/git.conf"
-GIT_CONF_TARGET="${REPO_DIR}/.git/config"
+if [ -z "${GIT_CONF_SOURCE+1}" ]; then
+    GIT_CONF_SOURCE="${ETC_DIR}/git.conf"
+fi
+if [ -z "${GIT_CONF_TARGET+1}" ]; then
+    GIT_CONF_TARGET="${REPO_DIR}/.git/config"
+fi
 
 ## .gitignore:
-GIT_IGNORE_SOURCE="${ETC_DIR}/gitignore"
-GIT_IGNORE_SOURCE="${REPO_DIR}/.gitignore"
+if [ -z "${GIT_IGNORE_SOURCE+1}" ]; then
+    GIT_IGNORE_SOURCE="${ETC_DIR}/gitignore"
+fi
+if [ -z "${GIT_IGNORE_SOURCE+1}" ]; then
+    GIT_IGNORE_SOURCE="${REPO_DIR}/.gitignore"
+fi
 
 ## README:
-README_SOURCE="${ETC_DIR}/README.md"
-README_TARGET="${REPO_DIR}/README"
+if [ -z "${README_SOURCE+1}" ]; then
+    README_SOURCE="${ETC_DIR}/README.md"
+fi
+if [ -z "${README_TARGET+1}" ]; then
+    README_TARGET="${REPO_DIR}/README"
+fi
 
 
 ##
-## Runtime settings
+## Default runtime settings
 ##
 
 ## Input format:
-INPUT_FORMAT="markdown"
+if [ -z "${INPUT_FORMAT+1}" ]; then
+    INPUT_FORMAT="markdown"
+fi
 
 ## File extension of input format:
-INPUT_FORMAT_EXT=".md"
+if [ -z "${INPUT_FORMAT_EXT+1}" ]; then
+    INPUT_FORMAT_EXT=".md"
+fi
 
 ## Output format:
-OUTPUT_FORMAT="pdf"
+if [ -z "${OUTPUT_FORMAT+1}" ]; then
+    OUTPUT_FORMAT="pdf"
+fi
 
 ## Revision taken from given arguments:
-ARG_REVISION=""
+if [ -z "${ARG_REVISION+1}" ]; then
+    ARG_REVISION=""
+fi
 
 ## Current handled revision:
-REVISION=""
+if [ -z "${REVISION+1}" ]; then
+    REVISION=""
+fi
 
 ## Amount of revisions:
-REVISIONS=0
+if [ -z "${REVISIONS+1}" ]; then
+    REVISIONS=0
+fi
 
 ## All revisions that will be handled:
-LIST_OF_REVISIONS=""
+if [ -z "${LIST_OF_REVISIONS+1}" ]; then
+    LIST_OF_REVISIONS=""
+fi
 
 ## Repository:
-REPOSITORY=""
+if [ -z "${REPOSITORY+1}" ]; then
+    REPOSITORY=""
+fi
 
 ## Add OpenPGP signature taken from git configuration file:
-SIGN=0
+if [ -z "${SIGN+1}" ]; then
+    SIGN=0
+fi
 
 ## Prints table of contents (TOC) to output:
-TOC=0
+if [ -z "${TOC+1}" ]; then
+    TOC=0
+fi
 
 ## Embed output format (otherwise create standalone version if supported):
-EMBED=0
+if [ -z "${EMBED+1}" ]; then
+    EMBED=0
+fi
 
 ## Use simple mode to create output (otherwise create smart version if
 ## supported)
-SIMPLE=0
+if [ -z "${SIMPLE+1}" ]; then
+    SIMPLE=0
+fi
 
 ## Own nice level:
-NICE_LEVEL=0
+if [ -z "${NICE_LEVEL+1}" ]; then
+    NICE_LEVEL=0
+fi
 
 ## Process identifier (PID):
 PID=0

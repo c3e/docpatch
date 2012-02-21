@@ -54,24 +54,26 @@ SUB_COMMAND=""
 ## Includes
 ##
 
+## Include local configuration:
+if [ -r "/etc/${PROJECT_NAME}/${PROJECT_NAME}.conf" ]; then
+    . /etc/docpatch/"$PROJECT_NAME".conf
+  fi
+
+## Include user configuration:
+if [ -r "~/.${PROJECT_NAME}.conf" ]; then
+    . ~/."$PROJECT_NAME".conf
+  fi
+
+## Include project configuration:
+if [ -r "${BASE_DIR}/.${PROJECT_NAME}.conf" ]; then
+    . "$BASE_DIR"/."$PROJECT_NAME".conf
+  fi
+
 ## Include default configuration:
 if [ ! -r "/usr/share/docpatch/config.inc" ]; then
     exit 255
   fi
 . /usr/share/docpatch/config.inc
-
-## Include local configuration:
-if [ -r "/etc/${PROJECT_NAME}/${PROJECT_NAME}.conf" ]; then
-    . /etc/docpatch/"$PROJECT_NAME".conf
-  fi
-## Include user configuration:
-if [ -r "~/.${PROJECT_NAME}.conf" ]; then
-    . ~/."$PROJECT_NAME".conf
-  fi
-## Include project configuration:
-if [ -r "${BASE_DIR}/.${PROJECT_NAME}.conf" ]; then
-    . "$BASE_DIR"/."$PROJECT_NAME".conf
-  fi
 
 ## Include base functions:
 if [ ! -r "/usr/share/${PROJECT_NAME}/${PROJECT_NAME}.inc" ]; then
