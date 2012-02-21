@@ -31,7 +31,6 @@ TOUCH = $(which touch)
 project = $(shell cat usr/share/docpatch/config.inc | sed -n 's/^PROJECT_NAME="\(.*\)"$$/\1/p')
 man1pages = $(project) $(project)-build $(project)-create
 metainfos = NEWS README TODO
-docs = 
 languages = de
 version = $(shell cat usr/share/docpatch/config.inc | sed -n 's/^PROJECT_VERSION="\(.*\)"$$/\1/p')
 
@@ -59,16 +58,16 @@ man : $(man1pages)
 
 info :
 	@echo "Build info documentation..."
-	#@mkdir docs/info
-	#@$(PANDOC) --from markdown --to texinfo $(docs) --toc --standalone | $(GZIP) -c > docs/info/$(project).info.gz
+	@mkdir -p usr/share/info
+	@$(PANDOC) --from markdown --to texinfo --toc --standalone usr/share/man/man1/$(project).1.md | $(GZIP) -c > usr/share/info/$(project).info.gz
 
 html :
 	@echo "Build HTML documentation..."
-	#@$(PANDOC) --from markdown --to html -o docs/html/$(project).html --toc --standalone $(docs)
+	@$(PANDOC) --from markdown --to html -o $(project).html --toc --standalone usr/share/man/man1/$(project).1.md
 
 pdf :
 	@echo "Build PDF documentation..."
-	#@$(MARKDOWN2PDF) -o docs/pdf/$(project).pdf $(docs)
+	@$(MARKDOWN2PDF) -o $(project).pdf usr/share/man/man1/$(project).1.md
 
 dvi :
 	@echo "Failed to build DVI documentation. It's not supported."
@@ -120,7 +119,8 @@ signature : checksums
 
 checksums :
 	@echo "Create checksums..."
-	@while read line; do sha1sum $line >> SIGNATURE 2> /dev/null ; done < <(cat MANIFEST)
+	@rm -f SIGNATURE
+	@bash -c 'while read line; do sha1sum $line >> SIGNATURE 2> /dev/null ; done < <(cat MANIFEST)'
 
 
 ## Install/Uninstall
@@ -139,10 +139,10 @@ normal-install :
 	@$(INSTALL) usr/share/$(project)/* $(DESTDIR)$(datadir)/$(project)
 	@mkdir -p $(DESTDIR)$(docdir)
 	@$(INSTALL_DATA) \
-	  usr/share/doc/$(project)/COPYING \
-	  usr/share/doc/$(project)/NEWS \
-	  usr/share/doc/$(project)/README \
-	  usr/share/doc/$(project)/TODO $(DESTDIR)$(docdir)
+	    usr/share/doc/$(project)/COPYING \
+	    usr/share/doc/$(project)/NEWS \
+	    usr/share/doc/$(project)/README \
+	    usr/share/doc/$(project)/TODO $(DESTDIR)$(docdir)
 	@mkdir -p $(DESTDIR)$(docdir)/examples
 	@mkdir -p $(DESTDIR)$(docdir)/examples/etc
 	@$(INSTALL_DATA) usr/share/doc/$(project)/examples/etc/* $(DESTDIR)$(docdir)/examples/etc
@@ -151,14 +151,10 @@ normal-install :
 post-install :
 	$(POST_INSTALL)
 	@echo "Install info documentation..."
-	#@if [ ! -d $(DESTDIR)$(infodir) ]; then \
-	#    mkdir -p $(DESTDIR)$(infodir); \
-	#  fi
-	#@$(INSTALL_DATA) docs/info/*.info.gz $(DESTDIR)$(infodir)
-	#install-info --dir-file="$(DESTDIR)$(infodir)/dir" $(DESTDIR)$(infodir)/$(project).info.gz
-	@if [ ! -d $(DESTDIR)$(man1dir) ]; then \
-	    mkdir -p $(DESTDIR)$(man1dir); \
-	  fi
+	@test ! -d $(DESTDIR)$(infodir) && mkdir -p $(DESTDIR)$(infodir)
+	@$(INSTALL_DATA) usr/share/info/*.info.gz $(DESTDIR)$(infodir)
+	install-info --dir-file="$(DESTDIR)$(infodir)/dir" $(DESTDIR)$(infodir)/$(project).info.gz
+	@test ! -d $(DESTDIR)$(man1dir) && mkdir -p $(DESTDIR)$(man1dir)
 	@$(INSTALL_DATA) usr/share/man/man1/*.1.gz $(DESTDIR)$(man1dir)
 
 % : usr/share/locale/%
@@ -168,16 +164,16 @@ post-install :
 
 install-html :
 	@echo "Install HTML documentation..."
-	#@$(INSTALL_DATA) docs/html/*.html $(DESTDIR)$(htmldir)
+	@$(INSTALL_DATA) *.html $(DESTDIR)$(htmldir)
 
 install-pdf :
 	@echo "Install PDF documentation..."
-	#@$(INSTALL_DATA) docs/pdf/*.pdf $(DESTDIR)$(pdfdir)
+	@$(INSTALL_DATA) *.pdf $(DESTDIR)$(pdfdir)
 
 uninstall :
 	$(PRE_UNINSTALL)
 	@echo "Uninstall info documentation..."
-	#@rm $(DESTDIR)$(infodir)/$(project).info.gz
+	@rm $(DESTDIR)$(infodir)/$(project).info.gz
 	$(NORMAL_UNINSTALL)
 	@echo "Uninstall $(project)..."
 	@rm $(DESTDIR)$(bindir)/$(project)
@@ -231,13 +227,12 @@ distclean :
 	@echo "Remove man pages..."
 	@$(FIND) usr/share/man -name '*.gz' -delete
 	@echo "Remove documentation..."
-	#@rm -rf docs/info/
-	#@$(FIND) docs/html/ -name '*.html' -delete
-	#@$(FIND) docs/pdf/ -name '*.pdf' -delete
+	@rm -rf usr/share/info/
+	@rm -f $(project).html
+	@rm -f $(project).pdf
 	@echo "Remove meta information about $(project)..."
 	@rm -f usr/share/doc/$(project)/COPYING
 	@rm -f usr/share/doc/$(project)/NEWS
-	@rm -f README
 	@rm -f usr/share/doc/$(project)/README
 	@rm -f usr/share/doc/$(project)/TODO
 
