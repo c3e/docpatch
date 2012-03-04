@@ -131,7 +131,7 @@ normal-install :
 	$(NORMAL_INSTALL)
 	@echo "Install $(project)..."
 	@mkdir -p $(DESTDIR)$(bindir)
-	@$(INSTALL) usr/bin/$(project) $(DESTDIR)$(bindir)
+	@$(INSTALL) usr/bin/* $(DESTDIR)$(bindir)
 	@mkdir -p $(DESTDIR)$(datadir)/$(project)
 	@$(INSTALL) usr/share/$(project)/* $(DESTDIR)$(datadir)/$(project)
 	@mkdir -p $(DESTDIR)$(docdir)
