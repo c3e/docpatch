@@ -109,8 +109,7 @@ pot :
 
 manifest :
 	@echo "Create manifest..."
-	@test -r MANIFEST && cp MANIFEST MANIFEST.bak || touch MANIFEST
-	@$(FIND) * > MANIFEST
+	@$(FIND) * -type f > MANIFEST
 
 signature : checksums
 	@echo "Create signature..."
