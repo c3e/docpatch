@@ -1,8 +1,45 @@
 #!/usr/bin/php
 <?php
 
+/**
+ * DocPatch -- patching documents that matter
+ * Copyright (C) 2011 Benjamin Heisig <http://benjamin.heisig.name/>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/**
+ * Leetspeak
+ *
+ * @package DocPatch
+ * @subpackage Leetspeak
+ * @author Benjamin Heisig <http://benjamin.heisig.name/>
+ * @version 0.1
+ *
+ * @todo Translation is very limited (only a small amount of lower characters)
+ * @todo Some translations produces wrong results.
+ */
 class Leetspeak {
 
+    /**
+     * List of characters by level
+     * 
+     * Level 0 is our normal alphabet, 0-9 are leetspeak levels. The higher the
+     * level the harder is the leetspeak dialect.
+     *
+     * @var array Indexed array of characters (strings)
+     */
     protected static $characters = array(
         0 => array("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"),
         1 => array("4", "b", "c", "d", "3", "f", "g", "h", "i", "j", "k", "1", "m", "n", "0", "p", "9", "r", "s", "7", "u", "v", "w", "x", "y", "z"),
@@ -16,6 +53,15 @@ class Leetspeak {
         9 => array("@", "8", "(", "|)", "&", "|=", "6", "|-|", "!", "_|", "|\{", "|_", "/\\/\\", "|\\|", "()", "|>", "(,)", "|2", "$", "|", "|_|", "\\/", "\\^/", ")(", "'/", "\"/_")
     );
 
+    /**
+     * Translates text from one level to another level.
+     * 
+     * @param string $text Text which will be translated
+     * @param int $from Text's current level
+     * @param int $to Destinated level
+     *
+     * @return string Translated text
+     */
     public static function translate($text, $from, $to) {
         if (!is_string($text)) {
             throw new BadMethodCallException(
@@ -42,17 +88,31 @@ class Leetspeak {
         );
     }
 
+    /**
+     * Translates normal text into leetspeak.
+     *
+     * @param string $text Normal text (level is 0)
+     * @param int $level (optional) Destinated level. Defaults to 1.
+     *
+     * @return string Translated text
+     */
     public static function text2leet($text, $level = 1) {
         return self::translate($text, 0, $level);
     }
 
+    /**
+     * Translates leetspeak into normal text.
+     *
+     * @param string $text Leetspeak
+     * @param int $level (optional) Leetspeak's level. Defaults to 1.
+     *
+     * @return string Orginal text
+     */
     public static function leet2text($leet, $level = 1) {
         return self::translate($text, $level, 0);
     }
 
 }
-
-error_reporting(E_ALL | E_STRICT);
 
 try {
     $options = getopt(
