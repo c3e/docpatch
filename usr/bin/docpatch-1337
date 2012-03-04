@@ -1,0 +1,138 @@
+#!/usr/bin/php
+<?php
+
+class Leetspeak {
+
+    protected static $characters = array(
+        0 => array("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"),
+        1 => array("4", "b", "c", "d", "3", "f", "g", "h", "i", "j", "k", "1", "m", "n", "0", "p", "9", "r", "s", "7", "u", "v", "w", "x", "y", "z"),
+        2 => array("4", "b", "c", "d", "3", "f", "g", "h", "1", "j", "k", "1", "m", "n", "0", "p", "9", "r", "5", "7", "u", "v", "w", "x", "y", "2"),
+        3 => array("4", "8", "c", "d", "3", "f", "6", "h", "'", "j", "k", "1", "m", "n", "0", "p", "9", "r", "5", "7", "u", "v", "w", "x", "'/", "2"),
+        4 => array("@", "8", "c", "d", "3", "f", "6", "h", "'", "j", "k", "1", "m", "n", "0", "p", "9", "r", "5", "7", "u", "v", "w", "x", "'/", "2"),
+        5 => array("@", "|3", "c", "d", "3", "f", "6", "#", "!", "7", "|<", "1", "m", "n", "0", "|>", "9", "|2", "$", "7", "u", "\\/", "w", "x", "'/", "2"),
+        6 => array("@", "|3", "c", "|)", "&", "|=", "6", "#", "!", ",|", "|<", "1", "m", "n", "0", "|>", "9", "|2", "$", "7", "u", "\\/", "w", "x", "'/", "2"),
+        7 => array("@", "|3", "[", "|)", "&", "|=", "6", "#", "!", ",|", "|<", "1", "^^", "^/", "0", "|*", "9", "|2", "5", "7", "(_)", "\\/", "\\/\\/", "><", "'/", "2"),
+        8 => array("@", "8", "(", "|)", "&", "|=", "6", "|-|", "!", "_|", "|\(", "1", "|\\/|", "|\\|", "()", "|>", "(,)", "|2", "$", "|", "|_|", "\\/", "\\^/", ")(", "'/", "\"/_"),
+        9 => array("@", "8", "(", "|)", "&", "|=", "6", "|-|", "!", "_|", "|\{", "|_", "/\\/\\", "|\\|", "()", "|>", "(,)", "|2", "$", "|", "|_|", "\\/", "\\^/", ")(", "'/", "\"/_")
+    );
+
+    public static function translate($text, $from, $to) {
+        if (!is_string($text)) {
+            throw new BadMethodCallException(
+                'Text is invalid.'
+            );
+        }
+
+        if (!is_int($from) || !array_key_exists($from, self::$characters)) {
+            throw new BadMethodCallException(
+                'Original level is invalid.'
+            );
+        }
+
+        if (!is_int($to) || !array_key_exists($to, self::$characters)) {
+            throw new BadMethodCallException(
+                'Output level is invalid.'
+            );
+        }
+
+        return str_replace(
+            self::$characters[$from],
+            self::$characters[$to],
+            strtolower($text)
+        );
+    }
+
+    public static function text2leet($text, $level = 1) {
+        return self::translate($text, 0, $level);
+    }
+
+    public static function leet2text($leet, $level = 1) {
+        return self::translate($text, $level, 0);
+    }
+
+}
+
+error_reporting(E_ALL | E_STRICT);
+
+try {
+    $options = getopt(
+        "f:r:t:w:i:o:",
+        array("from:", "read:", "to:", "write:", "inputlevel:", "outputlevel:")
+    );
+
+    $input = null;
+    $output = null;
+    $inputLevel = 0;
+    $outputLevel = 1;
+
+    if (array_key_exists('f', $options)) {
+        $input = $options['f'];
+    } else if (array_key_exists('r', $options)) {
+        $input = $options['r'];
+    } else if (array_key_exists('from', $options)) {
+        $input = $options['from'];
+    } else if (array_key_exists('read', $options)) {
+        $input = $options['read'];
+    }
+
+    if (array_key_exists('t', $options)) {
+        $output = $options['t'];
+    } else if (array_key_exists('w', $options)) {
+        $output = $options['w'];
+    } else if (array_key_exists('to', $options)) {
+        $output = $options['to'];
+    } else if (array_key_exists('write', $options)) {
+        $output = $options['write'];
+    }
+
+    if (array_key_exists('i', $options)) {
+        $inputLevel = intval($options['i']);
+    } else if (array_key_exists('inputlevel', $options)) {
+        $inputLevel = intval($options['inputlevel']);
+    }
+
+    if (array_key_exists('o', $options)) {
+        $outputLevel = intval($options['o']);
+    } else if (array_key_exists('outputlevel', $options)) {
+        $outputLevel = intval($options['outputlevel']);
+    }
+
+    $source = '';
+
+    if (isset($input)) {
+        $source = file_get_contents($input);
+
+        if ($source === false) {
+            throw new InvalidArgumentException(
+                sprintf('Input file "%s" is not accessible.', $input)
+            );
+        }
+    } else {
+        while ($line = fgets(STDIN)) {
+            $source .= $line;
+        }
+    }
+
+    if (isset($output)) {
+        $status = file_put_contents(
+            $output,
+            Leetspeak::translate($source, $inputLevel, $outputLevel)
+        );
+
+        if ($status === false) {
+            throw new InvalidArgumentException(
+                sprintf('Output file "%s" is not accessible.', $output)
+            );
+        }
+    } else {
+        fwrite(STDOUT, Leetspeak::text2leet($source, $inputLevel, $outputLevel));
+    }
+
+    exit(0);
+} catch (Exception $e) {
+    fwrite(STDERR, $e->getMessage());
+
+    exit(1);
+}
+
+?>
