@@ -130,9 +130,7 @@ install : normal-install $(languages) post-install
 normal-install :
 	$(NORMAL_INSTALL)
 	@echo "Install $(project)..."
-	@if [ ! -d $(DESTDIR)$(bindir) ]; then \
-	    mkdir -p $(DESTDIR)$(bindir); \
-	  fi
+	@mkdir -p $(DESTDIR)$(bindir)
 	@$(INSTALL) usr/bin/$(project) $(DESTDIR)$(bindir)
 	@mkdir -p $(DESTDIR)$(datadir)/$(project)
 	@$(INSTALL) usr/share/$(project)/* $(DESTDIR)$(datadir)/$(project)
@@ -150,10 +148,10 @@ normal-install :
 post-install :
 	$(POST_INSTALL)
 	@echo "Install info documentation..."
-	@test ! -d $(DESTDIR)$(infodir) && mkdir -p $(DESTDIR)$(infodir)
+	@mkdir -p $(DESTDIR)$(infodir)
 	@$(INSTALL_DATA) usr/share/info/*.info.gz $(DESTDIR)$(infodir)
 	install-info --dir-file="$(DESTDIR)$(infodir)/dir" $(DESTDIR)$(infodir)/$(project).info.gz
-	@test ! -d $(DESTDIR)$(man1dir) && mkdir -p $(DESTDIR)$(man1dir)
+	@mkdir -p $(DESTDIR)$(man1dir)
 	@$(INSTALL_DATA) usr/share/man/man1/*.1.gz $(DESTDIR)$(man1dir)
 
 % : usr/share/locale/%
