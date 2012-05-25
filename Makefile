@@ -87,6 +87,10 @@ readme :
 	@echo "Build README from man page..."
 	@$(PANDOC) --from markdown --to plain --standalone usr/share/man/man1/docpatch.1.md > README
 
+credits :
+	@echo "Extracting authors from git log..."
+	@git shortlog -n --no-merges -e -s > CREDITS
+
 % : usr/share/man/man1/%.1.md
 	@echo "Build man1 page $@..."
 	@$(PANDOC) -s --from markdown --to man $< | $(GZIP) -c > usr/share/man/man1/$@.1.gz
@@ -238,4 +242,4 @@ mostlyclean : clean
 maintainer-clean : clean
 
 
-.PHONY : man info html pdf dvi ps meta readme pot install normal-install post-install install-html install-pdf uninstall dist changelog clean distclean mostlyclean maintainer-clean manifest signature checksums
+.PHONY : man info html pdf dvi ps meta readme pot install normal-install post-install install-html install-pdf uninstall dist changelog clean distclean mostlyclean maintainer-clean manifest signature checksums credits
