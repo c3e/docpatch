@@ -57,16 +57,16 @@ man : $(man1pages)
 	@echo "Man pages built."
 
 info :
-	@echo "Build info documentation..."
+	@echo "Building info documentation..."
 	@mkdir -p usr/share/info
 	@$(PANDOC) --from markdown --to texinfo --toc --standalone usr/share/man/man1/$(project).1.md | $(GZIP) -c > usr/share/info/$(project).info.gz
 
 html :
-	@echo "Build HTML documentation..."
+	@echo "Building HTML documentation..."
 	@$(PANDOC) --from markdown --to html -o $(project).html --toc --standalone usr/share/man/man1/$(project).1.md
 
 pdf :
-	@echo "Build PDF documentation..."
+	@echo "Building PDF documentation..."
 	@$(MARKDOWN2PDF) -o $(project).pdf usr/share/man/man1/$(project).1.md
 
 dvi :
@@ -78,29 +78,25 @@ ps :
 	exit 1
 
 meta : $(metainfos)
-	@echo "Copy meta information COPYING..."
+	@echo "Copying meta information COPYING..."
 	@cp COPYING usr/share/doc/$(project)/COPYING
 	@cp README usr/share/doc/$(project)/README
 	@echo "Meta information built."
 
 readme :
-	@echo "Build README from man page..."
+	@echo "Building README from man page..."
 	@$(PANDOC) --from markdown --to plain --standalone usr/share/man/man1/docpatch.1.md > README
 
-credits :
-	@echo "Extracting authors from git log..."
-	@git shortlog -n --no-merges -e -s > CREDITS
-
 % : usr/share/man/man1/%.1.md
-	@echo "Build man1 page $@..."
+	@echo "Building man1 page $@..."
 	@$(PANDOC) -s --from markdown --to man $< | $(GZIP) -c > usr/share/man/man1/$@.1.gz
 
 % : %.md
-	@echo "Build meta information $@..."
+	@echo "Building meta information $@..."
 	@$(PANDOC) --from markdown --to plain $< > usr/share/doc/$(project)/$@
 
 pot :
-	@echo "Build pot file..."
+	@echo "Building pot file..."
 	@bash --dump-po-strings usr/bin/$(project) > usr/share/locale/$(project).pot
 	@bash --dump-po-strings usr/share/$(project)/build >> usr/share/locale/$(project).pot
 	@bash --dump-po-strings usr/share/$(project)/config.inc >> usr/share/locale/$(project).pot
@@ -112,16 +108,16 @@ pot :
 	@echo "pot file built."
 
 manifest :
-	@echo "Create manifest..."
+	@echo "Creating manifest..."
 	@$(FIND) * -type f > MANIFEST
 
 signature : checksums
-	@echo "Create signature..."
+	@echo "Creating signature..."
 	@gpg --clearsign SIGNATURE
 	@mv SIGNATURE.asc SIGNATURE
 
 checksums :
-	@echo "Create checksums..."
+	@echo "Creating checksums..."
 	@rm -f SIGNATURE
 	@bash -c 'while read line; do sha1sum $line >> SIGNATURE 2> /dev/null ; done < <(cat MANIFEST)'
 
@@ -133,7 +129,7 @@ install : normal-install $(languages) post-install
 
 normal-install :
 	$(NORMAL_INSTALL)
-	@echo "Install $(project)..."
+	@echo "Installing $(project)..."
 	@mkdir -p $(DESTDIR)$(bindir)
 	@$(INSTALL) usr/bin/* $(DESTDIR)$(bindir)
 	@mkdir -p $(DESTDIR)$(datadir)/$(project)
@@ -151,7 +147,7 @@ normal-install :
 
 post-install :
 	$(POST_INSTALL)
-	@echo "Install info documentation..."
+	@echo "Installing info documentation..."
 	@mkdir -p $(DESTDIR)$(infodir)
 	@$(INSTALL_DATA) usr/share/info/*.info.gz $(DESTDIR)$(infodir)
 	install-info --dir-file="$(DESTDIR)$(infodir)/dir" $(DESTDIR)$(infodir)/$(project).info.gz
@@ -159,24 +155,24 @@ post-install :
 	@$(INSTALL_DATA) usr/share/man/man1/*.1.gz $(DESTDIR)$(man1dir)
 
 % : usr/share/locale/%
-	@echo "Copy po files for language $@..."
+	@echo "Copying po files for language $@..."
 	@mkdir -p $(DESTDIR)$(localedir)/$@
 	@$(INSTALL_DATA) usr/share/locale/$@/$(project).po $(DESTDIR)$(localedir)/$@/
 
 install-html :
-	@echo "Install HTML documentation..."
+	@echo "Installing HTML documentation..."
 	@$(INSTALL_DATA) *.html $(DESTDIR)$(htmldir)
 
 install-pdf :
-	@echo "Install PDF documentation..."
+	@echo "Installing PDF documentation..."
 	@$(INSTALL_DATA) *.pdf $(DESTDIR)$(pdfdir)
 
 uninstall :
 	$(PRE_UNINSTALL)
-	@echo "Uninstall info documentation..."
+	@echo "Uninstalling info documentation..."
 	@rm $(DESTDIR)$(infodir)/$(project).info.gz
 	$(NORMAL_UNINSTALL)
-	@echo "Uninstall $(project)..."
+	@echo "Uninstalling $(project)..."
 	@rm $(DESTDIR)$(bindir)/$(project)
 	@rm -r $(DESTDIR)$(datadir)/$(project)/
 	@rm -r $(DESTDIR)$(docdir)
@@ -187,22 +183,22 @@ uninstall :
 
 ## Release
 
-dist : changelog
-	@echo "Create directory $(project)-$(version)/..."
+dist : changelog credits
+	@echo "Creating directory $(project)-$(version)/..."
 	@mkdir $(project)-$(version)
-	@echo "Copy files to $(project)-$(version)/..."
+	@echo "Copying files to $(project)-$(version)/..."
 	@chmod 777 -R $(project)-$(version)/
 	@find docs usr -type d -exec mkdir $(project)-$(version)/{} \; \
 	  -exec chmod 777 $(project)-$(version)/{} \;
 	@find docs usr -type f -exec cp {} $(project)-$(version)/{} \; \
 	  -exec chmod 755 $(project)-$(version)/{} \;
-	@$(INSTALL_PROGRAM) -m 755 ChangeLog configure COPYING Makefile MANIFEST NEWS.md README SIGNATURE TODO.md $(project)-$(version)
-	@echo "Create tarball $(project)-$(version).tar.gz..."
+	@$(INSTALL_PROGRAM) -m 755 ChangeLog configure CREDITS COPYING Makefile MANIFEST NEWS.md README SIGNATURE TODO.md $(project)-$(version)
+	@echo "Creating tarball $(project)-$(version).tar.gz..."
 	@tar czf $(project)-$(version).tar.gz $(project)-$(version)
 	@echo "Release made."
 
 changelog :
-	@echo "Create changelog from git log..."
+	@echo "Creating changelog from git log..."
 	@if [ -d ".git" ]; then \
 	    git log --date-order --date=short | \
 	    sed -e '/^commit.*$$/d' | \
@@ -215,23 +211,32 @@ changelog :
 	    exit 1 ; \
 	  fi
 
+credits :
+	@echo "Extracting authors from git log..."
+	@if [ -d ".git" ]; then \
+	    git shortlog --numbered --no-merges --email --summary > CREDITS \
+	  else \
+	    echo "No git repository present." ; \
+	    exit 1 ; \
+	  fi
+
 
 ## Clean up
 
 clean : distclean
-	@echo "Remove distribution..."
+	@echo "Removing distribution..."
 	@rm -rf $(project)-$(version)/
 	@rm -f $(project)-$(version).tar.gz
-	@rm -f ChangeLog
+	@rm -f ChangeLog CREDITS
 
 distclean :
-	@echo "Remove man pages..."
+	@echo "Removing man pages..."
 	@$(FIND) usr/share/man -name '*.gz' -delete
-	@echo "Remove documentation..."
+	@echo "Removing documentation..."
 	@rm -rf usr/share/info/
 	@rm -f $(project).html
 	@rm -f $(project).pdf
-	@echo "Remove meta information about $(project)..."
+	@echo "Removing meta information about $(project)..."
 	@rm -f usr/share/doc/$(project)/COPYING
 	@rm -f usr/share/doc/$(project)/NEWS
 	@rm -f usr/share/doc/$(project)/README
@@ -242,4 +247,4 @@ mostlyclean : clean
 maintainer-clean : clean
 
 
-.PHONY : man info html pdf dvi ps meta readme pot install normal-install post-install install-html install-pdf uninstall dist changelog clean distclean mostlyclean maintainer-clean manifest signature checksums credits
+.PHONY : man info html pdf dvi ps meta readme pot install normal-install post-install install-html install-pdf uninstall dist changelog credits clean distclean mostlyclean maintainer-clean manifest signature checksums
