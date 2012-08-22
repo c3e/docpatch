@@ -3,7 +3,7 @@
 
 /**
  * DocPatch -- patching documents that matter
- * Copyright (C) 2011 Benjamin Heisig <http://benjamin.heisig.name/>
+ * Copyright (C) 2012 Benjamin Heisig <https://benjamin.heisig.name/>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
  *
  * @package DocPatch
  * @subpackage Leetspeak
- * @author Benjamin Heisig <http://benjamin.heisig.name/>
+ * @author Benjamin Heisig <https://benjamin.heisig.name/>
  * @version 0.1
  *
  * @todo Translation is very limited (only a small amount of lower characters)

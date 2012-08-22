@@ -33,9 +33,9 @@ PROJECT_NAME="docpatch"
 ## Short description
 PROJECT_SHORT_DESC="patching documents that matter"
 ## Author
-PROJECT_AUTHOR="Benjamin Heisig <http://benjamin.heisig.name/>"
+PROJECT_AUTHOR="Benjamin Heisig <https://benjamin.heisig.name/>"
 ## Project website
-PROJECT_WEBSITE="https://forge.benjaminheisig.de/${PROJECT_NAME}"
+PROJECT_WEBSITE="https://wiki.die-foobar.org/wiki/DocPatch"
 ## Version
 PROJECT_VERSION="0.1"
 
