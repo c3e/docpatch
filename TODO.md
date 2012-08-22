@@ -1,42 +1,42 @@
-# ToDo
+#   ToDo
 
 … also known as feature requests or bugs
 
 
-## Meta information
+##  Meta information
 
-* Use a format which is better machine-readable like JSON.
-
-
-## Documentation
-
-* make rule to generate README from docpatch(1) man page.
+*   Use a format which is better machine-readable like JSON.
 
 
-## Installation
+##  Documentation
 
-* ./configure should build Makefile
-* Check wether `make [all]` has been executed before `make install`
-
-
-## make rules
-
-* add files for SIGNATURE and SHASUMS
+*   make rule to generate README from docpatch(1) man page.
 
 
-## Build script
+##  Installation
 
-* Convert *.meta (really?!)
-    * Wordwrap after 80 chars (except 1. line)
-    * Copy to $TMP_DIR/*.txt
-
-
-## Create
-
-* Handle non-numeric revisions.
+*   ./configure should build Makefile
+*   Check wether `make [all]` has been executed before `make install`
 
 
-## Checks
+##  Make Rules
 
-* Look for FIXMEs and TODOs and DELETEMEs
-* Look for syntax errors in sources, meta information, patches and templates
+*   add files for SIGNATURE and SHASUMS
+
+
+##  Build script
+
+*   Convert *.meta (really?!)
+    *   Wordwrap after 80 chars (except 1. line)
+    *   Copy to $TMP_DIR/*.txt
+
+
+##  Create
+
+*   Handle non-numeric revisions.
+
+
+##  Checks
+
+*   Look for FIXMEs and TODOs and DELETEMEs
+*   Look for syntax errors in sources, meta information, patches and templates

@@ -1,6 +1,6 @@
 % DOCPATCH-CREATE(1) DocPatch User Manuals | Version 0.1
 %
-% January 22, 2012
+% August 22, 2012
 
 
 # NAME
@@ -13,9 +13,9 @@ docpatch-create - produce pretty output from source
 docpatch [*output*] create [*options*]
 
 
-# DESCRIPTION
+#   DESCRIPTION
 
-FIXME
+Please visit our website for more information about DocPatch and our goals: <https://wiki.die-foobar.org/wiki/DocPatch>
 
 
 # OUTPUT
@@ -65,33 +65,16 @@ FIXME
 
 # ENVIRONMENT
 
-FIXME
+Most of the configuration settings maybe set in environment.
 
 
 # DIAGNOSTICS
 
-FIXME
 
-
-# EXIT CODES
+## EXIT CODES
 
 * `0`: Operation was successful.
 * `> 0`: Something went wrong.
-
-
-# BUGS
-
-Please, report any bugs to <https://forge.benjaminheisig.de/docpatch>.
-
-
-# COPYRIGHT
-
-Copyright (C) 2012 Benjamin Heisig <http://benjamin.heisig.name/>. License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>. This is free software: you are free to change and redistribute it. There is NO WARRANTY, to the extent permitted by law.
-
-
-# AUTHOR
-
-Benjamin Heisig <http://benjamin.heisig.name/>
 
 
 # SEE ALSO

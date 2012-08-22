@@ -1,5 +1,5 @@
 ## DocPatch -- patching documents that matter
-## Copyright (C) 2011 Benjamin Heisig <http://benjamin.heisig.name/>
+## Copyright (C) 2012 Benjamin Heisig <https://benjamin.heisig.name/>
 ##
 ## This program is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -23,7 +23,6 @@ INSTALL_DATA = $(INSTALL) -m 644
 FIND = $(which find)
 GZIP = $(which gzip)
 PANDOC = $(which pandoc)
-MARKDOWN2PDF = $(which markdown2pdf)
 BASH = $(which bash)
 GPG = $(which gpg)
 TOUCH = $(which touch)
@@ -59,23 +58,25 @@ man : $(man1pages)
 info :
 	@echo "Building info documentation..."
 	@mkdir -p usr/share/info
-	@$(PANDOC) --from markdown --to texinfo --toc --standalone usr/share/man/man1/$(project).1.md | $(GZIP) -c > usr/share/info/$(project).info.gz
+	@$(PANDOC) --from markdown --to texinfo --toc --standalone --smart usr/share/man/man1/$(project).1.md | $(GZIP) -c > usr/share/info/$(project).info.gz
+	@$(PANDOC) --from markdown --to texinfo --toc --standalone --smart usr/share/man/man1/$(project)-build.1.md | $(GZIP) -c > usr/share/info/$(project)-build.info.gz
+	@$(PANDOC) --from markdown --to texinfo --toc --standalone --smart usr/share/man/man1/$(project)-create.1.md | $(GZIP) -c > usr/share/info/$(project)-create.info.gz
 
 html :
 	@echo "Building HTML documentation..."
-	@$(PANDOC) --from markdown --to html -o $(project).html --toc --standalone usr/share/man/man1/$(project).1.md
+	@$(PANDOC) --from markdown --to html -o $(project).html --toc --standalone --smart README.md
 
 pdf :
 	@echo "Building PDF documentation..."
-	@$(MARKDOWN2PDF) -o $(project).pdf usr/share/man/man1/$(project).1.md
+	@$(PANDOC) --from markdown --toc --smart -o $(project).pdf README.md
 
 dvi :
 	@echo "Failed to build DVI documentation. It's not supported."
-	exit 1
+	@exit 1
 
 ps :
 	@echo "Failed to build Postscript documentation. It's not supported."
-	exit 1
+	@exit 1
 
 meta : $(metainfos)
 	@echo "Copying meta information COPYING..."
@@ -84,8 +85,8 @@ meta : $(metainfos)
 	@echo "Meta information built."
 
 readme :
-	@echo "Building README from man page..."
-	@$(PANDOC) --from markdown --to plain --standalone usr/share/man/man1/docpatch.1.md > README
+	@echo "Building README..."
+	@$(PANDOC) --from markdown --to plain --standalone README.md > README
 
 % : usr/share/man/man1/%.1.md
 	@echo "Building man1 page $@..."
@@ -245,6 +246,3 @@ distclean :
 mostlyclean : clean
 
 maintainer-clean : clean
-
-
-.PHONY : man info html pdf dvi ps meta readme pot install normal-install post-install install-html install-pdf uninstall dist changelog credits clean distclean mostlyclean maintainer-clean manifest signature checksums

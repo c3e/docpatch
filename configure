@@ -2,7 +2,7 @@
 
 
 ## DocPatch -- patching documents that matter
-## Copyright (C) 2011 Benjamin Heisig <http://benjamin.heisig.name/>
+## Copyright (C) 2012 Benjamin Heisig <https://benjamin.heisig.name/>
 ##
 ## This program is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -74,7 +74,6 @@ if [ ! -r $local_config ]; then
 
 matchAndReplace "git"
 matchAndReplace "gpg"
-matchAndReplace "markdown2pdf"
 matchAndReplace "pandoc"
 matchAndReplace "quilt"
 
@@ -103,7 +102,6 @@ replaceExeInMakefile "find"
 replaceExeInMakefile "gpg"
 replaceExeInMakefile "gzip"
 replaceExeInMakefile "install"
-replaceExeInMakefile "markdown2pdf"
 replaceExeInMakefile "pandoc"
 replaceExeInMakefile "sh"
 replaceExeInMakefile "touch"
