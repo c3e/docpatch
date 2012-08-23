@@ -28,11 +28,18 @@ Please visit our [website](https://wiki.die-foobar.org/wiki/DocPatch) for more i
 
 Our first target is the German constitution, called "Grundgesetz". First published in March 23th 1949 it was changed round about 60 times. It's interesting to see why it was changed, when, by whom and under what circumstances. The good is: All information is public. The bad: The information doesn't match the Open Definition and many details are hard to find.
 
-In short: We are putting the complete "Grundgesetz" under version control und publish it. Read more about on our [website](https://wiki.die-foobar.org/wiki/DocPatch/Grundgesetz)
+In short: [We are putting the complete "Grundgesetz" under version control and publish it.](https://wiki.die-foobar.org/wiki/DocPatch/Grundgesetz)
 
 Clone the repository to play around with **DocPatch**:
 
-    git clone https://github.com/bheisig/grundgesetz.git
+    git clone https://github.com/bheisig/grundgesetz-dev.git
+
+
+### Contribution
+
+Everthing is under heavy development. Still in progress. Under construction. We need *your* help to make **DocPatch** a success!
+
+We are looking for people who create some fancy tools, design a cool website, define more milestones, or simply versionize with us.
 
 
 ##  Installation
@@ -50,6 +57,14 @@ After you met all requirements installation is simply done by:
     ./configure
     make
     make install
+
+
+##  Usage
+
+-   Change into the directory there your documents are located.
+-   Play around with **DocPatch** ;-)
+
+There are several man pages for more information about using **DocPatch**: `docpatch`(1), `docpatch-build`(1), `docpatch-create`(1), `git`(1), `pandoc(1)`, `quilt`(1)
 
 
 ##  Bugs

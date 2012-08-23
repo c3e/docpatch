@@ -228,7 +228,7 @@ clean : distclean
 	@echo "Removing distribution..."
 	@rm -rf $(project)-$(version)/
 	@rm -f $(project)-$(version).tar.gz
-	@rm -f ChangeLog CREDITS
+	@rm -f ChangeLog CREDITS README
 
 distclean :
 	@echo "Removing man pages..."
