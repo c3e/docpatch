@@ -81,7 +81,7 @@ trap 'logwarning $"Caught SIGTERM." ; abort 115' 15
 ## Process given options and arguments
 loginfo $"Process given options and arguments..."
 ARGS=`"$GETOPT" \
--o qvVDhef:r:R:s:St \
+-o qvVDhef:r:R:sSt \
 --long help,version,license,embed,embedded,format:,not-smart,output:,rev:,revision:,repo:,repository:,sign,simple,toc -- "$@" 2> /dev/null`
 
 if [ $? != 0 -o "$#" = 0 ]; then
