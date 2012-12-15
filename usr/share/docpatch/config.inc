@@ -87,9 +87,6 @@ fi
 if [ -z "${GPG+1}" ]; then
     GPG=$(which gpg)
 fi
-if [ -z "${MARKDOWN2PDF+1}" ]; then
-    MARKDOWN2PDF=$(which markdown2pdf)
-fi
 if [ -z "${PANDOC+1}" ]; then
     PANDOC=$(which pandoc)
 fi

@@ -502,7 +502,7 @@ function producePDF {
 
   local output_file="${OUTPUT_DIR}/${IDENTIFIER}.pdf"
   logdebug $"Producing file..."
-  exe "$MARKDOWN2PDF --from=$INPUT_FORMAT --toc $tpl_option --output=$output_file ${REPO_DIR}/*$INPUT_FORMAT_EXT"
+  exe "$PANDOC --from=$INPUT_FORMAT --toc $tpl_option --output=$output_file ${REPO_DIR}/*$INPUT_FORMAT_EXT"
   if [ "$?" -gt 0 ]; then
       logwarning $"Cannot produce file '${output_file}'."
       logerror $"Failed to produce PDF."
