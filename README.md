@@ -86,7 +86,7 @@ Copyright (C) 2012 [Benjamin Heisig](https://benjamin.heisig.name/). License [GP
 
 We would like to thank the following people:
 
-*   from [foobar e. V.](https://wiki.die-foobar.org/) and [Chaospott Essen](http://www.chaospott.de/)
-*   from [tiggersWelt.net](http://www.tiggerswelt.net/) who provide some of the hosting services
+*   from [foobar e. V.](https://wiki.die-foobar.de/) and [Chaospott Essen](http://chaospott.de/)
+*   from [tiggersWelt.net](http://tiggerswelt.net/) who provide some of the hosting services
 
 And everyone who keeps sending us feedback and improving this project! Thank you :-)

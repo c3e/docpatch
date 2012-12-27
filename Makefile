@@ -24,6 +24,7 @@ FIND = $(which find)
 GZIP = $(which gzip)
 PANDOC = $(which pandoc)
 BASH = $(which bash)
+GIT = $(which git)
 GPG = $(which gpg)
 TOUCH = $(which touch)
 
@@ -110,7 +111,7 @@ pot :
 
 manifest :
 	@echo "Creating manifest..."
-	@$(FIND) * -type f > MANIFEST
+	@$(GIT) ls-files --exclude-from=.gitignore > MANIFEST
 
 signature : checksums
 	@echo "Creating signature..."
