@@ -328,6 +328,14 @@ if [ -z "${README_TARGET+1}" ]; then
     README_TARGET="${REPO_DIR}/README"
 fi
 
+## meta JSON file:
+if [ -z "${META_JSON_SOURCE+1}" ]; then
+    META_JSON_SOURCE="${ETC_DIR}/meta.json"
+fi
+if [ -z "${META_JSON_TARGET+1}" ]; then
+    META_JSON_TARGET="${REPO_DIR}/meta.json"
+fi
+
 
 ##
 ## Default runtime settings

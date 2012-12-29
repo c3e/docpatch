@@ -112,14 +112,27 @@ function createMetaInformation {
         logdebug $"File copied."
     fi
 
-  logdebug $"Converting and copying documentation file..."
+  logdebug $"Copying documentation file..."
   if [ ! -r "$README_SOURCE" ]; then
       lognotice $"Documentation file under '${README_SOURCE}' is missing. Please consider creating it before building the repository."
     else
-      exe "$PANDOC --from $INPUT_FORMAT --to plain $README_SOURCE > $README_TARGET"
+      exe "$CP $README_SOURCE $README_TARGET"
       if [ "$?" -gt 0 ]; then
           logwarning $"Cannot copy '${README_SOURCE}' to '${README_TARGET}'."
           logerror $"Failed to create meta information."
+          return 1
+        fi
+        logdebug $"File copied."
+    fi
+
+  logdebug $"Copying meta JSON file..."
+  if [ ! -r "$META_JSON_SOURCE" ]; then
+      lognotice $"Meta JSON file under '${META_JSON_SOURCE}' is missing. Please consider creating it before building the repository."
+    else
+      exe "$CP $META_JSON_SOURCE $META_JSON_TARGET"
+      if [ "$?" -gt 0 ]; then
+          logwarning $"Cannot copy '${META_JSON_SOURCE}' to '${META_JSON_TARGET}'."
+          logerror $"Failed to create meta JSON file."
           return 1
         fi
         logdebug $"File copied."
