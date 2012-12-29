@@ -325,7 +325,7 @@ if [ -z "${README_SOURCE+1}" ]; then
     README_SOURCE="${ETC_DIR}/README.md"
 fi
 if [ -z "${README_TARGET+1}" ]; then
-    README_TARGET="${REPO_DIR}/README"
+    README_TARGET="${REPO_DIR}/README.md"
 fi
 
 ## meta JSON file:
