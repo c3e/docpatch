@@ -3,6 +3,11 @@
 … also known as feature requests or bugs
 
 
+##  System Support
+
+*   *BSD/MAC OS X
+
+
 ##  Meta information
 
 *   Use a format which is better machine-readable like JSON.

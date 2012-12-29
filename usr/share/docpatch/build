@@ -116,7 +116,7 @@ function createMetaInformation {
   if [ ! -r "$README_SOURCE" ]; then
       lognotice $"Documentation file under '${README_SOURCE}' is missing. Please consider creating it before building the repository."
     else
-      exe "$PANDOC --from $INPUT_FORMAT --to text $README_SOURCE > $README_TARGET"
+      exe "$PANDOC --from $INPUT_FORMAT --to plain $README_SOURCE > $README_TARGET"
       if [ "$?" -gt 0 ]; then
           logwarning $"Cannot copy '${README_SOURCE}' to '${README_TARGET}'."
           logerror $"Failed to create meta information."
