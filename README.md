@@ -6,12 +6,12 @@
 
 ### Who we are
 
-We are part of the Open Data movement and supports the [Open Definition](http://opendefinition.org/okd/). **Our way** is to "hack" on documents and build Free Software around them – **our goal** is to bring open data to governments – **our idea** is to re-publish constitutions, law texts, and any other public documents in a way everyone and everything may use them.
+We are part of the Open Data movement and supports the [Open Definition](http://opendefinition.org/okd/). **Our way** is to ‘hack’ on documents and build Free Software around them – **our goal** is to bring open data to governments – **our idea** is to re-publish constitutions, law texts, and any other public documents in a way everyone and everything may use them.
 
 
 ### What DocPatch stands for
 
-**DocPatch** is our platform to provide these documents to you. It relies on some simple tools from software development. The "heart" of this platform is a version control system (vcs) to manage the documents with their complete history and additional meta information. The documents itself are written in a markup language which allows us a) to use any text editor and b) to convert the texts into any format we want.
+**DocPatch** is our platform to provide these documents to you. It relies on some simple tools from software development. The ‘heart’ of this platform is a version control system (vcs) to manage the documents with their complete history and additional meta information. The documents itself are written in a markup language which allows us a) to use any text editor and b) to convert the texts into any format we want.
 
 This is our current tool stack:
 
@@ -26,7 +26,7 @@ Please visit our [website](https://wiki.die-foobar.org/wiki/DocPatch) for more i
 
 ### First Milestone
 
-Our first target is the German constitution, called "Grundgesetz". First published in March 23th 1949 it was changed round about 60 times. It's interesting to see why it was changed, when, by whom and under what circumstances. The good is: All information is public. The bad: The information doesn't match the Open Definition and many details are hard to find.
+Our first target is the German constitution, called *Grundgesetz*. First published in March 23th 1949 it was changed round about 60 times. It's interesting to see why it was changed, when, by whom and under what circumstances. The good is: All information is public. The bad: The information doesn't match the Open Definition and many details are hard to find.
 
 In short: [We are putting the complete "Grundgesetz" under version control and publish it.](https://wiki.die-foobar.org/wiki/DocPatch/Grundgesetz)
 
@@ -44,7 +44,7 @@ We are looking for people who create some fancy tools, design a cool website, de
 
 ##  Installation
 
-Installation DocPatch and its components requires the following dependencies:
+Installing DocPatch and its components requires the following dependencies:
 
 *   POSIX operating system
 *   `git` (distributed version control system)
