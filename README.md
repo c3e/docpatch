@@ -58,6 +58,11 @@ After you met all requirements installation is simply done by:
     make
     make install
 
+If you do not want to install to `/usr/local`, you must edit the Makefile after the `make`, and adjust the variables `prefix` and `DESTDIR`. For installation to `/usr`, set:
+
+    # DESTDIR =     (commented out)
+    prefix = /usr
+
 
 ##  Usage
 

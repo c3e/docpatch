@@ -18,6 +18,10 @@
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
+## Installation Directories
+DESTDIR="/usr/local"
+PREFIX=""
+
 ##
 ## Main script
 ##
@@ -26,37 +30,36 @@
 ## Start time
 START=`date +%s`
 
-
 ##
 ## Includes
 ##
 
 ## Include local configuration:
-if [ -r "/etc/${PROJECT_NAME}/${PROJECT_NAME}.conf" ]; then
-    . /etc/docpatch/"$PROJECT_NAME".conf
-  fi
+if [ -r "${DESTDIR}/etc/${PROJECT_NAME}/${PROJECT_NAME}.conf" ]; then
+    . ${DESTDIR}/etc/docpatch/"$PROJECT_NAME".conf
+fi
 
 ## Include user configuration:
 if [ -r "~/.${PROJECT_NAME}.conf" ]; then
     . ~/."$PROJECT_NAME".conf
-  fi
+fi
 
 ## Include project configuration:
 if [ -r "${BASE_DIR}/.${PROJECT_NAME}.conf" ]; then
     . "$BASE_DIR"/."$PROJECT_NAME".conf
-  fi
+fi
 
 ## Include default configuration:
-if [ ! -r "/usr/share/docpatch/config.inc" ]; then
+if [ ! -r "${DESTDIR}${PREFIX}/share/docpatch/config.inc" ]; then
     exit 255
-  fi
-. /usr/share/docpatch/config.inc
+fi
+. ${DESTDIR}${PREFIX}/share/docpatch/config.inc
 
 ## Include base functions:
-if [ ! -r "/usr/share/${PROJECT_NAME}/${PROJECT_NAME}.inc" ]; then
+if [ ! -r "${DESTDIR}${PREFIX}/share/${PROJECT_NAME}/${PROJECT_NAME}.inc" ]; then
     exit 255
-  fi
-. /usr/share/"$PROJECT_NAME"/"$PROJECT_NAME".inc
+fi
+. ${DESTDIR}${PREFIX}/share/"$PROJECT_NAME"/"$PROJECT_NAME".inc
 
 
 ##
@@ -81,14 +84,14 @@ trap 'logwarning $"Caught SIGTERM." ; abort 115' 15
 ## Process given options and arguments
 loginfo $"Process given options and arguments..."
 ARGS=`"$GETOPT" \
--o qvVDhef:r:R:sSt \
---long help,version,license,embed,embedded,format:,not-smart,output:,rev:,revision:,repo:,repository:,sign,simple,toc -- "$@" 2> /dev/null`
+    -o qvVDhef:r:R:sSt \
+    --long help,version,license,embed,embedded,format:,not-smart,output:,rev:,revision:,repo:,repository:,sign,simple,toc -- "$@" 2> /dev/null`
 
 if [ $? != 0 -o "$#" = 0 ]; then
     logwarning $"Bad request."
     printUsage
     abort 1;
-  fi
+fi
 
 eval set -- "$ARGS"
 
@@ -100,73 +103,73 @@ loginfo $"Matching options and arguments..."
 
 while true ; do
     case "$1" in
-    # Output:
+        # Output:
         -q)
-          VERBOSITY=$LOG_NONE
-          logdebug $"Set verbosity: $VERBOSITY"
-          shift;;
-        -v)
-          VERBOSITY=$(($LOG_FATAL | $LOG_ERROR | $LOG_WARNING | $LOG_NOTICE))
-          logdebug $"Set verbosity: $VERBOSITY"
-          shift;;
-        -V)
-          VERBOSITY=$(($LOG_ALL & ~$LOG_DEBUG))
-          logdebug $"Set verbosity: $VERBOSITY"
-          shift;;
-        -D)
-          VERBOSITY=$LOG_ALL;
-          logdebug $"Set verbosity: $VERBOSITY"
-          shift;;
-    # Information:
+        VERBOSITY=$LOG_NONE
+        logdebug $"Set verbosity: $VERBOSITY"
+        shift;;
+    -v)
+        VERBOSITY=$(($LOG_FATAL | $LOG_ERROR | $LOG_WARNING | $LOG_NOTICE))
+        logdebug $"Set verbosity: $VERBOSITY"
+        shift;;
+    -V)
+        VERBOSITY=$(($LOG_ALL & ~$LOG_DEBUG))
+        logdebug $"Set verbosity: $VERBOSITY"
+        shift;;
+    -D)
+        VERBOSITY=$LOG_ALL;
+        logdebug $"Set verbosity: $VERBOSITY"
+        shift;;
+        # Information:
         -h|--help)
-          logdebug $"Set option: Print usage."
-          PRINT_USAGE=1;
-          shift;;
-        --version)
-          logdebug $"Set option: Print version."
-          PRINT_VERSION=1;
-          shift;;
-        --license)
-          logdebug $"Set option: Print license."
-          PRINT_LICENSE=1;
-          shift;;
-    # Options:
+        logdebug $"Set option: Print usage."
+        PRINT_USAGE=1;
+        shift;;
+    --version)
+        logdebug $"Set option: Print version."
+        PRINT_VERSION=1;
+        shift;;
+    --license)
+        logdebug $"Set option: Print license."
+        PRINT_LICENSE=1;
+        shift;;
+        # Options:
         -e|--embed|--embedded)
-          logdebug $"Set option: Create embedded output."
-          EMBED=1;
-          shift 1;;
-        -S|--simple|--not-smart)
-          logdebug $"Set option: Create simplified output."
-          SIMPLE=1;
-          shift 1;;
-        -f|--format|--output)
-          logdebug $"Set option: Output format is '${2}'."
-          OUTPUT_FORMAT="$2";
-          shift 2;;
-        -r|--rev|--revision)
-          logdebug $"Set option: Revision is '${2}'."
-          ARG_REVISION="$2";
-          shift 2;;
-        -R|--repo|--repository)
-          logdebug $"Set option: Repository is '${2}'."
-          REPOSITORY="$2";
-          shift 2;;
-        -s|--sign)
-          logdebug $"Set option: Sign tags."
-          SIGN=1;
-          shift;;
-        -t|--toc)
-          logdebug $"Set option: Create table of contents."
-          TOC=1;
-          shift;;
-        --)
-          shift;
-          break;;
-        *)
-          lognotice $"Unkown option '${1}'."
-          printUsage
-          abort 2;;
-  esac
+        logdebug $"Set option: Create embedded output."
+        EMBED=1;
+        shift 1;;
+    -S|--simple|--not-smart)
+        logdebug $"Set option: Create simplified output."
+        SIMPLE=1;
+        shift 1;;
+    -f|--format|--output)
+        logdebug $"Set option: Output format is '${2}'."
+        OUTPUT_FORMAT="$2";
+        shift 2;;
+    -r|--rev|--revision)
+        logdebug $"Set option: Revision is '${2}'."
+        ARG_REVISION="$2";
+        shift 2;;
+    -R|--repo|--repository)
+        logdebug $"Set option: Repository is '${2}'."
+        REPOSITORY="$2";
+        shift 2;;
+    -s|--sign)
+        logdebug $"Set option: Sign tags."
+        SIGN=1;
+        shift;;
+    -t|--toc)
+        logdebug $"Set option: Create table of contents."
+        TOC=1;
+        shift;;
+    --)
+        shift;
+        break;;
+    *)
+        lognotice $"Unkown option '${1}'."
+        printUsage
+        abort 2;;
+esac
 done
 
 logdebug $"Matched."
@@ -182,46 +185,46 @@ for x in "$@"; do
             COMMAND="$x"
             logdebug $"Main command is $COMMAND."
             break 2
-          fi
-      done
-  done
+        fi
+    done
+done
 
 loginfo $"Trying to match sub command..."
 if [ -n "$2" -a "$2" != " " ]; then
     SUB_COMMAND="$2"
     logdebug $"Sub command is $SUB_COMMAND."
-  else
+else
     logdebug $"There is no sub command."
-  fi
+fi
 
 
 ## Include command specific file
 if [ -z "$COMMAND" ]; then
     logdebug $"No main command found."
-  else
+else
     includeCommand "$COMMAND" || abort 3
-  fi
+fi
 
 
 ## Print usage and exit.
 if [ "$PRINT_USAGE" -eq 1 ]; then
     printUsage
     finishing
-  fi
+fi
 
 
 ## Print some information about this script and exit.
 if [ "$PRINT_VERSION" -eq 1 ]; then
     printVersion
     finishing
-  fi
+fi
 
 
 ## Print some information about this script and exit.
 if [ "$PRINT_LICENSE" -eq 1 ]; then
     printLicense
     finishing
-  fi
+fi
 
 
 ## Apply nice level
@@ -233,17 +236,17 @@ if [ -z "$COMMAND" ]; then
     lognotice $"Nothing to do."
     printUsage
     abort 5
-  else
+else
     # Before work
     if [ "$COMMAND" != "help" ]; then
         preChecks || abort 5
 
         lognotice "$COMMAND_DESC"
-      fi
+    fi
 
     # Main work
     main
 
     # After work
     finishing
-  fi
+fi

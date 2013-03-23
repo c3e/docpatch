@@ -91,6 +91,7 @@ matchAndReplace "pwd"
 matchAndReplace "renice"
 matchAndReplace "rm"
 matchAndReplace "wc"
+matchAndReplace "sed"
 
 ## Just check, don't replace
 matchAndReplace "basename"
@@ -99,11 +100,13 @@ matchAndReplace "pwd"
 
 replaceExeInMakefile "bash"
 replaceExeInMakefile "find"
+replaceExeInMakefile "git"
 replaceExeInMakefile "gpg"
 replaceExeInMakefile "gzip"
 replaceExeInMakefile "install"
 replaceExeInMakefile "pandoc"
 replaceExeInMakefile "sh"
 replaceExeInMakefile "touch"
+replaceExeInMakefile "sed"
 
 echo "System is configured. Continue with 'make'."

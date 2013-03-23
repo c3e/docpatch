@@ -18,7 +18,7 @@
 SHELL = $(which sh)
 
 INSTALL = $(which install)
-INSTALL_PROGRAM = $(INSTALL)
+INSTALL_PROGRAM = $(INSTALL) -m 755
 INSTALL_DATA = $(INSTALL) -m 644
 FIND = $(which find)
 GZIP = $(which gzip)
@@ -27,6 +27,9 @@ BASH = $(which bash)
 GIT = $(which git)
 GPG = $(which gpg)
 TOUCH = $(which touch)
+MKDIR = mkdir -m 755
+export SED := $(which sed)
+
 
 project = $(shell cat usr/share/docpatch/config.inc | sed -n 's/^PROJECT_NAME="\(.*\)"$$/\1/p')
 man1pages = $(project) $(project)-build $(project)-create
@@ -34,7 +37,8 @@ metainfos = NEWS README TODO
 languages = de
 version = $(shell cat usr/share/docpatch/config.inc | sed -n 's/^PROJECT_VERSION="\(.*\)"$$/\1/p')
 
-prefix = /usr
+DESTDIR = /usr/local
+# prefix = /usr
 exec_prefix = $(prefix)
 bindir = $(exec_prefix)/bin
 datarootdir = $(prefix)/share
@@ -46,7 +50,7 @@ pdfdir = $(docdir)/pdf
 mandir = $(datarootdir)/man
 man1dir = $(mandir)/man1
 localedir = $(datadir)/locale
-
+patch_docpatch = ./patch_docpatch
 
 ## Build
 
@@ -58,7 +62,7 @@ man : $(man1pages)
 
 info :
 	@echo "Building info documentation..."
-	@mkdir -p usr/share/info
+	@$(MKDIR) -p usr/share/info
 	@$(PANDOC) --from markdown --to texinfo --toc --standalone --smart usr/share/man/man1/$(project).1.md | $(GZIP) -c > usr/share/info/$(project).info.gz
 	@$(PANDOC) --from markdown --to texinfo --toc --standalone --smart usr/share/man/man1/$(project)-build.1.md | $(GZIP) -c > usr/share/info/$(project)-build.info.gz
 	@$(PANDOC) --from markdown --to texinfo --toc --standalone --smart usr/share/man/man1/$(project)-create.1.md | $(GZIP) -c > usr/share/info/$(project)-create.info.gz
@@ -132,33 +136,34 @@ install : normal-install $(languages) post-install
 normal-install :
 	$(NORMAL_INSTALL)
 	@echo "Installing $(project)..."
-	@mkdir -p $(DESTDIR)$(bindir)
-	@$(INSTALL) usr/bin/* $(DESTDIR)$(bindir)
-	@mkdir -p $(DESTDIR)$(datadir)/$(project)
-	@$(INSTALL) usr/share/$(project)/* $(DESTDIR)$(datadir)/$(project)
-	@mkdir -p $(DESTDIR)$(docdir)
+	@$(MKDIR) -p $(DESTDIR)$(bindir)
+	@$(patch_docpatch) usr/bin/docpatch "$(DESTDIR)" "$(prefix)"
+	@$(INSTALL_PROGRAM) usr/bin/* $(DESTDIR)$(bindir)
+	@$(MKDIR) -p $(DESTDIR)$(datadir)/$(project)
+	@$(INSTALL_DATA) usr/share/$(project)/* $(DESTDIR)$(datadir)/$(project)
+	@$(MKDIR) -p $(DESTDIR)$(docdir)
 	@$(INSTALL_DATA) \
 	    usr/share/doc/$(project)/COPYING \
 	    usr/share/doc/$(project)/NEWS \
 	    usr/share/doc/$(project)/README \
 	    usr/share/doc/$(project)/TODO $(DESTDIR)$(docdir)
-	@mkdir -p $(DESTDIR)$(docdir)/examples
-	@mkdir -p $(DESTDIR)$(docdir)/examples/etc
+	@$(MKDIR) -p $(DESTDIR)$(docdir)/examples
+	@$(MKDIR) -p $(DESTDIR)$(docdir)/examples/etc
 	@$(INSTALL_DATA) usr/share/doc/$(project)/examples/etc/* $(DESTDIR)$(docdir)/examples/etc
 	@$(INSTALL_DATA) usr/share/doc/$(project)/examples/bash_completion.d/* $(DESTDIR)/etc/bash_completion.d
 
 post-install :
 	$(POST_INSTALL)
 	@echo "Installing info documentation..."
-	@mkdir -p $(DESTDIR)$(infodir)
+	@$(MKDIR) -p $(DESTDIR)$(infodir)
 	@$(INSTALL_DATA) usr/share/info/*.info.gz $(DESTDIR)$(infodir)
 	install-info --dir-file="$(DESTDIR)$(infodir)/dir" $(DESTDIR)$(infodir)/$(project).info.gz
-	@mkdir -p $(DESTDIR)$(man1dir)
+	@$(MKDIR) -p $(DESTDIR)$(man1dir)
 	@$(INSTALL_DATA) usr/share/man/man1/*.1.gz $(DESTDIR)$(man1dir)
 
 % : usr/share/locale/%
 	@echo "Copying po files for language $@..."
-	@mkdir -p $(DESTDIR)$(localedir)/$@
+	@$(MKDIR) -p $(DESTDIR)$(localedir)/$@
 	@$(INSTALL_DATA) usr/share/locale/$@/$(project).po $(DESTDIR)$(localedir)/$@/
 
 install-html :
@@ -187,10 +192,10 @@ uninstall :
 
 dist : changelog credits
 	@echo "Creating directory $(project)-$(version)/..."
-	@mkdir $(project)-$(version)
+	@$(MKDIR) $(project)-$(version)
 	@echo "Copying files to $(project)-$(version)/..."
 	@chmod 777 -R $(project)-$(version)/
-	@find docs usr -type d -exec mkdir $(project)-$(version)/{} \; \
+	@find docs usr -type d -exec $(MKDIR) $(project)-$(version)/{} \; \
 	  -exec chmod 777 $(project)-$(version)/{} \;
 	@find docs usr -type f -exec cp {} $(project)-$(version)/{} \; \
 	  -exec chmod 755 $(project)-$(version)/{} \;
@@ -202,12 +207,12 @@ dist : changelog credits
 changelog :
 	@echo "Creating changelog from git log..."
 	@if [ -d ".git" ]; then \
-	    git log --date-order --date=short | \
-	    sed -e '/^commit.*$$/d' | \
-	    awk '/^Author/ {sub(/\\$$/,""); getline t; print $$0 t; next}; 1' | \
-	    sed -e 's/^Author: //g' | \
-	    sed -e 's/>Date:   \([0-9]*-[0-9]*-[0-9]*\)/>\t\1/g' | \
-	    sed -e 's/^\(.*\) \(\)\t\(.*\)/\3    \1    \2/g' > ChangeLog ; \
+	    $(GIT) log --date-order --date=short | \
+	    $(SED) -e '/^commit.*$$/d' | \
+	    $(AWK) '/^Author/ {sub(/\\$$/,""); getline t; print $$0 t; next}; 1' | \
+	    $(SED) -e 's/^Author: //g' | \
+	    $(SED) -e 's/>Date:   \([0-9]*-[0-9]*-[0-9]*\)/>\t\1/g' | \
+	    $(SED) -e 's/^\(.*\) \(\)\t\(.*\)/\3    \1    \2/g' > ChangeLog ; \
 	  else \
 	    echo "No git repository present." ; \
 	    exit 1 ; \
@@ -216,7 +221,7 @@ changelog :
 credits :
 	@echo "Extracting authors from git log..."
 	@if [ -d ".git" ]; then \
-	    git shortlog --numbered --no-merges --email --summary > CREDITS \
+	    $(GIT) shortlog --numbered --no-merges --email --summary > CREDITS \
 	  else \
 	    echo "No git repository present." ; \
 	    exit 1 ; \

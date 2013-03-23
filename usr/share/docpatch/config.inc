@@ -46,7 +46,7 @@ PROJECT_VERSION="0.1"
 
 ## Path to locale files:
 if [ -z "${TEXTDOMAINDIR+1}" ]; then
-    TEXTDOMAINDIR="/usr/share/locale"
+    TEXTDOMAINDIR="${DESTDIR}${PREFIX}/share/locale"
 fi
 
 ## Domain:
@@ -185,12 +185,12 @@ fi
 
 ## Path to shared libraries:
 if [ -z "${LIB_DIR+1}" ]; then
-    LIB_DIR="/usr/share/${PROJECT_NAME}"
+    LIB_DIR="${DESTDIR}${PREFIX}/share/${PROJECT_NAME}"
 fi
 
 ## Path to configuration files:
 if [ -z "${CONFIG_DIR+1}" ]; then
-    CONFIG_DIR="/etc/${PROJECT_NAME}"
+    CONFIG_DIR="${DESTDIR}/etc/${PROJECT_NAME}"
 fi
 
 ## Path to temporary files:
@@ -200,7 +200,7 @@ fi
 
 ## Path to examples (configuration and template files)
 if [ -z "${EXAMPLE_DIR+1}" ]; then
-    EXAMPLE_DIR="/usr/share/doc/${PROJECT_NAME}/examples"
+    EXAMPLE_DIR="${DESTDIR}${PREFIX}/share/doc/${PROJECT_NAME}/examples"
 fi
 
 ## Path to file with information about output formats:
