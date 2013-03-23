@@ -105,7 +105,7 @@ if [ -z "${CP+1}" ]; then
     CP=$(which cp)
 fi
 if [ -z "${ECHO+1}" ]; then
-    ECHO=$(which echo)
+    ECHO=echo
 fi
 if [ -z "${GETOPT+1}" ]; then
     GETOPT=$(which getopt)
