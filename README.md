@@ -70,7 +70,7 @@ If you do not want to install to `/usr/local`, you must edit the Makefile after 
 -   Change into the directory there your documents are located.
 -   Play around with **DocPatch** ;-)
 
-There are several man pages for more information about using **DocPatch**: `docpatch`(1), `docpatch-build`(1), `docpatch-create`(1), `git`(1), `pandoc(1)`, `quilt`(1)
+There are several man pages for more information about using **DocPatch**: `docpatch(1)`, `docpatch-build(1)`, `docpatch-create(1)`, `git(1)`, `pandoc(1)`, `quilt(1)`
 
 
 ##  Bugs
