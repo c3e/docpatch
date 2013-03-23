@@ -65,6 +65,17 @@ check_availability "cp"
 check_availability "date"
 check_availability "echo"
 check_availability "getopt"
+getopt_version="`getopt --version`"
+if [[ "$getopt_version" != *enhanced* ]] && [[ "$getopt_version" != *util-linux* ]] ; then
+  echo "  WARNING: We need a modern version of getopt, as provided on most"
+  echo "    versions of Linux."
+  echo "    It is available at"
+  echo "      http://software.frodo.looijaard.name/getopt/download.php"
+  echo "    It is also available e.g. as a port in MacPorts or FreeBSD."
+  echo "    Such a version may be installed with a different name than"
+  echo "    'getopt', in which case you have to adjust the Makefile."
+  echo
+fi
 check_availability "grep"
 check_availability "gzip"
 check_availability "head"
