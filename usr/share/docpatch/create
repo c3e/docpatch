@@ -471,9 +471,19 @@ function produceEPUB {
 function produceManPage {
   loginfo $"Producing man page..."
 
+  logdebug $"Checking for any template file..."
+  local tpl_option=""
+  local tpl_file="${TPL_DIR}/tpl.man"
+  if [ -r "$tpl_file" ]; then
+      logdebug $"Template file found under '${tpl_file}'."
+      local tpl_option="--template=$tpl_file"
+    else
+      logdebug $"No template file found under '${tpl_file}'."
+    fi
+
   local output_file="${OUTPUT_DIR}/${IDENTIFIER}.1.gz"
   logdebug $"Producing file..."
-  exe "$PANDOC --from=$INPUT_FORMAT --to=man --standalone ${REPO_DIR}/*$INPUT_FORMAT_EXT | $GZIP -c > $output_file"
+  exe "$PANDOC --from=$INPUT_FORMAT --to=man --standalone $tpl_option ${REPO_DIR}/*$INPUT_FORMAT_EXT | $GZIP -c > $output_file"
   if [ "$?" -gt 0 ]; then
       logwarning $"Cannot produce file '${output_file}'."
       logerror $"Failed to produce man page."
