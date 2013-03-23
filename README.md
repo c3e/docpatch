@@ -1,4 +1,4 @@
-#   DocPatch -- patching documents that matter
+#   DocPatch – patching documents that matter
 
 
 ##  Description
@@ -6,7 +6,7 @@
 
 ### Who we are
 
-We are part of the Open Data movement and supports the [Open Definition](http://opendefinition.org/okd/). **Our way** is to "hack" on documents and build Free Software around them---**our goal** is to bring open data to governments---**our idea** is to re-publish constitutions, law texts, and any other public documents in a way everyone and everything may use them.
+We are part of the Open Data movement and supports the [Open Definition](http://opendefinition.org/okd/). **Our way** is to "hack" on documents and build Free Software around them – **our goal** is to bring open data to governments – **our idea** is to re-publish constitutions, law texts, and any other public documents in a way everyone and everything may use them.
 
 
 ### What DocPatch stands for
@@ -19,7 +19,7 @@ This is our current tool stack:
 *   converter: [pandoc](http://johnmacfarlane.net/pandoc/index.html)
 *   markup language: pandoc's [enhanced version](http://johnmacfarlane.net/pandoc/README.html#pandocs-markdown) of [John Gruber' markdown](http://daringfireball.net/projects/markdown/)
 
-These tools are simple to use, but powerful, widely spread, and open. (Even if they won't fit any more in the future, they could be replaced by other, even better tools. For distributing the repositories, the code, the generated documents, and everything else we use some more tools, e. g. web server, operating system,..., but they don't matter for our intended purpose.)
+These tools are simple to use, but powerful, widely spread, and open. (Even if they won't fit any more in the future, they could be replaced by other, even better tools. For distributing the repositories, the code, the generated documents, and everything else we use some more tools, e.g. web server, operating system,…, but they don't matter for our intended purpose.)
 
 Please visit our [website](https://wiki.die-foobar.org/wiki/DocPatch) for more information about DocPatch and our goals.
 
