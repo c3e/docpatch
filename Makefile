@@ -15,20 +15,20 @@
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-SHELL = $(which sh)
+SHELL = /bin/sh
 
-INSTALL = $(which install)
+INSTALL = $(shell which install)
 INSTALL_PROGRAM = $(INSTALL) -m 755
 INSTALL_DATA = $(INSTALL) -m 644
-FIND = $(which find)
-GZIP = $(which gzip)
-PANDOC = $(which pandoc)
-BASH = $(which bash)
-GIT = $(which git)
-GPG = $(which gpg)
-TOUCH = $(which touch)
+FIND = $(shell which find)
+GZIP = $(shell which gzip)
+PANDOC = $(shell which pandoc)
+BASH = $(shell which bash)
+GIT = $(shell which git)
+GPG = $(shell which gpg)
+TOUCH = $(shell which touch)
 MKDIR = mkdir -m 755
-export SED := $(which sed)
+export SED := $(shell which sed)
 
 
 project = $(shell cat usr/share/docpatch/config.inc | sed -n 's/^PROJECT_NAME="\(.*\)"$$/\1/p')

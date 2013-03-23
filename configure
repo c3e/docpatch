@@ -25,88 +25,61 @@
 
 echo "Check system configuration for docpatch..."
 
-local_config="usr/share/doc/docpatch/examples/etc/docpatch.conf"
 makefile="Makefile"
 
-function matchAndReplace {
+function check_availability {
   echo -n "Check ${1}... "
   path_to_exe=$(which $1)
   if [ $? -gt 0 ]; then
-      echo "[FAILED]"
-      abort 1
-    fi
-  tmp_local_config="/tmp/docpatch_local_config.tmp"
-  sed "s|\$(which ${1})|\"${path_to_exe}\"|" $local_config > $tmp_local_config
-  if [ $? -gt 0 ]; then
-      echo "[FAILED]"
-      abort 3
-    fi
-  mv $tmp_local_config $local_config
+    echo "[FAILED]"
+    VAR=`echo "${1}" | tr 'a-z' 'A-Z'`
+    echo "  Could not find a «$1» program."
+    echo "  If you are sure you have it, please adjust the $VAR variable in Makefile."
+    echo "  Otherwise, please install $1."
+    adjust="PLEASE"
+  #      abort 1
+  fi
   echo "[DONE]"
 }
 
-function replaceExeInMakefile {
-  echo -n "Prepare ${1}... "
-  path_to_exe=$(which $1)
-  if [ $? -gt 0 ]; then
-      echo "[FAILED]"
-      abort 1
-    fi
-  tmp_makefile="/tmp/docpatch_makefile.tmp"
-  sed "s|\$(which ${1})|${path_to_exe}|" $makefile > $tmp_makefile
-  if [ $? -gt 0 ]; then
-      echo "[FAILED]"
-      abort 2
-    fi
-  mv $tmp_makefile $makefile
-  echo "[DONE]"
-}
+
 
 function abort {
   echo "Failed to configure system."
   exit $1
 }
 
-if [ ! -r $local_config ]; then
-    echo "${local_config}: file not found or not accessible."
-    abort 1
-  fi
+## version control
+check_availability "git"
+check_availability "gpg"
+check_availability "quilt"
 
-matchAndReplace "git"
-matchAndReplace "gpg"
-matchAndReplace "pandoc"
-matchAndReplace "quilt"
+## rendering
+check_availability "pandoc"
 
-matchAndReplace "awk"
-matchAndReplace "cat"
-matchAndReplace "cp"
-matchAndReplace "echo"
-matchAndReplace "getopt"
-matchAndReplace "grep"
-matchAndReplace "gzip"
-matchAndReplace "head"
-matchAndReplace "man"
-matchAndReplace "mkdir"
-matchAndReplace "pwd"
-matchAndReplace "renice"
-matchAndReplace "rm"
-matchAndReplace "wc"
-matchAndReplace "sed"
+## *N*X tools
+check_availability "awk"
+check_availability "basename"
+check_availability "cat"
+check_availability "cp"
+check_availability "date"
+check_availability "echo"
+check_availability "getopt"
+check_availability "grep"
+check_availability "gzip"
+check_availability "head"
+check_availability "man"
+check_availability "pwd"
+check_availability "pwd"
+check_availability "renice"
+check_availability "rm"
+check_availability "sed"
+check_availability "wc"
 
-## Just check, don't replace
-matchAndReplace "basename"
-matchAndReplace "date"
-matchAndReplace "pwd"
-
-replaceExeInMakefile "bash"
-replaceExeInMakefile "find"
-replaceExeInMakefile "git"
-replaceExeInMakefile "gpg"
-replaceExeInMakefile "gzip"
-replaceExeInMakefile "install"
-replaceExeInMakefile "pandoc"
-replaceExeInMakefile "sh"
-replaceExeInMakefile "touch"
-replaceExeInMakefile "sed"
-
-echo "System is configured. Continue with 'make'."
+echo
+if [ -z $adjust ] ; then
+  echo "Everything available. You can continue with 'make'."
+else  
+  echo "Please adjust the Makefile as indicated or install the missing dependencies"
+  ecgi "before continuing with 'make'."
+fi
