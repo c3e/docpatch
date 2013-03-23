@@ -44,7 +44,6 @@ bindir = $(exec_prefix)/bin
 datarootdir = $(prefix)/share
 datadir = $(datarootdir)
 docdir = $(datarootdir)/doc/$(project)
-infodir = $(datarootdir)/info
 htmldir = $(docdir)/html
 pdfdir = $(docdir)/pdf
 mandir = $(datarootdir)/man
@@ -54,18 +53,11 @@ patch_docpatch = ./patch_docpatch
 
 ## Build
 
-all : man info readme meta
+all : man readme meta
 	@echo "$(project) built. Ready to install. Continue with '(sudo) make install'"
 
 man : $(man1pages)
 	@echo "Man pages built."
-
-info :
-	@echo "Building info documentation..."
-	@$(MKDIR) -p usr/share/info
-	@$(PANDOC) --from markdown --to texinfo --toc --standalone --smart usr/share/man/man1/$(project).1.md | $(GZIP) -c > usr/share/info/$(project).info.gz
-	@$(PANDOC) --from markdown --to texinfo --toc --standalone --smart usr/share/man/man1/$(project)-build.1.md | $(GZIP) -c > usr/share/info/$(project)-build.info.gz
-	@$(PANDOC) --from markdown --to texinfo --toc --standalone --smart usr/share/man/man1/$(project)-create.1.md | $(GZIP) -c > usr/share/info/$(project)-create.info.gz
 
 html :
 	@echo "Building HTML documentation..."
@@ -150,14 +142,11 @@ normal-install :
 	@$(MKDIR) -p $(DESTDIR)$(docdir)/examples
 	@$(MKDIR) -p $(DESTDIR)$(docdir)/examples/etc
 	@$(INSTALL_DATA) usr/share/doc/$(project)/examples/etc/* $(DESTDIR)$(docdir)/examples/etc
-	@$(INSTALL_DATA) usr/share/doc/$(project)/examples/bash_completion.d/* $(DESTDIR)/etc/bash_completion.d
+	@$(MKDIR) -p $(DESTDIR)/etc/bash_completion.d
+	@$(INSTALL_DATA) usr/share/doc/$(project)/examples/bash_completion.d/$(project) $(DESTDIR)/etc/bash_completion.d/
 
 post-install :
 	$(POST_INSTALL)
-	@echo "Installing info documentation..."
-	@$(MKDIR) -p $(DESTDIR)$(infodir)
-	@$(INSTALL_DATA) usr/share/info/*.info.gz $(DESTDIR)$(infodir)
-	install-info --dir-file="$(DESTDIR)$(infodir)/dir" $(DESTDIR)$(infodir)/$(project).info.gz
 	@$(MKDIR) -p $(DESTDIR)$(man1dir)
 	@$(INSTALL_DATA) usr/share/man/man1/*.1.gz $(DESTDIR)$(man1dir)
 
@@ -176,8 +165,6 @@ install-pdf :
 
 uninstall :
 	$(PRE_UNINSTALL)
-	@echo "Uninstalling info documentation..."
-	@rm $(DESTDIR)$(infodir)/$(project).info.gz
 	$(NORMAL_UNINSTALL)
 	@echo "Uninstalling $(project)..."
 	@rm $(DESTDIR)$(bindir)/$(project)

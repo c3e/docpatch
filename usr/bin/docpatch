@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+if [[ -n "$ZSH_VERSION" ]]; then
+    emulate bash
+fi
 
 ## DocPatch -- patching documents that matter
 ## Copyright (C) 2012 Benjamin Heisig <https://benjamin.heisig.name/>
