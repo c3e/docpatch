@@ -17,7 +17,7 @@ This is our current tool stack:
 
 *   vcs: [git](http://git-scm.com/)
 *   converter: [pandoc](http://johnmacfarlane.net/pandoc/index.html)
-*   markup language: pandoc's [enhanced version](http://johnmacfarlane.net/pandoc/README.html#pandocs-markdown) of [John Gruber' markdown](http://daringfireball.net/projects/markdown/)
+*   markup language: pandoc's [enhanced version](http://johnmacfarlane.net/pandoc/README.html#pandocs-markdown) of [John Gruber's markdown](http://daringfireball.net/projects/markdown/)
 
 These tools are simple to use, but powerful, widely spread, and open. (Even if they won't fit any more in the future, they could be replaced by other, even better tools. For distributing the repositories, the code, the generated documents, and everything else we use some more tools, e.g. web server, operating system,…, but they don't matter for our intended purpose.)
 
