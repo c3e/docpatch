@@ -32,7 +32,7 @@ export SED := $(shell which sed)
 
 
 project = $(shell cat usr/share/docpatch/config.inc | sed -n 's/^PROJECT_NAME="\(.*\)"$$/\1/p')
-man1pages = $(project) $(project)-build $(project)-create
+man1pages = $(project)
 metainfos = NEWS README TODO
 languages = de
 version = $(shell cat usr/share/docpatch/config.inc | sed -n 's/^PROJECT_VERSION="\(.*\)"$$/\1/p')
