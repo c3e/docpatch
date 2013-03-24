@@ -142,4 +142,4 @@ Exit Codes are used as usual:
 
 #   SEE ALSO
 
-`git`(1), `markdown2pdf`(1), `pandoc(1)`, `quilt`(1)
+`git(1)`, `markdown2pdf(1)`, `pandoc(1)`, `quilt(1)`
