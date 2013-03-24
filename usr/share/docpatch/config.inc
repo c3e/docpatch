@@ -235,7 +235,7 @@ fi
 
 ## Verbose level:
 if [ -z "${VERBOSITY+1}" ]; then
-    VERBOSITY=$(($LOG_FATAL | $LOG_ERROR))
+    VERBOSITY=$(($LOG_FATAL | $LOG_ERROR | $LOG_WARNING))
 fi
 
 
