@@ -10,7 +10,7 @@ DocPatch - patching documents that matter
 
 #   SYNOPSIS
 
-**docpatch** [*debugging options*] [*command*] [*options*]
+**docpatch** [ *debugging options* ] [ *command* ] [ *options* ]
 
 
 #   DESCRIPTION
@@ -61,7 +61,7 @@ create
 
 ## docpatch create
 
-docpatch [*debugging options*] create [*options*]
+docpatch [ *debugging options* ] create [ *options* ]
 
 
 Options:
@@ -100,7 +100,7 @@ Options:
 
 ## docpatch build
 
-docpatch [*debugging options*] build [*options*]
+docpatch [ *debugging options* ] build [ *options* ]
 
 
 Options:
