@@ -22,14 +22,14 @@ This is our current tool stack:
 
 These tools are simple to use, but powerful, widely spread, and open. (Even if they won't fit any more in the future, they could be replaced by other, even better tools. For distributing the repositories, the code, the generated documents, and everything else we use some more tools, e.g. web server, operating system,…, but they don't matter for our intended purpose.)
 
-Please visit our [website](https://wiki.die-foobar.org/wiki/DocPatch) for more information about DocPatch and our goals.
+Please visit our [website](http://wiki.die-foobar.org/wiki/DocPatch) for more information about DocPatch and our goals.
 
 
 ### First Milestone
 
 Our first target is the German constitution, called *Grundgesetz*. First published in March 23th 1949 it was changed round about 60 times. It's interesting to see why it was changed, when, by whom and under what circumstances. The good is: All information is public. The bad: The information doesn't match the Open Definition and many details are hard to find.
 
-In short: [We are putting the complete "Grundgesetz" under version control and publish it.](https://wiki.die-foobar.org/wiki/DocPatch/Grundgesetz)
+In short: [We are putting the complete "Grundgesetz" under version control and publish it.](http://wiki.die-foobar.org/wiki/DocPatch/Grundgesetz)
 
 Clone the repository to play around with **DocPatch**:
 
@@ -82,19 +82,20 @@ Please, report any bugs to [our issue tracker](https://github.com/bheisig/DocPat
 
 ##  Copyright
 
-Copyright (C) 2012 [Benjamin Heisig](https://benjamin.heisig.name/). License [GPLv3+: GNU GPL version 3 or later](http://gnu.org/licenses/gpl.html). This is free software: you are free to change and redistribute it. There is NO WARRANTY, to the extent permitted by law.
+Copyright (C) 2012 [Benjamin Heisig](http://benjamin.heisig.name/). License [GPLv3+: GNU GPL version 3 or later](http://gnu.org/licenses/gpl.html). This is free software: you are free to change and redistribute it. There is NO WARRANTY, to the extent permitted by law.
 
 
-##  Author
+##  Authors
 
-[Benjamin Heisig](https://benjamin.heisig.name/)
+*   [Benjamin Heisig](http://benjamin.heisig.name/)
+*   Bernhard Físseni
 
 
 ##  Thanks
 
 We would like to thank the following people:
 
-*   from [foobar e. V.](https://wiki.die-foobar.de/) and [Chaospott Essen](http://chaospott.de/)
+*   from [foobar e. V.](http://wiki.die-foobar.de/) and [Chaospott Essen](http://chaospott.de/)
 *   from [tiggersWelt.net](http://tiggerswelt.net/) who provide some of the hosting services
 
 And everyone who keeps sending us feedback and improving this project! Thank you :-)
