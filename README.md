@@ -15,6 +15,7 @@ We are part of the Open Data movement and supports the [Open Definition](http://
 
 This is our current tool stack:
 
+*   Shell: [Bourne-again Shell](http://www.gnu.org/software/bash/)
 *   vcs: [git](http://git-scm.com/)
 *   converter: [pandoc](http://johnmacfarlane.net/pandoc/index.html)
 *   markup language: pandoc's [enhanced version](http://johnmacfarlane.net/pandoc/README.html#pandocs-markdown) of [John Gruber's markdown](http://daringfireball.net/projects/markdown/)
@@ -46,11 +47,12 @@ We are looking for people who create some fancy tools, design a cool website, de
 
 Installing DocPatch and its components requires the following dependencies:
 
-*   POSIX operating system
-*   `git` (distributed version control system)
-*   `gpg` (OpenPGP encryption and signing tool)
-*   `pandoc` (converting tool)
-*   `quilt` (patch management)
+*   [POSIX](http://en.wikipedia.org/wiki/POSIX) operating system
+*   `bash` ([‘Bourne-again Shell’](http://www.gnu.org/software/bash/))
+*   `git` ([distributed version control system](http://git-scm.com/))
+*   `gpg` ([‘GnuPG’, OpenPGP encryption and signing tool](http://www.gnupg.org/))
+*   `pandoc` ([markup conversion tool](http://johnmacfarlane.net/pandoc/))
+*   `quilt` ([patch management tool](http://savannah.nongnu.org/projects/quilt))
 *   `getopt` in the version from [util-linux](https://www.kernel.org/pub/linux/utils/util-linux/) or the [‘enhanced’ version](http://software.frodo.looijaard.name/getopt/download.php). (This is usually preinstalled on Linux and can be obtained as a port for other systems)
 
 After you met all requirements installation is simply done by:
