@@ -91,5 +91,5 @@ if [ -z $adjust ] ; then
   echo "Everything available. You can continue with 'make'."
 else  
   echo "Please adjust the Makefile as indicated or install the missing dependencies"
-  ecgi "before continuing with 'make'."
+  echo "before continuing with 'make'."
 fi
