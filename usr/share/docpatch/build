@@ -27,11 +27,11 @@
 COMMAND_DESC="$COMMAND_BUILD"
 
 
-## Checks wether everything is prepared before building the repository.
+## Checks whether everything is prepared before building the repository.
 function checks {
-  loginfo $"Checking wether everything is prepared before building the repository..."
+  loginfo $"Checking whether everything is prepared before building the repository..."
 
-  logdebug $"Checking wether repository is already built..."
+  logdebug $"Checking whether repository is already built..."
   if [ -d "$REPO_DIR" ]; then
       logwarning $"Repository is already built."
       logerror $"Checks failed."
@@ -360,7 +360,7 @@ function createTag {
 
   local cmd="$GIT tag"
 
-  logdebug $"Check wether tag will be signed..."
+  logdebug $"Check whether tag will be signed..."
   if [ "$SIGN" -eq 1 ]; then
       logdebug $"Tag will be signed."
       cmd="$cmd -s"

@@ -31,9 +31,9 @@ COMMAND_DESC="$COMMAND_CREATE"
 SUPPORTED_FORMATS="pdf"
 
 
-## Checks wether everything is prepared before creating output.
+## Checks whether everything is prepared before creating output.
 function checks {
-  loginfo $"Checking wether everything is prepared before creating output..."
+  loginfo $"Checking whether everything is prepared before creating output..."
 
   logdebug $"Checking output directory..."
   if [ ! -d "$OUTPUT_DIR" ]; then
@@ -324,7 +324,7 @@ function produceGeneric {
   local file_extension=`"$CAT" "$OUTPUT_FORMAT_FILE" | "$GREP" "^$output_format" | "$HEAD" -n1 | "$AWK" '{print $2}'`
   logdebug $"File extension is '${file_extension}'."
 
-  logdebug $"Determining wether standalone or embedded output will be created..."
+  logdebug $"Determining whether standalone or embedded output will be created..."
   local standalone_support=`"$CAT" "$OUTPUT_FORMAT_FILE" | "$GREP" "$output_format" | "$HEAD" -n1 | "$AWK" '{print $3}'`
   local arg_standalone=""
   if [ "$EMBED" -eq 1 -o "$standalone_support" == "-1" ]; then
@@ -336,7 +336,7 @@ function produceGeneric {
       arg_standalone=" --standalone"
     fi
 
-  logdebug $"Determining wether to use smart option or not..."
+  logdebug $"Determining whether to use smart option or not..."
   local smart_support=`"$CAT" "$OUTPUT_FORMAT_FILE" | "$GREP" "$output_format" | "$HEAD" -n1 | "$AWK" '{print $4}'`
   local arg_smart=""
   if [ "$SIMPLE" -eq 1 -o "$smart_support" == "-1" ]; then
@@ -348,7 +348,7 @@ function produceGeneric {
       arg_smart=" --smart"
     fi
 
-  logdebug $"Determining wether to add table of contents..."
+  logdebug $"Determining whether to add table of contents..."
   local toc_support=`"$CAT" "$OUTPUT_FORMAT_FILE" | "$GREP" "$output_format" | "$HEAD" -n1 | "$AWK" '{print $5}'`
   local arg_toc=""
   if [ "$TOC" -eq 0 -o "$toc_support" == "-1" ]; then

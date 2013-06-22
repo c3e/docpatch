@@ -1,98 +1,92 @@
-#: usr/bin/docpatch:43
-msgid "Build repository."
-msgstr ""
-#: usr/bin/docpatch:44
-msgid "Produce pretty output from source."
-msgstr ""
-#: usr/bin/docpatch:106
+#: usr/bin/docpatch:88
 msgid "Process given options and arguments..."
 msgstr ""
-#: usr/bin/docpatch:112
+#: usr/bin/docpatch:94
 msgid "Bad request."
 msgstr ""
-#: usr/bin/docpatch:119
+#: usr/bin/docpatch:101
 msgid "Processed."
 msgstr ""
-#: usr/bin/docpatch:123
+#: usr/bin/docpatch:105
 msgid "Matching options and arguments..."
 msgstr ""
-#: usr/bin/docpatch:130
+#: usr/bin/docpatch:112
 msgid "Set verbosity: $VERBOSITY"
 msgstr ""
-#: usr/bin/docpatch:134
+#: usr/bin/docpatch:116
 msgid "Set verbosity: $VERBOSITY"
 msgstr ""
-#: usr/bin/docpatch:138
+#: usr/bin/docpatch:120
 msgid "Set verbosity: $VERBOSITY"
 msgstr ""
-#: usr/bin/docpatch:142
+#: usr/bin/docpatch:124
 msgid "Set verbosity: $VERBOSITY"
 msgstr ""
-#: usr/bin/docpatch:146
+#: usr/bin/docpatch:128
 msgid "Set option: Print usage."
 msgstr ""
-#: usr/bin/docpatch:150
+#: usr/bin/docpatch:132
 msgid "Set option: Print version."
 msgstr ""
-#: usr/bin/docpatch:154
+#: usr/bin/docpatch:136
 msgid "Set option: Print license."
 msgstr ""
-#: usr/bin/docpatch:159
+#: usr/bin/docpatch:141
 msgid "Set option: Create embedded output."
 msgstr ""
-#: usr/bin/docpatch:163
+#: usr/bin/docpatch:145
 msgid "Set option: Create simplified output."
 msgstr ""
-#: usr/bin/docpatch:167
+#: usr/bin/docpatch:149
 msgid "Set option: Output format is '${2}'."
 msgstr ""
-#: usr/bin/docpatch:171
+#: usr/bin/docpatch:153
 msgid "Set option: Revision is '${2}'."
 msgstr ""
-#: usr/bin/docpatch:175
+#: usr/bin/docpatch:157
 msgid "Set option: Repository is '${2}'."
 msgstr ""
-#: usr/bin/docpatch:179
+#: usr/bin/docpatch:161
 msgid "Set option: Sign tags."
 msgstr ""
-#: usr/bin/docpatch:183
+#: usr/bin/docpatch:165
 msgid "Set option: Create table of contents."
 msgstr ""
-#: usr/bin/docpatch:190
+#: usr/bin/docpatch:172
 msgid "Unkown option '${1}'."
 msgstr ""
-#: usr/bin/docpatch:196
+#: usr/bin/docpatch:178
 msgid "Matched."
 msgstr ""
-#: usr/bin/docpatch:200
+#: usr/bin/docpatch:182
 msgid "Trying to match commands with given options..."
 msgstr ""
-#: usr/bin/docpatch:202
+#: usr/bin/docpatch:184
 msgid "Trying to match main command..."
 msgstr ""
-#: usr/bin/docpatch:207
+#: usr/bin/docpatch:189
 msgid "Main command is $COMMAND."
 msgstr ""
-#: usr/bin/docpatch:213
+#: usr/bin/docpatch:195
 msgid "Trying to match sub command..."
 msgstr ""
-#: usr/bin/docpatch:216
+#: usr/bin/docpatch:198
 msgid "Sub command is $SUB_COMMAND."
 msgstr ""
-#: usr/bin/docpatch:218
+#: usr/bin/docpatch:200
 msgid "There is no sub command."
 msgstr ""
-#: usr/bin/docpatch:224
+#: usr/bin/docpatch:206
 msgid "No main command found."
 msgstr ""
-#: usr/bin/docpatch:257
+#: usr/bin/docpatch:239
 msgid "Nothing to do."
 msgstr ""
 #: usr/share/docpatch/build:32
-msgid "Checking wether everything is prepared before building the repository..."
+msgid "Checking whether everything is prepared before building the repository..."
 msgstr ""
 #: usr/share/docpatch/build:34
-msgid "Checking wether repository is already built..."
+msgid "Checking whether repository is already built..."
 msgstr ""
 #: usr/share/docpatch/build:36
 msgid "Repository is already built."
@@ -182,7 +176,7 @@ msgstr ""
 msgid "File copied."
 msgstr ""
 #: usr/share/docpatch/build:115
-msgid "Converting and copying documentation file..."
+msgid "Copying documentation file..."
 msgstr ""
 #: usr/share/docpatch/build:117
 msgid "Documentation file under '${README_SOURCE}' is missing. Please consider creating it before building the repository."
@@ -197,274 +191,295 @@ msgstr ""
 msgid "File copied."
 msgstr ""
 #: usr/share/docpatch/build:128
-msgid "Meta information created."
+msgid "Copying meta JSON file..."
+msgstr ""
+#: usr/share/docpatch/build:130
+msgid "Meta JSON file under '${META_JSON_SOURCE}' is missing. Please consider creating it before building the repository."
+msgstr ""
+#: usr/share/docpatch/build:134
+msgid "Cannot copy '${META_JSON_SOURCE}' to '${META_JSON_TARGET}'."
 msgstr ""
 #: usr/share/docpatch/build:135
+msgid "Failed to create meta JSON file."
+msgstr ""
+#: usr/share/docpatch/build:138
+msgid "File copied."
+msgstr ""
+#: usr/share/docpatch/build:141
+msgid "Meta information created."
+msgstr ""
+#: usr/share/docpatch/build:148
 msgid "Creating initial version..."
 msgstr ""
-#: usr/share/docpatch/build:139
+#: usr/share/docpatch/build:152
 msgid "Failed to create initial version."
 msgstr ""
-#: usr/share/docpatch/build:143
+#: usr/share/docpatch/build:156
 msgid "Initial version created."
 msgstr ""
-#: usr/share/docpatch/build:150
+#: usr/share/docpatch/build:163
 msgid "Creating all revisions..."
 msgstr ""
-#: usr/share/docpatch/build:152
+#: usr/share/docpatch/build:165
 msgid "Checking series file..."
 msgstr ""
-#: usr/share/docpatch/build:155
+#: usr/share/docpatch/build:168
 msgid "Cannot access series file '${series_file}'."
 msgstr ""
-#: usr/share/docpatch/build:156
+#: usr/share/docpatch/build:169
 msgid "Failed to create all revisions."
 msgstr ""
-#: usr/share/docpatch/build:160
+#: usr/share/docpatch/build:173
 msgid "Iterating through each patch..."
 msgstr ""
-#: usr/share/docpatch/build:162
+#: usr/share/docpatch/build:175
 msgid "Handling patch '${patch}'..."
 msgstr ""
-#: usr/share/docpatch/build:164
+#: usr/share/docpatch/build:177
 msgid "Checking patch file..."
 msgstr ""
-#: usr/share/docpatch/build:167
+#: usr/share/docpatch/build:180
 msgid "Cannot access patch file '${patch_file}'."
 msgstr ""
-#: usr/share/docpatch/build:168
-msgid "Failed to create all revisions."
-msgstr ""
-#: usr/share/docpatch/build:172
-msgid "Patch file '${patch_file}' is ready to apply."
-msgstr ""
-#: usr/share/docpatch/build:174
-msgid "Checking message file..."
-msgstr ""
-#: usr/share/docpatch/build:177
-msgid "Cannot access message file '${meta_file}'."
-msgstr ""
-#: usr/share/docpatch/build:178
+#: usr/share/docpatch/build:181
 msgid "Failed to create all revisions."
 msgstr ""
 #: usr/share/docpatch/build:185
+msgid "Patch file '${patch_file}' is ready to apply."
+msgstr ""
+#: usr/share/docpatch/build:187
+msgid "Checking message file..."
+msgstr ""
+#: usr/share/docpatch/build:190
+msgid "Cannot access message file '${meta_file}'."
+msgstr ""
+#: usr/share/docpatch/build:191
 msgid "Failed to create all revisions."
 msgstr ""
-#: usr/share/docpatch/build:192
+#: usr/share/docpatch/build:198
 msgid "Failed to create all revisions."
 msgstr ""
-#: usr/share/docpatch/build:200
+#: usr/share/docpatch/build:205
 msgid "Failed to create all revisions."
 msgstr ""
-#: usr/share/docpatch/build:207
+#: usr/share/docpatch/build:213
 msgid "Failed to create all revisions."
 msgstr ""
-#: usr/share/docpatch/build:212
+#: usr/share/docpatch/build:220
+msgid "Failed to create all revisions."
+msgstr ""
+#: usr/share/docpatch/build:225
 msgid "Finished with patch '${patch}'."
 msgstr ""
-#: usr/share/docpatch/build:214
+#: usr/share/docpatch/build:227
 msgid "Each patch applied."
 msgstr ""
-#: usr/share/docpatch/build:218
+#: usr/share/docpatch/build:231
 msgid "Failed to create all revisions."
 msgstr ""
-#: usr/share/docpatch/build:222
+#: usr/share/docpatch/build:235
 msgid "All revisions created."
 msgstr ""
-#: usr/share/docpatch/build:229
+#: usr/share/docpatch/build:242
 msgid "Applying next patch..."
 msgstr ""
-#: usr/share/docpatch/build:231
+#: usr/share/docpatch/build:244
 msgid "Changing into directory '${SRC_DIR}'..."
 msgstr ""
-#: usr/share/docpatch/build:234
+#: usr/share/docpatch/build:247
 msgid "Calling quilt..."
-msgstr ""
-#: usr/share/docpatch/build:237
-msgid "Failed to apply next patch."
-msgstr ""
-#: usr/share/docpatch/build:241
-msgid "Next patch applied."
-msgstr ""
-#: usr/share/docpatch/build:248
-msgid "Reverting all applied patches..."
 msgstr ""
 #: usr/share/docpatch/build:250
+msgid "Failed to apply next patch."
+msgstr ""
+#: usr/share/docpatch/build:254
+msgid "Next patch applied."
+msgstr ""
+#: usr/share/docpatch/build:261
+msgid "Reverting all applied patches..."
+msgstr ""
+#: usr/share/docpatch/build:263
 msgid "Changing into directory '${SRC_DIR}'..."
 msgstr ""
-#: usr/share/docpatch/build:253
+#: usr/share/docpatch/build:266
 msgid "Calling quilt..."
 msgstr ""
-#: usr/share/docpatch/build:256
+#: usr/share/docpatch/build:269
 msgid "Failed to revert all applied patches."
 msgstr ""
-#: usr/share/docpatch/build:260
+#: usr/share/docpatch/build:273
 msgid "All applied patches reverted."
 msgstr ""
-#: usr/share/docpatch/build:268
+#: usr/share/docpatch/build:281
 msgid "Putting all files under version control and committing them."
 msgstr ""
-#: usr/share/docpatch/build:270
+#: usr/share/docpatch/build:283
 msgid "Changing into directory '${REPO_DIR}'..."
 msgstr ""
-#: usr/share/docpatch/build:273
+#: usr/share/docpatch/build:286
 msgid "Putting all files under version control..."
 msgstr ""
-#: usr/share/docpatch/build:276
+#: usr/share/docpatch/build:289
 msgid "Cannot put all files under version control"
 msgstr ""
-#: usr/share/docpatch/build:277
+#: usr/share/docpatch/build:290
 msgid "Failed to put all files under version control and commit them."
 msgstr ""
-#: usr/share/docpatch/build:280
+#: usr/share/docpatch/build:293
 msgid "Putting was successful."
 msgstr ""
-#: usr/share/docpatch/build:282
+#: usr/share/docpatch/build:295
 msgid "Checking commit message..."
 msgstr ""
-#: usr/share/docpatch/build:284
+#: usr/share/docpatch/build:297
 msgid "There is no commit message."
 msgstr ""
-#: usr/share/docpatch/build:285
-msgid "Failed to put all files under version control and commit them."
-msgstr ""
-#: usr/share/docpatch/build:288
-msgid "Commit messages seems okay."
-msgstr ""
-#: usr/share/docpatch/build:290
-msgid "Committing files..."
-msgstr ""
-#: usr/share/docpatch/build:292
-msgid "Take commit message from '${1}'."
-msgstr ""
-#: usr/share/docpatch/build:296
-msgid "Cannot commit files."
-msgstr ""
-#: usr/share/docpatch/build:297
+#: usr/share/docpatch/build:298
 msgid "Failed to put all files under version control and commit them."
 msgstr ""
 #: usr/share/docpatch/build:301
-msgid "Take commit message from command line."
+msgid "Commit messages seems okay."
+msgstr ""
+#: usr/share/docpatch/build:303
+msgid "Committing files..."
 msgstr ""
 #: usr/share/docpatch/build:305
-msgid "Writing message to file..."
+msgid "Take commit message from '${1}'."
 msgstr ""
-#: usr/share/docpatch/build:311
+#: usr/share/docpatch/build:309
 msgid "Cannot commit files."
 msgstr ""
-#: usr/share/docpatch/build:312
+#: usr/share/docpatch/build:310
 msgid "Failed to put all files under version control and commit them."
 msgstr ""
-#: usr/share/docpatch/build:316
-msgid "Commit was successful."
+#: usr/share/docpatch/build:314
+msgid "Take commit message from command line."
 msgstr ""
 #: usr/share/docpatch/build:318
-msgid "All files put under version control and committed."
+msgid "Writing message to file..."
 msgstr ""
-#: usr/share/docpatch/build:327
-msgid "Tagging current revision..."
+#: usr/share/docpatch/build:324
+msgid "Cannot commit files."
+msgstr ""
+#: usr/share/docpatch/build:325
+msgid "Failed to put all files under version control and commit them."
 msgstr ""
 #: usr/share/docpatch/build:329
-msgid "Checking version number..."
+msgid "Commit was successful."
 msgstr ""
 #: usr/share/docpatch/build:331
-msgid "Version number is invalid."
-msgstr ""
-#: usr/share/docpatch/build:332
-msgid "Failed to tag current revision."
-msgstr ""
-#: usr/share/docpatch/build:335
-msgid "Version number is '${1}'."
-msgstr ""
-#: usr/share/docpatch/build:337
-msgid "Checking message file..."
-msgstr ""
-#: usr/share/docpatch/build:339
-msgid "Cannot access message file."
+msgid "All files put under version control and committed."
 msgstr ""
 #: usr/share/docpatch/build:340
-msgid "Failed to tag current revision."
+msgid "Tagging current revision..."
 msgstr ""
-#: usr/share/docpatch/build:343
-msgid "Message file is '${2}'."
+#: usr/share/docpatch/build:342
+msgid "Checking version number..."
+msgstr ""
+#: usr/share/docpatch/build:344
+msgid "Version number is invalid."
 msgstr ""
 #: usr/share/docpatch/build:345
-msgid "Changing into directory '${REPO_DIR}'..."
-msgstr ""
-#: usr/share/docpatch/build:350
-msgid "Check wether tag will be signed..."
-msgstr ""
-#: usr/share/docpatch/build:352
-msgid "Tag will be signed."
-msgstr ""
-#: usr/share/docpatch/build:355
-msgid "Tag won\\'t be signed."
-msgstr ""
-#: usr/share/docpatch/build:360
-msgid "Calling git-tag..."
-msgstr ""
-#: usr/share/docpatch/build:363
-msgid "Failed to call git-tag."
-msgstr ""
-#: usr/share/docpatch/build:364
 msgid "Failed to tag current revision."
 msgstr ""
-#: usr/share/docpatch/build:367
-msgid "git-tag succeeded."
+#: usr/share/docpatch/build:348
+msgid "Version number is '${1}'."
 msgstr ""
-#: usr/share/docpatch/build:369
-msgid "Revision tagged."
+#: usr/share/docpatch/build:350
+msgid "Checking message file..."
+msgstr ""
+#: usr/share/docpatch/build:352
+msgid "Cannot access message file."
+msgstr ""
+#: usr/share/docpatch/build:353
+msgid "Failed to tag current revision."
+msgstr ""
+#: usr/share/docpatch/build:356
+msgid "Message file is '${2}'."
+msgstr ""
+#: usr/share/docpatch/build:358
+msgid "Changing into directory '${REPO_DIR}'..."
+msgstr ""
+#: usr/share/docpatch/build:363
+msgid "Check whether tag will be signed..."
+msgstr ""
+#: usr/share/docpatch/build:365
+msgid "Tag will be signed."
+msgstr ""
+#: usr/share/docpatch/build:368
+msgid "Tag won\\'t be signed."
+msgstr ""
+#: usr/share/docpatch/build:373
+msgid "Calling git-tag..."
+msgstr ""
+#: usr/share/docpatch/build:376
+msgid "Failed to call git-tag."
 msgstr ""
 #: usr/share/docpatch/build:377
+msgid "Failed to tag current revision."
+msgstr ""
+#: usr/share/docpatch/build:380
+msgid "git-tag succeeded."
+msgstr ""
+#: usr/share/docpatch/build:382
+msgid "Revision tagged."
+msgstr ""
+#: usr/share/docpatch/build:390
 msgid "Counting patches..."
 msgstr ""
-#: usr/share/docpatch/build:381
+#: usr/share/docpatch/build:394
 msgid "Cannot count patches."
 msgstr ""
-#: usr/share/docpatch/build:386
+#: usr/share/docpatch/build:399
 msgid "There is 1 patch."
 msgstr ""
-#: usr/share/docpatch/build:388
+#: usr/share/docpatch/build:401
 msgid "There are $PATCHES patches."
 msgstr ""
-#: usr/share/docpatch/build:391
+#: usr/share/docpatch/build:404
 msgid "Patches counted."
 msgstr ""
-#: usr/share/docpatch/build:398
+#: usr/share/docpatch/build:411
 msgid "Copying documents..."
 msgstr ""
-#: usr/share/docpatch/build:400
+#: usr/share/docpatch/build:413
 msgid "Source files: ${SRC_DIR}/*$INPUT_FORMAT_EXT"
 msgstr ""
-#: usr/share/docpatch/build:401
+#: usr/share/docpatch/build:414
 msgid "Target directory: $REPO_DIR"
 msgstr ""
-#: usr/share/docpatch/build:405
+#: usr/share/docpatch/build:418
 msgid "Failed to copy documents."
 msgstr ""
-#: usr/share/docpatch/build:409
+#: usr/share/docpatch/build:422
 msgid "Documents copied."
 msgstr ""
-#: usr/share/docpatch/build:423
+#: usr/share/docpatch/build:436
 msgid "$message"
 msgstr ""
-#: usr/share/docpatch/build:427
+#: usr/share/docpatch/build:440
 msgid "Importing initial version..."
 msgstr ""
-#: usr/share/docpatch/build:431
+#: usr/share/docpatch/build:444
 msgid "Importing revisions..."
 msgstr ""
-#: usr/share/docpatch/build:438
+#: usr/share/docpatch/build:451
 msgid "Printing command specific options..."
 msgstr ""
-#: usr/share/docpatch/build:439
+#: usr/share/docpatch/build:452
 msgid "    -s, --sign\\t\\tAdd a OpenPGP signature to commits and tags."
 msgstr ""
-#: usr/share/docpatch/build:440
+#: usr/share/docpatch/build:453
 msgid "Options printed."
 msgstr ""
+#: usr/share/docpatch/config.inc:69
+msgid "Build repository."
+msgstr ""
+#: usr/share/docpatch/config.inc:70
+msgid "Produce pretty output from source."
+msgstr ""
 #: usr/share/docpatch/create:36
-msgid "Checking wether everything is prepared before creating output..."
+msgid "Checking whether everything is prepared before creating output..."
 msgstr ""
 #: usr/share/docpatch/create:38
 msgid "Checking output directory..."
@@ -701,7 +716,7 @@ msgstr ""
 msgid "File extension is '${file_extension}'."
 msgstr ""
 #: usr/share/docpatch/create:327
-msgid "Determining wether standalone or embedded output will be created..."
+msgid "Determining whether standalone or embedded output will be created..."
 msgstr ""
 #: usr/share/docpatch/create:331
 msgid "Create embedded output."
@@ -713,7 +728,7 @@ msgstr ""
 msgid "Create standalone output."
 msgstr ""
 #: usr/share/docpatch/create:339
-msgid "Determining wether to use smart option or not..."
+msgid "Determining whether to use smart option or not..."
 msgstr ""
 #: usr/share/docpatch/create:343
 msgid "Create simplified output."
@@ -725,7 +740,7 @@ msgstr ""
 msgid "Create smart output."
 msgstr ""
 #: usr/share/docpatch/create:351
-msgid "Determining wether to add table of contents..."
+msgid "Determining whether to add table of contents..."
 msgstr ""
 #: usr/share/docpatch/create:355
 msgid "Do not add table of contents."
@@ -838,70 +853,79 @@ msgstr ""
 #: usr/share/docpatch/create:472
 msgid "Producing man page..."
 msgstr ""
-#: usr/share/docpatch/create:475
-msgid "Producing file..."
-msgstr ""
-#: usr/share/docpatch/create:478
-msgid "Cannot produce file '${output_file}'."
-msgstr ""
-#: usr/share/docpatch/create:479
-msgid "Failed to produce man page."
-msgstr ""
-#: usr/share/docpatch/create:482
-msgid "Wrote content to file '${output_file}'."
-msgstr ""
-#: usr/share/docpatch/create:484
-msgid "Man page produced."
-msgstr ""
-#: usr/share/docpatch/create:491
-msgid "Producing PDF..."
-msgstr ""
-#: usr/share/docpatch/create:493
+#: usr/share/docpatch/create:474
 msgid "Checking for any template file..."
 msgstr ""
-#: usr/share/docpatch/create:497
+#: usr/share/docpatch/create:478
 msgid "Template file found under '${tpl_file}'."
 msgstr ""
-#: usr/share/docpatch/create:500
+#: usr/share/docpatch/create:481
 msgid "No template file found under '${tpl_file}'."
 msgstr ""
-#: usr/share/docpatch/create:504
+#: usr/share/docpatch/create:485
 msgid "Producing file..."
 msgstr ""
-#: usr/share/docpatch/create:507
+#: usr/share/docpatch/create:488
 msgid "Cannot produce file '${output_file}'."
 msgstr ""
-#: usr/share/docpatch/create:508
-msgid "Failed to produce PDF."
+#: usr/share/docpatch/create:489
+msgid "Failed to produce man page."
 msgstr ""
-#: usr/share/docpatch/create:511
+#: usr/share/docpatch/create:492
 msgid "Wrote content to file '${output_file}'."
 msgstr ""
-#: usr/share/docpatch/create:513
+#: usr/share/docpatch/create:494
+msgid "Man page produced."
+msgstr ""
+#: usr/share/docpatch/create:501
+msgid "Producing PDF..."
+msgstr ""
+#: usr/share/docpatch/create:503
+msgid "Checking for any template file..."
+msgstr ""
+#: usr/share/docpatch/create:507
+msgid "Template file found under '${tpl_file}'."
+msgstr ""
+#: usr/share/docpatch/create:510
+msgid "No template file found under '${tpl_file}'."
+msgstr ""
+#: usr/share/docpatch/create:514
+msgid "Producing file..."
+msgstr ""
+#: usr/share/docpatch/create:517
+msgid "Cannot produce file '${output_file}'."
+msgstr ""
+#: usr/share/docpatch/create:518
+msgid "Failed to produce PDF."
+msgstr ""
+#: usr/share/docpatch/create:521
+msgid "Wrote content to file '${output_file}'."
+msgstr ""
+#: usr/share/docpatch/create:523
 msgid "PDF produced."
 msgstr ""
-#: usr/share/docpatch/create:536
+#: usr/share/docpatch/create:546
 msgid "Printing command specific options..."
 msgstr ""
-#: usr/share/docpatch/create:548
+#: usr/share/docpatch/create:558
 msgid "    -f, --format, --output FORMAT\\tSelect output format FORMAT. Supported formats are ${formats}. Defaults to 'pdf'."
 msgstr ""
-#: usr/share/docpatch/create:549
+#: usr/share/docpatch/create:559
 msgid "    -e, --embed, --embedded\\t\\tCreate an embedded version."
 msgstr ""
-#: usr/share/docpatch/create:550
+#: usr/share/docpatch/create:560
 msgid "    -r, --rev, --revision REV\\t\\tGenerate output from revision REV. 'first', 'last', 'all' and a comma separated list of revisions are allowed. Defaults to 0."
 msgstr ""
-#: usr/share/docpatch/create:551
+#: usr/share/docpatch/create:561
 msgid "    -R, --repo, --repository REPO\\tSelect repository REPO which will be cloned. Defaults to existing repository under ${REPO_DIR}."
 msgstr ""
-#: usr/share/docpatch/create:552
+#: usr/share/docpatch/create:562
 msgid "    -S, --simple, --not-smart\\t\\tDo not create a smart version."
 msgstr ""
-#: usr/share/docpatch/create:553
+#: usr/share/docpatch/create:563
 msgid "    -t, --toc\\t\\t\\t\\tAdd table of contents (TOC)."
 msgstr ""
-#: usr/share/docpatch/create:555
+#: usr/share/docpatch/create:565
 msgid "Options printed."
 msgstr ""
 #: usr/share/docpatch/docpatch.inc:28
