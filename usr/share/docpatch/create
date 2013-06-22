@@ -360,7 +360,7 @@ function produceGeneric {
 
   local output_file="${OUTPUT_DIR}/${IDENTIFIER}$file_extension"
   logdebug $"Producing file..."
-  exe "$PANDOC --from=$INPUT_FORMAT --to=${1}${arg_standalone}${arg_smart}${arg_toc} --output=$output_file ${REPO_DIR}/*$INPUT_FORMAT_EXT"
+  exe "$PANDOC --from=$INPUT_FORMAT --to=${1}${arg_standalone}${arg_smart}${arg_toc} --output=$output_file `perl -e 'print join(" ", <'${REPO_DIR}/'*'$INPUT_FORMAT_EXT'>), "\n"'`"
   if [ "$?" -gt 0 ]; then
       logwarning $"Cannot produce file '${output_file}'."
       logerror $"Failed to produce '${output_format}'."
@@ -454,7 +454,7 @@ function produceEPUB {
 
   local output_file="${OUTPUT_DIR}/${IDENTIFIER}.epub"
   logdebug $"Producing file..."
-  exe "$PANDOC --from=$INPUT_FORMAT --toc --output=$output_file --smart --epub-metadata=$meta_file ${REPO_DIR}/*$INPUT_FORMAT_EXT"
+  exe "$PANDOC --from=$INPUT_FORMAT --toc --output=$output_file --smart --epub-metadata=$meta_file `perl -e 'print join(" ", <'${REPO_DIR}/'*'$INPUT_FORMAT_EXT'>), "\n"'`"
   if [ "$?" -gt 0 ]; then
       logwarning $"Cannot produce file '${output_file}'."
       logerror $"Failed to produce EPUB."
@@ -483,7 +483,7 @@ function produceManPage {
 
   local output_file="${OUTPUT_DIR}/${IDENTIFIER}.1.gz"
   logdebug $"Producing file..."
-  exe "$PANDOC --from=$INPUT_FORMAT --to=man --standalone $tpl_option ${REPO_DIR}/*$INPUT_FORMAT_EXT | $GZIP -c > $output_file"
+  exe "$PANDOC --from=$INPUT_FORMAT --to=man --standalone $tpl_option `perl -e 'print join(" ", <'${REPO_DIR}/'*'$INPUT_FORMAT_EXT'>), "\n"'` | $GZIP -c > $output_file"
   if [ "$?" -gt 0 ]; then
       logwarning $"Cannot produce file '${output_file}'."
       logerror $"Failed to produce man page."
@@ -512,7 +512,7 @@ function producePDF {
 
   local output_file="${OUTPUT_DIR}/${IDENTIFIER}.pdf"
   logdebug $"Producing file..."
-  exe "$PANDOC --from=$INPUT_FORMAT --toc $tpl_option --output=$output_file ${REPO_DIR}/*$INPUT_FORMAT_EXT"
+  exe "$PANDOC --from=$INPUT_FORMAT --toc $tpl_option --output=$output_file `perl -e 'print join(" ", <'${REPO_DIR}/'*'$INPUT_FORMAT_EXT'>), "\n"'`"
   if [ "$?" -gt 0 ]; then
       logwarning $"Cannot produce file '${output_file}'."
       logerror $"Failed to produce PDF."
