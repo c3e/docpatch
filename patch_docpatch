@@ -1,2 +1,2 @@
 #!/bin/sh
-${SED} -i~ -e "/DESTDIR/s|=.*|=\"$2\"|;/PREFIX/s|=.*|=\"$3\"|" $1
+sed -i~ -e "/DESTDIR/s|=.*|=\"$2\"|;/PREFIX/s|=.*|=\"$3\"|" $1
