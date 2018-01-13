@@ -14,26 +14,19 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 SHELL = /bin/sh
 
 INSTALL = $(shell which install)
 INSTALL_PROGRAM = $(INSTALL) -m 755
 INSTALL_DATA = $(INSTALL) -m 644
-FIND = $(shell which find)
-GZIP = $(shell which gzip)
 PANDOC = $(shell which pandoc)
-BASH = $(shell which bash)
 GIT = $(shell which git)
 GPG = $(shell which gpg)
-TOUCH = $(shell which touch)
 MKDIR = mkdir -m 755
-export SED := $(shell which sed)
-
 
 project = $(shell cat usr/share/docpatch/config.inc | sed -n 's/^PROJECT_NAME="\(.*\)"$$/\1/p')
 man1pages = $(project)
-metainfos = NEWS README TODO
+metainfos = CHANGELOG README
 languages = de
 version = $(shell cat usr/share/docpatch/config.inc | sed -n 's/^PROJECT_VERSION="\(.*\)"$$/\1/p')
 
@@ -53,188 +46,122 @@ patch_docpatch = ./patch_docpatch
 
 ## Build
 
-all : man readme meta
-	@echo "$(project) built. Ready to install. Continue with '(sudo) make install'"
+all : man readme changelog meta
 
 man : $(man1pages)
-	@echo "Man pages built."
 
 html :
-	@echo "Building HTML documentation..."
-	@$(PANDOC) --from markdown --to html -o $(project).html --toc --standalone --smart README.md
+	$(PANDOC) --from markdown --to html -o $(project).html --toc --standalone --smart README.md
 
 pdf :
-	@echo "Building PDF documentation..."
-	@$(PANDOC) --from markdown --toc --smart -o $(project).pdf README.md
-
-dvi :
-	@echo "Failed to build DVI documentation. It's not supported."
-	@exit 1
-
-ps :
-	@echo "Failed to build Postscript documentation. It's not supported."
-	@exit 1
+	$(PANDOC) --from markdown --toc --smart -o $(project).pdf README.md
 
 meta : $(metainfos)
-	@echo "Copying meta information COPYING..."
-	@cp COPYING usr/share/doc/$(project)/COPYING
-	@cp README usr/share/doc/$(project)/README
-	@echo "Meta information built."
+	cp LICENSE usr/share/doc/$(project)/LICENSE
+	cp README usr/share/doc/$(project)/README
+	cp CHANGELOG usr/share/doc/$(project)/CHANGELOG
 
 readme :
-	@echo "Building README..."
-	@$(PANDOC) --from markdown --to plain --standalone README.md > README
+	$(PANDOC) --from markdown --to plain --standalone README.md > README
+
+changelog :
+	$(PANDOC) --from markdown --to plain --standalone CHANGELOG.md > CHANGELOG
 
 % : usr/share/man/man1/%.1.md
-	@echo "Building man1 page $@..."
-	@$(PANDOC) -s --from markdown --to man $< | $(GZIP) -c > usr/share/man/man1/$@.1.gz
+	$(PANDOC) -s --from markdown --to man $< | gzip -c > usr/share/man/man1/$@.1.gz
 
 % : %.md
-	@echo "Building meta information $@..."
-	@$(PANDOC) --from markdown --to plain $< > usr/share/doc/$(project)/$@
+	$(PANDOC) --from markdown --to plain $< > usr/share/doc/$(project)/$@
 
 pot :
-	@echo "Building pot file..."
-	@bash --dump-po-strings usr/bin/$(project) > usr/share/locale/$(project).pot
-	@bash --dump-po-strings usr/share/$(project)/build >> usr/share/locale/$(project).pot
-	@bash --dump-po-strings usr/share/$(project)/config.inc >> usr/share/locale/$(project).pot
-	@bash --dump-po-strings usr/share/$(project)/create >> usr/share/locale/$(project).pot
-	@bash --dump-po-strings usr/share/$(project)/$(project).inc >> usr/share/locale/$(project).pot
-	@bash --dump-po-strings usr/share/$(project)/help >> usr/share/locale/$(project).pot
-	@awk '/^msgid/&&!seen[$0]++;!/^msgid/' usr/share/locale/$(project).pot > usr/share/locale/$(project).pot.tmp
-	@mv usr/share/locale/$(project).pot.tmp usr/share/locale/$(project).pot
-	@echo "pot file built."
-
-manifest :
-	@echo "Creating manifest..."
-	@$(GIT) ls-files --exclude-from=.gitignore > MANIFEST
-
-signature : checksums
-	@echo "Creating signature..."
-	@gpg --clearsign SIGNATURE
-	@mv SIGNATURE.asc SIGNATURE
-
-checksums :
-	@echo "Creating checksums..."
-	@rm -f SIGNATURE
-	@bash -c 'while read line; do sha1sum $line >> SIGNATURE 2> /dev/null ; done < <(cat MANIFEST)'
+	bash --dump-po-strings usr/bin/$(project) > usr/share/locale/$(project).pot
+	bash --dump-po-strings usr/share/$(project)/build >> usr/share/locale/$(project).pot
+	bash --dump-po-strings usr/share/$(project)/config.inc >> usr/share/locale/$(project).pot
+	bash --dump-po-strings usr/share/$(project)/create >> usr/share/locale/$(project).pot
+	bash --dump-po-strings usr/share/$(project)/$(project).inc >> usr/share/locale/$(project).pot
+	bash --dump-po-strings usr/share/$(project)/help >> usr/share/locale/$(project).pot
+	awk '/^msgid/&&!seen[$0]++;!/^msgid/' usr/share/locale/$(project).pot > usr/share/locale/$(project).pot.tmp
+	mv usr/share/locale/$(project).pot.tmp usr/share/locale/$(project).pot
 
 
 ## Install/Uninstall
 
 install : normal-install $(languages) post-install
-	@echo "$(project) installed."
 
 normal-install :
 	$(NORMAL_INSTALL)
-	@echo "Installing $(project)..."
-	@$(MKDIR) -p $(DESTDIR)$(bindir)
-	@$(patch_docpatch) usr/bin/docpatch "$(DESTDIR)" "$(prefix)"
-	@$(INSTALL_PROGRAM) usr/bin/* $(DESTDIR)$(bindir)
-	@$(MKDIR) -p $(DESTDIR)$(datadir)/$(project)
-	@$(INSTALL_DATA) usr/share/$(project)/* $(DESTDIR)$(datadir)/$(project)
-	@$(MKDIR) -p $(DESTDIR)$(docdir)
-	@$(INSTALL_DATA) \
-	    usr/share/doc/$(project)/COPYING \
-	    usr/share/doc/$(project)/NEWS \
+	$(MKDIR) -p $(DESTDIR)$(bindir)
+	$(patch_docpatch) usr/bin/docpatch "$(DESTDIR)" "$(prefix)"
+	$(INSTALL_PROGRAM) usr/bin/* $(DESTDIR)$(bindir)
+	$(MKDIR) -p $(DESTDIR)$(datadir)/$(project)
+	$(INSTALL_DATA) usr/share/$(project)/* $(DESTDIR)$(datadir)/$(project)
+	$(MKDIR) -p $(DESTDIR)$(docdir)
+	$(INSTALL_DATA) \
+	    usr/share/doc/$(project)/LICENSE \
+	    usr/share/doc/$(project)/CHANGELOG \
 	    usr/share/doc/$(project)/README \
-	    usr/share/doc/$(project)/TODO $(DESTDIR)$(docdir)
-	@$(MKDIR) -p $(DESTDIR)$(docdir)/examples
-	@$(MKDIR) -p $(DESTDIR)$(docdir)/examples/etc
-	@$(INSTALL_DATA) usr/share/doc/$(project)/examples/etc/* $(DESTDIR)$(docdir)/examples/etc
-	@$(MKDIR) -p $(DESTDIR)/etc/bash_completion.d
-	@$(INSTALL_DATA) usr/share/doc/$(project)/examples/bash_completion.d/$(project) $(DESTDIR)/etc/bash_completion.d/
+	    $(DESTDIR)$(docdir)
+	$(MKDIR) -p $(DESTDIR)$(docdir)/examples
+	$(MKDIR) -p $(DESTDIR)$(docdir)/examples/etc
+	$(INSTALL_DATA) usr/share/doc/$(project)/examples/etc/* $(DESTDIR)$(docdir)/examples/etc
+	$(MKDIR) -p $(DESTDIR)/etc/bash_completion.d
+	$(INSTALL_DATA) usr/share/doc/$(project)/examples/bash_completion.d/$(project) $(DESTDIR)/etc/bash_completion.d/
 
 post-install :
 	$(POST_INSTALL)
-	@$(MKDIR) -p $(DESTDIR)$(man1dir)
-	@$(INSTALL_DATA) usr/share/man/man1/*.1.gz $(DESTDIR)$(man1dir)
+	$(MKDIR) -p $(DESTDIR)$(man1dir)
+	$(INSTALL_DATA) usr/share/man/man1/*.1.gz $(DESTDIR)$(man1dir)
 
 % : usr/share/locale/%
-	@echo "Copying po files for language $@..."
-	@$(MKDIR) -p $(DESTDIR)$(localedir)/$@
-	@$(INSTALL_DATA) usr/share/locale/$@/$(project).po $(DESTDIR)$(localedir)/$@/
+	$(MKDIR) -p $(DESTDIR)$(localedir)/$@
+	$(INSTALL_DATA) usr/share/locale/$@/$(project).po $(DESTDIR)$(localedir)/$@/
 
 install-html :
-	@echo "Installing HTML documentation..."
-	@$(INSTALL_DATA) *.html $(DESTDIR)$(htmldir)
+	$(INSTALL_DATA) *.html $(DESTDIR)$(htmldir)
 
 install-pdf :
-	@echo "Installing PDF documentation..."
-	@$(INSTALL_DATA) *.pdf $(DESTDIR)$(pdfdir)
+	$(INSTALL_DATA) *.pdf $(DESTDIR)$(pdfdir)
 
 uninstall :
 	$(PRE_UNINSTALL)
 	$(NORMAL_UNINSTALL)
-	@echo "Uninstalling $(project)..."
-	@rm $(DESTDIR)$(bindir)/$(project)
-	@rm -r $(DESTDIR)$(datadir)/$(project)/
-	@rm -r $(DESTDIR)$(docdir)
-	@rm $(DESTDIR)$(man1dir)/$(project).1.gz
-	@rm $(DESTDIR)$(localedir)/de/$(project).po
-	@rm $(DESTDIR)/etc/bash_completion.d/$(project)
+	rm $(DESTDIR)$(bindir)/$(project)
+	rm -r $(DESTDIR)$(datadir)/$(project)/
+	rm -r $(DESTDIR)$(docdir)
+	rm $(DESTDIR)$(man1dir)/$(project).1.gz
+	rm $(DESTDIR)$(localedir)/de/$(project).po
+	rm $(DESTDIR)/etc/bash_completion.d/$(project)
 
 
 ## Release
 
-dist : changelog credits
-	@echo "Creating directory $(project)-$(version)/..."
-	@$(MKDIR) $(project)-$(version)
-	@echo "Copying files to $(project)-$(version)/..."
-	@chmod 777 -R $(project)-$(version)/
-	@find docs usr -type d -exec $(MKDIR) $(project)-$(version)/{} \; \
+dist :
+	$(MKDIR) $(project)-$(version)
+	chmod 777 -R $(project)-$(version)/
+	find docs usr -type d -exec $(MKDIR) $(project)-$(version)/{} \; \
 	  -exec chmod 777 $(project)-$(version)/{} \;
-	@find docs usr -type f -exec cp {} $(project)-$(version)/{} \; \
+	find docs usr -type f -exec cp {} $(project)-$(version)/{} \; \
 	  -exec chmod 755 $(project)-$(version)/{} \;
-	@$(INSTALL_PROGRAM) -m 755 ChangeLog configure CREDITS COPYING Makefile MANIFEST NEWS.md README SIGNATURE TODO.md $(project)-$(version)
-	@echo "Creating tarball $(project)-$(version).tar.gz..."
-	@tar czf $(project)-$(version).tar.gz $(project)-$(version)
-	@echo "Release made."
-
-changelog :
-	@echo "Creating changelog from git log..."
-	@if [ -d ".git" ]; then \
-	    $(GIT) log --date-order --date=short | \
-	    $(SED) -e '/^commit.*$$/d' | \
-	    $(AWK) '/^Author/ {sub(/\\$$/,""); getline t; print $$0 t; next}; 1' | \
-	    $(SED) -e 's/^Author: //g' | \
-	    $(SED) -e 's/>Date:   \([0-9]*-[0-9]*-[0-9]*\)/>\t\1/g' | \
-	    $(SED) -e 's/^\(.*\) \(\)\t\(.*\)/\3    \1    \2/g' > ChangeLog ; \
-	  else \
-	    echo "No git repository present." ; \
-	    exit 1 ; \
-	  fi
-
-credits :
-	@echo "Extracting authors from git log..."
-	@if [ -d ".git" ]; then \
-	    $(GIT) shortlog --numbered --no-merges --email --summary > CREDITS \
-	  else \
-	    echo "No git repository present." ; \
-	    exit 1 ; \
-	  fi
+	$(INSTALL_PROGRAM) -m 755 configure LICENSE Makefile CHANGELOG README $(project)-$(version)
+	tar czf $(project)-$(version).tar.gz $(project)-$(version)
 
 
 ## Clean up
 
 clean : distclean
-	@echo "Removing distribution..."
-	@rm -rf $(project)-$(version)/
-	@rm -f $(project)-$(version).tar.gz
-	@rm -f ChangeLog CREDITS README
+	rm -rf $(project)-$(version)/
+	rm -f $(project)-$(version).tar.gz
+	rm -f README
+	rm -f CHANGELOG
 
 distclean :
-	@echo "Removing man pages..."
-	@$(FIND) usr/share/man -name '*.gz' -delete
-	@echo "Removing documentation..."
-	@rm -rf usr/share/info/
-	@rm -f $(project).html
-	@rm -f $(project).pdf
-	@echo "Removing meta information about $(project)..."
-	@rm -f usr/share/doc/$(project)/COPYING
-	@rm -f usr/share/doc/$(project)/NEWS
-	@rm -f usr/share/doc/$(project)/README
-	@rm -f usr/share/doc/$(project)/TODO
+	find usr/share/man -name '*.gz' -delete
+	rm -rf usr/share/info/
+	rm -f $(project).html
+	rm -f $(project).pdf
+	rm -f usr/share/doc/$(project)/LICENSE
+	rm -f usr/share/doc/$(project)/CHANGELOG
+	rm -f usr/share/doc/$(project)/README
 
 mostlyclean : clean
 
