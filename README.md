@@ -6,7 +6,7 @@
 
 ### Who we are
 
-We are part of the Open Data movement and supports the [Open Definition](http://opendefinition.org/okd/). **Our way** is to ‘hack’ on documents and build Free Software around them – **our goal** is to bring open data to governments – **our idea** is to re-publish constitutions, law texts, and any other public documents in a way everyone and everything may use them.
+We are part of the Open Data movement and supports the [Open Definition](http://opendefinition.org/od/2.1/en/). **Our way** is to ‘hack’ on documents and build Free Software around them – **our goal** is to bring open data to governments – **our idea** is to re-publish constitutions, law texts, and any other public documents in a way everyone and everything may use them.
 
 
 ### What DocPatch stands for
@@ -15,25 +15,25 @@ We are part of the Open Data movement and supports the [Open Definition](http://
 
 This is our current tool stack:
 
-*   Shell: [Bourne-again Shell](http://www.gnu.org/software/bash/)
-*   vcs: [git](http://git-scm.com/)
-*   converter: [pandoc](http://johnmacfarlane.net/pandoc/index.html)
-*   markup language: pandoc's [enhanced version](http://johnmacfarlane.net/pandoc/README.html#pandocs-markdown) of [John Gruber's markdown](http://daringfireball.net/projects/markdown/)
+*   Shell: [Bourne-again Shell](https://www.gnu.org/software/bash/)
+*   vcs: [git](https://git-scm.com/)
+*   converter: [pandoc](https://pandoc.org/)
+*   markup language: pandoc's [enhanced version](https://pandoc.org/MANUAL.html#pandocs-markdown) of [John Gruber's markdown](https://daringfireball.net/projects/markdown/)
 
 These tools are simple to use, but powerful, widely spread, and open. (Even if they won't fit any more in the future, they could be replaced by other, even better tools. For distributing the repositories, the code, the generated documents, and everything else we use some more tools, e.g. web server, operating system,…, but they don't matter for our intended purpose.)
 
-Please visit our [website](http://wiki.die-foobar.org/wiki/DocPatch) for more information about DocPatch and our goals.
+Please visit our [website](https://wiki.chaospott.de/DocPatch) for more information about DocPatch and our goals.
 
 
 ### First Milestone
 
 Our first target is the German constitution, called *Grundgesetz*. First published in March 23th 1949 it was changed round about 60 times. It's interesting to see why it was changed, when, by whom and under what circumstances. The good is: All information is public. The bad: The information doesn't match the Open Definition and many details are hard to find.
 
-In short: [We are putting the complete "Grundgesetz" under version control and publish it.](http://wiki.die-foobar.org/wiki/DocPatch/Grundgesetz)
+In short: [We are putting the complete "Grundgesetz" under version control and publish it.](https://wiki.chaospott.de/DocPatch/Grundgesetz)
 
 Clone the repository to play around with **DocPatch**:
 
-    git clone https://github.com/bheisig/grundgesetz-dev.git
+    git clone https://github.com/c3e/grundgesetz-dev.git
 
 
 ### Contribution
@@ -47,13 +47,13 @@ We are looking for people who create some fancy tools, design a cool website, de
 
 Installing DocPatch and its components requires the following dependencies:
 
-*   [POSIX](http://en.wikipedia.org/wiki/POSIX) operating system
-*   `bash` ([‘Bourne-again Shell’](http://www.gnu.org/software/bash/))
-*   `git` ([distributed version control system](http://git-scm.com/))
-*   `gpg` ([‘GnuPG’, OpenPGP encryption and signing tool](http://www.gnupg.org/))
-*   `pandoc` ([markup conversion tool](http://johnmacfarlane.net/pandoc/))
-*   `quilt` ([patch management tool](http://savannah.nongnu.org/projects/quilt))
-*   `getopt` in the version from [util-linux](https://www.kernel.org/pub/linux/utils/util-linux/) or the [‘enhanced’ version](http://software.frodo.looijaard.name/getopt/download.php). (This is usually preinstalled on Linux and can be obtained as a port for other systems)
+*   [POSIX](https://en.wikipedia.org/wiki/POSIX) operating system
+*   `bash` ([‘Bourne-again Shell’](https://www.gnu.org/software/bash/))
+*   `git` ([distributed version control system](https://git-scm.com/))
+*   `gpg` ([‘GnuPG’, OpenPGP encryption and signing tool](https://www.gnupg.org/))
+*   `pandoc` ([markup conversion tool](https://pandoc.org/))
+*   `quilt` ([patch management tool](https://savannah.nongnu.org/projects/quilt))
+*   `getopt` in the version from [util-linux](https://www.kernel.org/pub/linux/utils/util-linux/) or the [‘enhanced’ version](http://frodo.looijaard.name/project/getopt). (This is usually preinstalled on Linux and can be obtained as a port for other systems)
 
 After you met all requirements installation is simply done by:
 
@@ -77,25 +77,14 @@ There are several man pages for more information about using **DocPatch**: `docp
 
 ##  Bugs
 
-Please, report any bugs to [our issue tracker](https://github.com/bheisig/DocPatch/issues).
+Please, report any bugs to [our issue tracker](https://github.com/c3e/docpatch/issues).
 
 
 ##  Copyright
 
-Copyright (C) 2012 [Benjamin Heisig](http://benjamin.heisig.name/). License [GPLv3+: GNU GPL version 3 or later](http://gnu.org/licenses/gpl.html). This is free software: you are free to change and redistribute it. There is NO WARRANTY, to the extent permitted by law.
-
-
-##  Authors
-
-*   [Benjamin Heisig](http://benjamin.heisig.name/)
-*   Bernhard Físseni
+Copyright (C) 2012-18 [Benjamin Heisig](https://benjamin.heisig.name/), [Bernhard Físseni](https://github.com/teoric). License [GPLv3+: GNU GPL version 3 or later](https://www.gnu.org/licenses/gpl.html). This is free software: you are free to change and redistribute it. There is NO WARRANTY, to the extent permitted by law.
 
 
 ##  Thanks
 
-We would like to thank the following people:
-
-*   from [foobar e. V.](http://wiki.die-foobar.de/) and [Chaospott Essen](http://chaospott.de/)
-*   from [tiggersWelt.net](http://tiggerswelt.net/) who provide some of the hosting services
-
-And everyone who keeps sending us feedback and improving this project! Thank you :-)
+We would like to thank the everyone who keeps sending us feedback and improving this project! Thank you :-)
