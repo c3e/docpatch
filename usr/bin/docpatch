@@ -21,9 +21,8 @@ fi
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-## Installation Directories
-DESTDIR="/usr/local"
-PREFIX=""
+## Installation Directory
+PREFIX="/usr/local"
 
 ##
 ## Main script
@@ -38,8 +37,8 @@ START=`date +%s`
 ##
 
 ## Include local configuration:
-if [ -r "${DESTDIR}/etc/${PROJECT_NAME}/${PROJECT_NAME}.conf" ]; then
-    . ${DESTDIR}/etc/docpatch/"$PROJECT_NAME".conf
+if [ -r "/etc/${PROJECT_NAME}/${PROJECT_NAME}.conf" ]; then
+    . /etc/docpatch/"$PROJECT_NAME".conf
 fi
 
 ## Include user configuration:
@@ -53,16 +52,16 @@ if [ -r "${BASE_DIR}/.${PROJECT_NAME}.conf" ]; then
 fi
 
 ## Include default configuration:
-if [ ! -r "${DESTDIR}${PREFIX}/share/docpatch/config.inc" ]; then
+if [ ! -r "${PREFIX}/share/docpatch/config.inc" ]; then
     exit 255
 fi
-. ${DESTDIR}${PREFIX}/share/docpatch/config.inc
+. ${PREFIX}/share/docpatch/config.inc
 
 ## Include base functions:
-if [ ! -r "${DESTDIR}${PREFIX}/share/${PROJECT_NAME}/${PROJECT_NAME}.inc" ]; then
+if [ ! -r "${PREFIX}/share/${PROJECT_NAME}/${PROJECT_NAME}.inc" ]; then
     exit 255
 fi
-. ${DESTDIR}${PREFIX}/share/"$PROJECT_NAME"/"$PROJECT_NAME".inc
+. ${PREFIX}/share/"$PROJECT_NAME"/"$PROJECT_NAME".inc
 
 
 ##

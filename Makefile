@@ -30,8 +30,7 @@ metainfos = CHANGELOG README
 languages = de
 version = $(shell cat usr/share/docpatch/config.inc | sed -n 's/^PROJECT_VERSION="\(.*\)"$$/\1/p')
 
-DESTDIR = /usr/local
-# prefix = /usr
+prefix = /usr/local
 exec_prefix = $(prefix)
 bindir = $(exec_prefix)/bin
 datarootdir = $(prefix)/share
