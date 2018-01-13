@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+*   Use real dates for commits
 *   [Code of conduct](CODE_OF_CONDUCT.md)
 *   [EditorConfig](.editorconfig)
 

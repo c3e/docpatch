@@ -208,7 +208,7 @@ function createRevisions {
         fi
 
       local message_head=`"$HEAD" -n1 $meta_file`
-      local commit_date=`date -d "$(cat $meta_file | grep "Effective-since" | cut -d " " -f 2)" +%s`
+      local commit_date=`date -d "$(cat $meta_file | grep "Date" | cut -d " " -f 2)" +%s`
       addAndCommitAll "$message_head" "$commit_date"
       if [ "$?" -gt 0 ]; then
           logerror $"Failed to create all revisions."
@@ -278,6 +278,7 @@ function rewindPatches {
 
 ## Puts all files under version control and commits them.
 ##   $1 Commit message or file
+##   $2 Commit date
 function addAndCommitAll {
   loginfo $"Putting all files under version control and committing them."
 
@@ -300,7 +301,7 @@ function addAndCommitAll {
       return 1
     fi
   logdebug $"Commit messages seems okay."
-  
+
   logdebug $"Checking commit date..."
   if [ -z "$2" ]; then
       logwarning $"There is no commit date."
@@ -339,10 +340,10 @@ function addAndCommitAll {
     fi
 
   exe "$GIT cat-file -p HEAD > $TMP_DIR/head.txt"
-  exe "sed -i 's/ [0-9]\+ / $commit_date /g' $TMP_DIR/head.txt"
-  exe "$GIT hash-object -t commit -w $TMP_DIR/tmp.txt > $TMP_DIR/commit.txt"
+  exe "sed -i 's/> [0-9]\+ /> $commit_date /g' $TMP_DIR/head.txt"
+  exe "$GIT hash-object -t commit -w $TMP_DIR/head.txt > $TMP_DIR/commit.txt"
   exe "$GIT update-ref -m 'commit: $1' refs/heads/master $(cat $TMP_DIR/commit.txt)"
-  exe "rm $TMP_DIR/tmp.txt $TMP_DIR/commit.txt"
+  exe "rm $TMP_DIR/head.txt $TMP_DIR/commit.txt"
 
   logdebug $"Commit was successful."
 
