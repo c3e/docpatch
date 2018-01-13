@@ -2,7 +2,7 @@
 
 
 ## DocPatch -- patching documents that matter
-## Copyright (C) 2012 Benjamin Heisig <https://benjamin.heisig.name/>
+## Copyright (C) 2012-18 Benjamin Heisig <https://benjamin.heisig.name/>
 ##
 ## This program is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -89,7 +89,7 @@ check_availability "wc"
 echo
 if [ -z $adjust ] ; then
   echo "Everything available. You can continue with 'make'."
-else  
+else
   echo "Please adjust the Makefile as indicated or install the missing dependencies"
   echo "before continuing with 'make'."
 fi

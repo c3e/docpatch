@@ -17,13 +17,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
-*   Broken links in `[README.md]`
+*   Broken links in [README.md]
 
 
 ### Changed
 
 *   Renamed [license text](LICENSE)
 *   Renamed and restructured [changelog](CHANGELOG.md)
+*   Cleaned up [Makefile]
 
 
 ##  0.1 – 2018-01-13

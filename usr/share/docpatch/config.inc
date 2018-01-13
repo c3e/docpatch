@@ -2,7 +2,7 @@
 
 
 ## DocPatch -- patching documents that matter
-## Copyright (C) 2012 Benjamin Heisig <https://benjamin.heisig.name/>
+## Copyright (C) 2012-18 Benjamin Heisig <https://benjamin.heisig.name/>
 ##
 ## This program is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ PROJECT_AUTHOR="Benjamin Heisig <https://benjamin.heisig.name/>"
 ## Project website
 PROJECT_WEBSITE="https://wiki.die-foobar.org/wiki/DocPatch"
 ## Version
-PROJECT_VERSION="0.1"
+PROJECT_VERSION="0.2"
 
 
 ##

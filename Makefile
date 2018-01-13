@@ -44,6 +44,7 @@ man1dir = $(mandir)/man1
 localedir = $(datadir)/locale
 patch_docpatch = ./patch_docpatch
 
+
 ## Build
 
 all : man readme changelog meta
