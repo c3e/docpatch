@@ -332,6 +332,26 @@ function applyNiceLevel {
 }
 
 
+## User interaction
+function askYesNo {
+    echo -n -e "$1 [Y]es [n]o: "
+
+    read -r answer
+
+    case "$answer" in
+        ""|"Y"|"Yes"|"y"|"yes")
+            return 0
+            ;;
+        "No"|"no"|"n"|"N")
+            return 1
+            ;;
+        *)
+            lognotice "Sorry, what do you mean?"
+            askYesNo "$1"
+    esac
+}
+
+
 ## Print line to standard output
 ##   $1 string
 function prntLn {

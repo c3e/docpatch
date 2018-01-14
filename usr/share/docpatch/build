@@ -33,11 +33,12 @@ function checks {
 
     logdebug "Checking whether repository is already built..."
     if [ -d "$REPO_DIR" ]; then
-        logwarning "Repository is already built."
-        logerror "Checks failed."
-        return 1
+        lognotice "Repository is already built."
+        askYesNo "Do you want to rebuild it?" || return 1
+        rm -rf "$REPO_DIR" || return 1
+    else
+        logdebug "Repository has not been built yet."
     fi
-    logdebug "Repository has not been built yet."
 
     logdebug "Checks succeeded."
     return 0
