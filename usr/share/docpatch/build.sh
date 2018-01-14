@@ -281,6 +281,7 @@ function addAndCommitAll {
     local commit_file="$1"
     local commit_timestamp=1
     local committer=""
+    local disable_signing=""
 
     loginfo "Putting all files under version control and committing them."
 
@@ -299,7 +300,12 @@ function addAndCommitAll {
     logdebug "Committing files..."
     logdebug "Take commit message from '${commit_file}'."
 
-    exe "$GIT commit --all --file $commit_file"
+    ## Do not sign commits if date, author and committer are not "real":
+    if [ "$COMMIT_DATES" != "now" ]; then
+        disable_signing="--no-gpg-sign"
+    fi
+
+    exe "$GIT commit --all --file $commit_file $disable_signing"
     if [ "$?" -gt 0 ]; then
         logwarning "Cannot commit files."
         logerror "Failed to put all files under version control and commit them."
@@ -378,7 +384,7 @@ function createTag {
     local cmd="$GIT tag"
 
     logdebug "Check whether tag will be signed..."
-    if [ "$SIGN" -eq 1 ]; then
+    if [[ "$SIGN" -eq 1 && "$COMMIT_DATES" != "now" ]]; then
         logdebug "Tag will be signed."
         cmd="$cmd -s"
     else

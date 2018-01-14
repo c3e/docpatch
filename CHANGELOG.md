@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+*   Do not sign commits if date, author and committer are not "real"
 *   Broken links in [README.md]
 *   In Makefile use `DESTDIR` and `prefix` the right way
 
