@@ -66,8 +66,8 @@ COMMANDS[1]="build"
 COMMANDS[2]="create"
 
 ## Descriptions of supported commands
-COMMAND_BUILD=$"Build repository."
-COMMAND_CREATE=$"Produce pretty output from source."
+COMMAND_BUILD="Build repository."
+COMMAND_CREATE="Produce pretty output from source."
 
 ## Required main command
 COMMAND=""

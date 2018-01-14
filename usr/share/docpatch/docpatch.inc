@@ -25,102 +25,102 @@
 
 ## Checks system requirements.
 function preChecks {
-  loginfo $"Checking system requirements..."
+  loginfo "Checking system requirements..."
 
-  logdebug $"Checking location..."
-  logdebug $"Base name is '${BASE_NAME}'."
-  logdebug $"Dir name is '${DIR_NAME}'."
+  logdebug "Checking location..."
+  logdebug "Base name is '${BASE_NAME}'."
+  logdebug "Dir name is '${DIR_NAME}'."
 
-  logdebug $"Checking directories..."
+  logdebug "Checking directories..."
 
-  logdebug $"Checking references..."
+  logdebug "Checking references..."
   if [ ! -d "$REF_DIR" ]; then
-      logwarning $"References not found under '${REF_DIR}'."
-      logerror $"System checks failed."
+      logwarning "References not found under '${REF_DIR}'."
+      logerror "System checks failed."
       return 1
     fi
-  logdebug $"References found in '${REF_DIR}'."
+  logdebug "References found in '${REF_DIR}'."
 
-  logdebug $"Checking sources..."
+  logdebug "Checking sources..."
   if [ ! -d "$SRC_DIR" ]; then
-      logwarning $"Sources not found under '${SRC_DIR}'."
-      logerror $"System checks failed."
+      logwarning "Sources not found under '${SRC_DIR}'."
+      logerror "System checks failed."
       return 1
     fi
-  logdebug $"Sources found in '${SRC_DIR}'."
+  logdebug "Sources found in '${SRC_DIR}'."
 
-  logdebug $"Checking meta information..."
+  logdebug "Checking meta information..."
   if [ ! -d "$META_DIR" ]; then
-      logwarning $"Meta information not found '${META_DIR}'."
-      logerror $"System checks failed."
+      logwarning "Meta information not found '${META_DIR}'."
+      logerror "System checks failed."
       return 1
     fi
-  logdebug $"Meta information found in '${META_DIR}'."
+  logdebug "Meta information found in '${META_DIR}'."
 
-  logdebug $"Checking special information..."
+  logdebug "Checking special information..."
   if [ ! -d "$ETC_DIR" ]; then
-      logwarning $"Special information not found under '${ETC_DIR}'."
-      logerror $"System checks failed."
+      logwarning "Special information not found under '${ETC_DIR}'."
+      logerror "System checks failed."
       return 1
     fi
-  logdebug $"Special information found in '${ETC_DIR}'."
+  logdebug "Special information found in '${ETC_DIR}'."
 
-  logdebug $"Checking patches..."
+  logdebug "Checking patches..."
   if [ ! -d "$PATCH_DIR" ]; then
-      logwarning $"Patches not found under '${PATCH_DIR}'."
-      logerror $"System checks failed."
+      logwarning "Patches not found under '${PATCH_DIR}'."
+      logerror "System checks failed."
       return 1
     fi
-  logdebug $"Patches found in '${PATCH_DIR}'."
+  logdebug "Patches found in '${PATCH_DIR}'."
 
-  logdebug $"Checking templates..."
+  logdebug "Checking templates..."
   if [ ! -d "$TPL_DIR" ]; then
-      logwarning $"Templates not found under '${TPL_DIR}'."
-      logerror $"System checks failed."
+      logwarning "Templates not found under '${TPL_DIR}'."
+      logerror "System checks failed."
       return 1
     fi
-  logdebug $"Templates found in '${TPL_DIR}'."
+  logdebug "Templates found in '${TPL_DIR}'."
 
-  logdebug $"Checking libraries..."
+  logdebug "Checking libraries..."
   if [ ! -d "$LIB_DIR" ]; then
-      logwarning $"Libraries not found under '${LIB_DIR}'."
-      logerror $"System checks failed."
+      logwarning "Libraries not found under '${LIB_DIR}'."
+      logerror "System checks failed."
       return 1
     fi
-  logdebug $"Libraries found in '${LIB_DIR}'."
+  logdebug "Libraries found in '${LIB_DIR}'."
 
-  logdebug $"Checking configuration..."
+  logdebug "Checking configuration..."
   if [ ! -d "$CONFIG_DIR" ]; then
-      logdebug $"Configuration not found under '${CONF_DIR}'."
+      logdebug "Configuration not found under '${CONF_DIR}'."
     else
-      logdebug $"Configuration found under '${CONF_DIR}'."
+      logdebug "Configuration found under '${CONF_DIR}'."
     fi
 
-  logdebug $"Checking examples..."
+  logdebug "Checking examples..."
   if [ ! -d "$EXAMPLE_DIR" ]; then
-      logwarning $"Examples not found under '${EXAMPLE_DIR}'."
-      logerror $"System checks failed."
+      logwarning "Examples not found under '${EXAMPLE_DIR}'."
+      logerror "System checks failed."
       return 1
     fi
-  logdebug $"Examples found in '${EXAMPLE_DIR}'."
+  logdebug "Examples found in '${EXAMPLE_DIR}'."
 
-  logdebug $"Checking temporary directory..."
+  logdebug "Checking temporary directory..."
   if [ ! -d "$TPL_DIR" ]; then
-      logdebug $"Temporary directory not found. Create it."
+      logdebug "Temporary directory not found. Create it."
       exe "$MKDIR -p $TPL_DIR"
       if [ "$?" -gt 0 ]; then
-          logwarning $"Cannot create temporary directory under '${TPL_DIR}'."
-          logerror $"System checks failed."
+          logwarning "Cannot create temporary directory under '${TPL_DIR}'."
+          logerror "System checks failed."
           return 1
         fi
-      logdebug $"Temporary directory created under '${TPL_DIR}'."
+      logdebug "Temporary directory created under '${TPL_DIR}'."
     else
-      logdebug $"Temporary directory found under '${TPL_DIR}'."
+      logdebug "Temporary directory found under '${TPL_DIR}'."
     fi
 
-  logdebug $"Directories checked."
+  logdebug "Directories checked."
 
-  logdebug $"System checked."
+  logdebug "System checked."
   return 0
 }
 
@@ -128,30 +128,30 @@ function preChecks {
 ## Includes command specific file.
 ##   #1 Path to file
 function includeCommand {
-  loginfo $"Including command specific file..."
+  loginfo "Including command specific file..."
   local cmd_file="${LIB_DIR}/$1"
   if [ ! -r "$cmd_file" ]; then
-      logwarning $"File '${cmd_file}' does not exist or is not readable."
-      logerror $"Cannot include command specific file."
+      logwarning "File '${cmd_file}' does not exist or is not readable."
+      logerror "Cannot include command specific file."
       return 1
     fi
   source "$cmd_file"
-  logdebug $"File '${cmd_file}' included."
+  logdebug "File '${cmd_file}' included."
 }
 
 ## Executes command.
 ##   $1 Command
 function exe {
-  logdebug $"Executing command..."
+  logdebug "Executing command..."
 
-  logdebug $"Execute '${1}'"
+  logdebug "Execute '${1}'"
 
   let "relevant = (($LOG_DEBUG & $VERBOSITY))"
   if [ "$relevant" -gt 0 ]; then
       eval $1
       local xstatus="$?"
     else
-      logdebug $"Suppress output."
+      logdebug "Suppress output."
       eval $1 &> /dev/null
       local xstatus="$?"
     fi
@@ -173,7 +173,7 @@ function log {
       "$LOG_WARNING") level="warning";;
       "$LOG_ERROR") level="error";;
       "$LOG_FATAL") level="fatal";;
-      *) logwarning $"Unknown log event triggered.";;
+      *) logwarning "Unknown log event triggered.";;
     esac
 
   let "relevant = (($1 & $LOG_LEVEL))"
@@ -214,7 +214,7 @@ function logfatal {
 
 ## Calculate spent time
 function calculateSpentTime {
-  loginfo $"Calculate spent time..."
+  loginfo "Calculate spent time..."
   local now=`date +%s`
   local sec=`expr $now - $START`
   local duration=""
@@ -223,80 +223,80 @@ function calculateSpentTime {
       div=`expr "$sec" \/ 3600`
       sec=`expr "$sec" - "$div" \* 3600`
       if [ "$div" = 1 ]; then
-          duration=$"$div hour"
+          duration="$div hour"
         elif [ "$div" -gt 1 ]; then
-          duration=$"$div hours"
+          duration="$div hours"
         fi
     fi
   if [ "$sec" -ge 60 ]; then
       if [ -n "$duration" ]; then
-          duration=$"$duration and "
+          duration="$duration and "
         fi
       div=`expr "$sec" \/ 60`
       sec=`expr "$sec" - "$div" \* 60`
       if [ "$div" = 1 ]; then
-          duration=$"${duration}${div} minute"
+          duration="${duration}${div} minute"
         elif [ "$div" -gt 1 ]; then
-          duration=$"${duration}${div} minutes"
+          duration="${duration}${div} minutes"
         fi
     fi
   if [ "$sec" -ge 1 ]; then
       if [ -n "$duration" ]; then
-          duration=$"$duration and "
+          duration="$duration and "
         fi
-      duration=$"${duration}${sec} second"
+      duration="${duration}${sec} second"
       if [ "$sec" -gt 1 ]; then
-          duration=$"${duration}s"
+          duration="${duration}s"
         fi
     fi
   if [ -z "$duration" ]; then
-      duration=$"0 seconds"
+      duration="0 seconds"
     fi
-  logdebug $"Spent time calculated."
-  lognotice $"Everything done after ${duration}. Exiting."
+  logdebug "Spent time calculated."
+  lognotice "Everything done after ${duration}. Exiting."
   return 0
 }
 
 
 ## Clean up system
 function cleanUp {
-  loginfo $"Cleaning up system..."
+  loginfo "Cleaning up system..."
 
-  logdebug $"Removing temporary files..."
+  logdebug "Removing temporary files..."
   exe "$RM -f ${TMP_DIR}/${PID}_*"
   if [ $? -gt 0 ]; then
-      logwarning $"Cannot remove temporary files."
-      logerror $"Failed to clean up."
+      logwarning "Cannot remove temporary files."
+      logerror "Failed to clean up."
       return 1
     fi
-  logdebug $"Temporary files '${TMP_DIR}/${PID}_*' removed."
+  logdebug "Temporary files '${TMP_DIR}/${PID}_*' removed."
 
-  logdebug $"Checking left repository..."
+  logdebug "Checking left repository..."
   if [ -d "${REPO_DIR}/.git" ]; then
-      logdebug $"Left repository found under '${REPO_DIR}'."
-      logdebug $"Checking out master branch..."
+      logdebug "Left repository found under '${REPO_DIR}'."
+      logdebug "Checking out master branch..."
       exe "$GIT checkout master"
       if [ "$?" -gt 0 ]; then
-          logwarning $"Cannot check out master branch."
-          logerror $"Failed to clean up."
+          logwarning "Cannot check out master branch."
+          logerror "Failed to clean up."
           return 1
         fi
-      logdebug $"Checkout was successful."
+      logdebug "Checkout was successful."
     else
-      logdebug $"No repository left under '${REPO_DIR}'."
+      logdebug "No repository left under '${REPO_DIR}'."
     fi
 
-  logdebug $"System is cleaned up."
+  logdebug "System is cleaned up."
   return 0
 }
 
 
 ## Clean finishing
 function finishing {
-  loginfo $"Finish operation..."
+  loginfo "Finish operation..."
   cleanUp
   calculateSpentTime
-  logdebug $"Exit code: 0"
+  logdebug "Exit code: 0"
   exit 0
 }
 
@@ -304,30 +304,30 @@ function finishing {
 ## Clean abortion
 ##   $1 Exit code
 function abort {
-  loginfo $"Abort script..."
+  loginfo "Abort script..."
   cleanUp
   calculateSpentTime
-  logdebug $"Exit code: $1"
-  logfatal $"Operation failed."
+  logdebug "Exit code: $1"
+  logfatal "Operation failed."
   exit $1;
 }
 
 
 ## Apply nice level
 function applyNiceLevel {
-  loginfo $"Applying nice level..."
+  loginfo "Applying nice level..."
 
   PID="$$"
-  logdebug $"Current process ID is '${PID}'."
+  logdebug "Current process ID is '${PID}'."
 
   exe "$RENICE $NICE_LEVEL $PID"
   if [ "$?" -gt 0 ]; then
-      logwarning $"Re-nice to '${NICE_LEVEL}' failed."
-      logerror $"Failed to apply nice level."
+      logwarning "Re-nice to '${NICE_LEVEL}' failed."
+      logerror "Failed to apply nice level."
       return 1
     fi
 
-  logdebug $"New nice level is '${NICE_LEVEL}'."
+  logdebug "New nice level is '${NICE_LEVEL}'."
   return 0
 }
 
@@ -350,7 +350,7 @@ function prnt {
 
 ## Print global usage
 function printUsage {
-  loginfo $"Printing global usage..."
+  loginfo "Printing global usage..."
 
   local cmd_placeholder="[command]"
   if [ -n "$COMMAND" -a "$COMMAND" != "help" ]; then
@@ -359,42 +359,42 @@ function printUsage {
     else
       prntLn "$PROJECT_SHORT_DESC"
     fi
-  prntLn $"Usage: '$BASE_NAME [output] $cmd_placeholder [options]'"
+  prntLn "Usage: '$BASE_NAME [output] $cmd_placeholder [options]'"
   prntLn ""
-  prntLn $"Output:"
-  prntLn $"    -q\t\t\tBe quiet (for scripting)."
-  prntLn $"    -v\t\t\tBe verbose."
-  prntLn $"    -V\t\t\tBe verboser."
-  prntLn $"    -D\t\t\tBe verbosest (for debugging)."
+  prntLn "Output:"
+  prntLn "    -q\t\t\tBe quiet (for scripting)."
+  prntLn "    -v\t\t\tBe verbose."
+  prntLn "    -V\t\t\tBe verboser."
+  prntLn "    -D\t\t\tBe verbosest (for debugging)."
   prntLn ""
   if [ -z "$COMMAND" ]; then
-      prntLn $"The most commonly used $PROJECT_NAME options are:"
+      prntLn "The most commonly used $PROJECT_NAME options are:"
       prntLn "    build\t\t${COMMAND_BUILD}"
       prntLn "    create\t\t${COMMAND_CREATE}"
     else
-      prntLn $"Options:"
+      prntLn "Options:"
       printCommandOptions
     fi
   prntLn ""
-  prntLn $"Information:"
-  prntLn $"    -h, --help\t\tShow this help and exit."
-  prntLn $"    --license\t\tShow license information and exit."
-  prntLn $"    --version\t\tShow information about this script and exit."
+  prntLn "Information:"
+  prntLn "    -h, --help\t\tShow this help and exit."
+  prntLn "    --license\t\tShow license information and exit."
+  prntLn "    --version\t\tShow information about this script and exit."
   prntLn ""
   if [ -n "$COMMAND" -a "$COMMAND" != "help" ]; then
-      prntLn $"See '$BASE_NAME help ${COMMAND}' for more information on this specific command."
+      prntLn "See '$BASE_NAME help ${COMMAND}' for more information on this specific command."
     else
-      prntLn $"See '$BASE_NAME help [command]' for more information on a specific command."
+      prntLn "See '$BASE_NAME help [command]' for more information on a specific command."
     fi
 
-  logdebug $"Usage printed."
+  logdebug "Usage printed."
   return 0
 }
 
 
 ## Print some information about this script
 function printVersion {
-  loginfo $"Printing some information about this script..."
+  loginfo "Printing some information about this script..."
 
   prntLn "$PROJECT_NAME $PROJECT_VERSION"
   prntLn "Copyright (C) 2012 $PROJECT_AUTHOR"
@@ -402,16 +402,16 @@ function printVersion {
   prntLn "This is free software, and you are welcome to redistribute it"
   prntLn "under certain conditions. Type '--license' for details."
 
-  logdebug $"Information printed."
+  logdebug "Information printed."
   return 0
 }
 
 
 ## Print license information
 function printLicense {
-  loginfo $"Printing license information..."
+  loginfo "Printing license information..."
 
-  logdebug $"Look for license text..."
+  logdebug "Look for license text..."
 
   licenses[0]="/usr/share/common-licenses/GPL"
   licenses[1]="/usr/share/doc/licenses/gpl-3.0.txt"
@@ -421,12 +421,12 @@ function printLicense {
       if [ -r "$i" ]; then
           logdebug "License text found under '${i}'."
           "$CAT" "$i" 1>&2
-          logdebug $"License information printed."
+          logdebug "License information printed."
           return 0
         fi
     done
 
-  logwarning $"Cannot find any fitting license text on this system."
-  logerror $"Failed to print license. But it's the GPL3+."
+  logwarning "Cannot find any fitting license text on this system."
+  logerror "Failed to print license. But it's the GPL3+."
   return 1
 }

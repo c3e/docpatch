@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 *   Broken links in [README.md]
+*   In Makefile use `DESTDIR` and `prefix` the right way
 
 
 ### Changed

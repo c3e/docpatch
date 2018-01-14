@@ -31,7 +31,7 @@ PREFIX=""
 
 
 ## Start time
-START=`date +%s`
+START=$(date +%s)
 
 ##
 ## Includes
@@ -75,135 +75,135 @@ fi
 ## Normal exit
 trap 'exit 0' 0
 ## SIGHUB
-trap 'lognotice $"Caught SIGHUB, but nothing to do."' 1
+trap 'lognotice "Caught SIGHUB, but nothing to do."' 1
 ## SIGINT
-trap 'logwarning $"Caught SIGINT." ; abort 102' 2
+trap 'logwarning "Caught SIGINT." ; abort 102' 2
 ## SIGQUIT
-trap 'logwarning $"Caught SIGQUIT." ; abort 103' 3
+trap 'logwarning "Caught SIGQUIT." ; abort 103' 3
 ## SIGTERM
-trap 'logwarning $"Caught SIGTERM." ; abort 115' 15
+trap 'logwarning "Caught SIGTERM." ; abort 115' 15
 
 
 ## Process given options and arguments
-loginfo $"Process given options and arguments..."
+loginfo "Process given options and arguments..."
 ARGS=`"$GETOPT" \
     -o qvVDhef:r:R:sSt \
     --long help,version,license,embed,embedded,format:,not-smart,output:,rev:,revision:,repo:,repository:,sign,simple,toc -- "$@" 2> /dev/null`
 
 if [ $? != 0 -o "$#" = 0 ]; then
-    logwarning $"Bad request."
+    logwarning "Bad request."
     printUsage
     abort 1;
 fi
 
 eval set -- "$ARGS"
 
-logdebug $"Processed."
+logdebug "Processed."
 
 
 ## Match options and arguments
-loginfo $"Matching options and arguments..."
+loginfo "Matching options and arguments..."
 
 while true ; do
     case "$1" in
         # Output:
         -q)
         VERBOSITY=$LOG_NONE
-        logdebug $"Set verbosity: $VERBOSITY"
+        logdebug "Set verbosity: $VERBOSITY"
         shift;;
     -v)
         VERBOSITY=$(($LOG_FATAL | $LOG_ERROR | $LOG_WARNING | $LOG_NOTICE))
-        logdebug $"Set verbosity: $VERBOSITY"
+        logdebug "Set verbosity: $VERBOSITY"
         shift;;
     -V)
         VERBOSITY=$(($LOG_ALL & ~$LOG_DEBUG))
-        logdebug $"Set verbosity: $VERBOSITY"
+        logdebug "Set verbosity: $VERBOSITY"
         shift;;
     -D)
         VERBOSITY=$LOG_ALL;
-        logdebug $"Set verbosity: $VERBOSITY"
+        logdebug "Set verbosity: $VERBOSITY"
         shift;;
         # Information:
         -h|--help)
-        logdebug $"Set option: Print usage."
+        logdebug "Set option: Print usage."
         PRINT_USAGE=1;
         shift;;
     --version)
-        logdebug $"Set option: Print version."
+        logdebug "Set option: Print version."
         PRINT_VERSION=1;
         shift;;
     --license)
-        logdebug $"Set option: Print license."
+        logdebug "Set option: Print license."
         PRINT_LICENSE=1;
         shift;;
         # Options:
         -e|--embed|--embedded)
-        logdebug $"Set option: Create embedded output."
+        logdebug "Set option: Create embedded output."
         EMBED=1;
         shift 1;;
     -S|--simple|--not-smart)
-        logdebug $"Set option: Create simplified output."
+        logdebug "Set option: Create simplified output."
         SIMPLE=1;
         shift 1;;
     -f|--format|--output)
-        logdebug $"Set option: Output format is '${2}'."
+        logdebug "Set option: Output format is '${2}'."
         OUTPUT_FORMAT="$2";
         shift 2;;
     -r|--rev|--revision)
-        logdebug $"Set option: Revision is '${2}'."
+        logdebug "Set option: Revision is '${2}'."
         ARG_REVISION="$2";
         shift 2;;
     -R|--repo|--repository)
-        logdebug $"Set option: Repository is '${2}'."
+        logdebug "Set option: Repository is '${2}'."
         REPOSITORY="$2";
         shift 2;;
     -s|--sign)
-        logdebug $"Set option: Sign tags."
+        logdebug "Set option: Sign tags."
         SIGN=1;
         shift;;
     -t|--toc)
-        logdebug $"Set option: Create table of contents."
+        logdebug "Set option: Create table of contents."
         TOC=1;
         shift;;
     --)
         shift;
         break;;
     *)
-        lognotice $"Unkown option '${1}'."
+        lognotice "Unkown option '${1}'."
         printUsage
         abort 2;;
 esac
 done
 
-logdebug $"Matched."
+logdebug "Matched."
 
 
 ## Try to match commands with given options
-loginfo $"Trying to match commands with given options..."
+loginfo "Trying to match commands with given options..."
 
-loginfo $"Trying to match main command..."
+loginfo "Trying to match main command..."
 for x in "$@"; do
     for y in "${COMMANDS[@]}"; do
         if [ "$x" == "$y" ]; then
             COMMAND="$x"
-            logdebug $"Main command is $COMMAND."
+            logdebug "Main command is $COMMAND."
             break 2
         fi
     done
 done
 
-loginfo $"Trying to match sub command..."
+loginfo "Trying to match sub command..."
 if [ -n "$2" -a "$2" != " " ]; then
     SUB_COMMAND="$2"
-    logdebug $"Sub command is $SUB_COMMAND."
+    logdebug "Sub command is $SUB_COMMAND."
 else
-    logdebug $"There is no sub command."
+    logdebug "There is no sub command."
 fi
 
 
 ## Include command specific file
 if [ -z "$COMMAND" ]; then
-    logdebug $"No main command found."
+    logdebug "No main command found."
 else
     includeCommand "$COMMAND" || abort 3
 fi
@@ -236,7 +236,7 @@ applyNiceLevel || abort 4
 
 ## Call command specific main method
 if [ -z "$COMMAND" ]; then
-    lognotice $"Nothing to do."
+    lognotice "Nothing to do."
     printUsage
     abort 5
 else
