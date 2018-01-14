@@ -129,7 +129,7 @@ function preChecks {
 ##   #1 Path to file
 function includeCommand {
   loginfo "Including command specific file..."
-  local cmd_file="${LIB_DIR}/$1"
+  local cmd_file="${LIB_DIR}/$1.sh"
   if [ ! -r "$cmd_file" ]; then
       logwarning "File '${cmd_file}' does not exist or is not readable."
       logerror "Cannot include command specific file."

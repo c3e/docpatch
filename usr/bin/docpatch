@@ -52,16 +52,16 @@ if [ -r "${BASE_DIR}/.${PROJECT_NAME}.conf" ]; then
 fi
 
 ## Include default configuration:
-if [ ! -r "${PREFIX}/share/docpatch/config.inc" ]; then
+if [ ! -r "${PREFIX}/share/docpatch/config.sh" ]; then
     exit 255
 fi
-. ${PREFIX}/share/docpatch/config.inc
+. ${PREFIX}/share/docpatch/config.sh
 
 ## Include base functions:
-if [ ! -r "${PREFIX}/share/${PROJECT_NAME}/${PROJECT_NAME}.inc" ]; then
+if [ ! -r "${PREFIX}/share/${PROJECT_NAME}/${PROJECT_NAME}.sh" ]; then
     exit 255
 fi
-. ${PREFIX}/share/"$PROJECT_NAME"/"$PROJECT_NAME".inc
+. ${PREFIX}/share/"$PROJECT_NAME"/"$PROJECT_NAME".sh
 
 
 ##

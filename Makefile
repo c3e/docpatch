@@ -24,11 +24,11 @@ GIT = $(shell which git)
 GPG = $(shell which gpg)
 MKDIR = mkdir -m 755
 
-project = $(shell cat usr/share/docpatch/config.inc | sed -n 's/^PROJECT_NAME="\(.*\)"$$/\1/p')
+project = $(shell cat usr/share/docpatch/config.sh | sed -n 's/^PROJECT_NAME="\(.*\)"$$/\1/p')
 man1pages = $(project)
 metainfos = CHANGELOG README
 languages = de
-version = $(shell cat usr/share/docpatch/config.inc | sed -n 's/^PROJECT_VERSION="\(.*\)"$$/\1/p')
+version = $(shell cat usr/share/docpatch/config.sh | sed -n 's/^PROJECT_VERSION="\(.*\)"$$/\1/p')
 
 prefix = /usr/local
 exec_prefix = $(prefix)
@@ -75,13 +75,13 @@ changelog :
 
 pot :
 	bash --dump-po-strings usr/bin/$(project) > usr/share/locale/$(project).pot
-	bash --dump-po-strings usr/share/$(project)/build >> usr/share/locale/$(project).pot
-	bash --dump-po-strings usr/share/$(project)/config.inc >> usr/share/locale/$(project).pot
-	bash --dump-po-strings usr/share/$(project)/create >> usr/share/locale/$(project).pot
-	bash --dump-po-strings usr/share/$(project)/$(project).inc >> usr/share/locale/$(project).pot
-	bash --dump-po-strings usr/share/$(project)/help >> usr/share/locale/$(project).pot
-	awk '/^msgid/&&!seen[$0]++;!/^msgid/' usr/share/locale/$(project).pot > usr/share/locale/$(project).pot.tmp
-	mv usr/share/locale/$(project).pot.tmp usr/share/locale/$(project).pot
+	bash --dump-po-strings usr/share/$(project)/build.sh >> usr/share/locale/$(project).pot
+	bash --dump-po-strings usr/share/$(project)/config.sh >> usr/share/locale/$(project).pot
+	bash --dump-po-strings usr/share/$(project)/create.sh >> usr/share/locale/$(project).pot
+	bash --dump-po-strings usr/share/$(project)/$(project).sh >> usr/share/locale/$(project).pot
+	bash --dump-po-strings usr/share/$(project)/help.sh >> usr/share/locale/$(project).pot
+	#awk '/^msgid/&&!seen[$0]++;!/^msgid/' usr/share/locale/$(project).pot > usr/share/locale/$(project).pot.tmp
+	#mv usr/share/locale/$(project).pot.tmp usr/share/locale/$(project).pot
 
 
 ## Install/Uninstall
