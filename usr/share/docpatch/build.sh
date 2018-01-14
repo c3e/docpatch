@@ -161,9 +161,6 @@ function createInitialVersion {
 
 ## Creates all revisions.
 function createRevisions {
-    local message_head
-    local commit_date
-
     loginfo "Creating all revisions..."
 
     logdebug "Checking series file..."
@@ -211,10 +208,7 @@ function createRevisions {
             return 1
         fi
 
-        message_head=`"$HEAD" -n1 $meta_file`
-        commit_date=`date -d "$(cat $meta_file | grep "Date" | cut -d " " -f 2)" +%s`
-
-        addAndCommitAll "$message_head" "$commit_date"
+        addAndCommitAll "$meta_file"
         if [ "$?" -gt 0 ]; then
             logerror "Failed to create all revisions."
             rewindPatches
@@ -282,9 +276,12 @@ function rewindPatches {
 
 
 ## Puts all files under version control and commits them.
-##   $1 Commit message or file
-##   $2 Commit date
+##   $1 Commit file
 function addAndCommitAll {
+    local commit_file="$1"
+    local commit_timestamp=1
+    local committer=""
+
     loginfo "Putting all files under version control and committing them."
 
     logdebug "Changing into directory '${REPO_DIR}'..."
@@ -299,58 +296,48 @@ function addAndCommitAll {
     fi
     logdebug "Putting was successful."
 
-    logdebug "Checking commit message..."
-    if [ -z "$1" ]; then
-        logwarning "There is no commit message."
+    logdebug "Committing files..."
+    logdebug "Take commit message from '${commit_file}'."
+
+    exe "$GIT commit --all --file $commit_file"
+    if [ "$?" -gt 0 ]; then
+        logwarning "Cannot commit files."
         logerror "Failed to put all files under version control and commit them."
         return 1
     fi
-    logdebug "Commit messages seems okay."
-
-    logdebug "Checking commit date..."
-    if [ -z "$2" ]; then
-        logwarning "There is no commit date."
-        local commit_date=0
-    else
-        local commit_date=$2
-    fi
-    logdebug "Commit date seems okay."
-
-
-    logdebug "Committing files..."
-    if [ -r "$1" ]; then
-        logdebug "Take commit message from '${1}'."
-
-        exe "$GIT commit --all --file $1"
-        if [ "$?" -gt 0 ]; then
-            logwarning "Cannot commit files."
-            logerror "Failed to put all files under version control and commit them."
-            return 1
-        fi
-    else
-        logdebug "Take commit message from command line."
-
-        # TODO This is a workaround because using --message causes the git error
-        # "Paths with -a does not make sense."
-        logdebug "Writing message to file..."
-        local msg_file="${TMP_DIR}/${PID}_commit_msg"
-        "$ECHO" "$1" > "$msg_file"
-
-        exe "$GIT commit --all --file $msg_file"
-        if [ "$?" -gt 0 ]; then
-            logwarning "Cannot commit files."
-            logerror "Failed to put all files under version control and commit them."
-            return 1
-        fi
-    fi
 
     if [ "$COMMIT_DATES" != "now" ]; then
-        if [[ "$COMMIT_DATES" = "valid" && "$commit_date" -lt 0 ]]; then
-            commit_date=1
+        logdebug "Manipulate date, author and committer"
+
+        if [[ -n "$(grep 'Date:' $commit_file)" ]]; then
+            logdebug "Use 'Date:' for commit date"
+            commit_timestamp=$(date -d "$(cat $commit_file | grep "Date" | cut -d " " -f 2)" +%s)
+        elif [[ -n "$(grep 'Announced:' $commit_file)" ]]; then
+            logdebug "Use 'Announced:' for commit date"
+            commit_timestamp=$(date -d "$(cat $commit_file | grep "Announced" | cut -d " " -f 2)" +%s)
+        else
+            logwarning "Neither 'Date:' nor 'Announced:' found in meta file '${commit_file}'"
+            logerror "Failed to put all files under version control and commit them."
+            return 1
+        fi
+
+        if [[ "$COMMIT_DATES" = "valid" && commit_timestamp -lt 1 ]]; then
+            commit_timestamp=1
+        fi
+
+        committer="$(grep 'Signed-off-by:' $commit_file | head -1 | sed 's/Signed-off-by: //g') <no-reply@example.com>"
+        logdebug "Author/committer is '${committer}'"
+
+        if [[ -z "$committer" ]]; then
+            logwarning "No 'Signed-off-by' found"
+            logerror "Failed to put all files under version control and commit them."
+            return 1
         fi
 
         exe "$GIT cat-file -p HEAD > $TMP_DIR/head.txt"
-        exe "sed -i 's/> [0-9]\+ /> $commit_date /g' $TMP_DIR/head.txt"
+        exe "sed -i 's/> [0-9]\+ /> $commit_timestamp /g' $TMP_DIR/head.txt"
+        exe "sed -i 's/author .*>/author ${committer}/g' $TMP_DIR/head.txt"
+        exe "sed -i 's/committer .*>/committer ${committer}/g' $TMP_DIR/head.txt"
         exe "$GIT hash-object -t commit -w $TMP_DIR/head.txt > $TMP_DIR/commit.txt"
         exe "$GIT update-ref -m 'commit: $1' refs/heads/master $(cat $TMP_DIR/commit.txt)"
         exe "rm $TMP_DIR/head.txt $TMP_DIR/commit.txt"
@@ -456,28 +443,20 @@ function copyDocuments {
 
 ## Main method
 function main {
-    local commit_title=""
-    local commit_date=0
-
     checks || abort 11
 
     createRepo || abort 12
 
     createMetaInformation || abort 13
-    #local message="Import meta information."
-    #addAndCommitAll "$message" "-650419200" || abort 14
-    #lognotice "$message"
 
-    createInitialVersion || abort 15
+    createInitialVersion || abort 14
 
     lognotice "Importing initial version..."
-    commit_title=$(head -1 ${META_DIR}/0.meta)
-    commit_date=$(date -d "$(cat ${META_DIR}/0.meta | grep "Announced" | cut -d " " -f 2)" +%s)
-    addAndCommitAll "$commit_title" "$commit_date" || abort 16
-    createTag "0" "${META_DIR}/0.meta" || abort 17
+    addAndCommitAll "${META_DIR}/0.meta" || abort 15
+    createTag "0" "${META_DIR}/0.meta" || abort 16
 
     lognotice "Importing revisions..."
-    createRevisions || abort 18
+    createRevisions || abort 17
 }
 
 
