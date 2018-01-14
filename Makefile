@@ -148,13 +148,13 @@ dist :
 
 ## Clean up
 
-clean : distclean
+clean :
 	rm -rf $(project)-$(version)/
 	rm -f $(project)-$(version).tar.gz
 	rm -f README
 	rm -f CHANGELOG
 
-distclean :
+distclean : clean
 	find usr/share/man -name '*.gz' -delete
 	rm -rf usr/share/info/
 	rm -f $(project).html
@@ -163,6 +163,6 @@ distclean :
 	rm -f usr/share/doc/$(project)/CHANGELOG
 	rm -f usr/share/doc/$(project)/README
 
-mostlyclean : clean
+mostlyclean : distclean
 
-maintainer-clean : clean
+maintainer-clean : distclean
