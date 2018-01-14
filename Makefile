@@ -23,6 +23,7 @@ PANDOC = $(shell which pandoc)
 GIT = $(shell which git)
 GPG = $(shell which gpg)
 MKDIR = mkdir -m 755
+APPIMAGE_TOOL = $(shell which appimagetool)
 
 project = $(shell cat usr/share/docpatch/config.sh | sed -n 's/^PROJECT_NAME="\(.*\)"$$/\1/p')
 man1pages = $(project)
@@ -146,6 +147,19 @@ dist :
 	tar czf $(project)-$(version).tar.gz $(project)-$(version)
 
 
+## AppImage
+
+APPIMAGE_DEST = DocPatch.AppDir
+
+appimage :
+	$(INSTALL) -d $(APPIMAGE_DEST)
+	$(INSTALL_PROGRAM) AppImage/AppRun $(APPIMAGE_DEST)
+	$(INSTALL_DATA) AppImage/docpatch.desktop AppImage/docpatch.png $(APPIMAGE_DEST)
+	$(MAKE) install DESTDIR=$(APPIMAGE_DEST)/
+	$(patch_docpatch) $(APPIMAGE_DEST)/usr/bin/docpatch "$(DESTDIR)" "./usr"
+	ARCH=x86_64 $(APPIMAGE_TOOL) $(APPIMAGE_DEST)
+
+
 ## Clean up
 
 clean :
@@ -162,6 +176,8 @@ distclean : clean
 	rm -f usr/share/doc/$(project)/LICENSE
 	rm -f usr/share/doc/$(project)/CHANGELOG
 	rm -f usr/share/doc/$(project)/README
+	rm -rf $(APPIMAGE_DEST)
+	rm -f DocPatch-x86_64.AppImage
 
 mostlyclean : distclean
 
