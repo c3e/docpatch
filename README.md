@@ -61,11 +61,13 @@ After you met all requirements installation is simply done by:
     make
     make install
 
-If you do not want to install to `/usr/local`, you must edit the `Makefile` after the `make`, and adjust the variables `prefix` and `DESTDIR`. For installation to `/usr`, set:
+If you do not want to install to `/usr/local`, you must edit the `Makefile` before the `make`, and adjust the variable `prefix`. For installation to `/usr`, set:
 
-    # DESTDIR = WHATEVER  # (commented out or empty)
     prefix = /usr
 
+To install everything into a directory (e.g. while building a package for a Linux distribution) just use the `DESTDIR` variable during the `install` target:
+
+    make install DESTDIR=$(pwd)/build
 
 ##  Usage
 
