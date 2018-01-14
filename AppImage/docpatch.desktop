@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=DocPatch
+Exec=docpatch
+Icon=docpatch
+Type=Application
+Categories=Development;
+Terminal=true
