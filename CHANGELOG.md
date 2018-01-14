@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
-*   Use real dates for commits
+*   Use real dates for commits (with `--orig-dates` or `--valid-dates`)
 *   If repository is altready built ask next time to re-build it
 *   [Code of conduct](CODE_OF_CONDUCT.md)
 *   [EditorConfig](.editorconfig)

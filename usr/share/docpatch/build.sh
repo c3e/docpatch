@@ -344,11 +344,17 @@ function addAndCommitAll {
         fi
     fi
 
-    exe "$GIT cat-file -p HEAD > $TMP_DIR/head.txt"
-    exe "sed -i 's/> [0-9]\+ /> $commit_date /g' $TMP_DIR/head.txt"
-    exe "$GIT hash-object -t commit -w $TMP_DIR/head.txt > $TMP_DIR/commit.txt"
-    exe "$GIT update-ref -m 'commit: $1' refs/heads/master $(cat $TMP_DIR/commit.txt)"
-    exe "rm $TMP_DIR/head.txt $TMP_DIR/commit.txt"
+    if [ "$COMMIT_DATES" != "now" ]; then
+        if [[ "$COMMIT_DATES" = "valid" && "$commit_date" -lt 0 ]]; then
+            commit_date=1
+        fi
+
+        exe "$GIT cat-file -p HEAD > $TMP_DIR/head.txt"
+        exe "sed -i 's/> [0-9]\+ /> $commit_date /g' $TMP_DIR/head.txt"
+        exe "$GIT hash-object -t commit -w $TMP_DIR/head.txt > $TMP_DIR/commit.txt"
+        exe "$GIT update-ref -m 'commit: $1' refs/heads/master $(cat $TMP_DIR/commit.txt)"
+        exe "rm $TMP_DIR/head.txt $TMP_DIR/commit.txt"
+    fi
 
     logdebug "Commit was successful."
 
@@ -450,19 +456,24 @@ function copyDocuments {
 
 ## Main method
 function main {
+    local commit_title=""
+    local commit_date=0
+
     checks || abort 11
 
     createRepo || abort 12
 
     createMetaInformation || abort 13
-    local message="Import meta information."
-    addAndCommitAll "$message" "-650419200" || abort 14
-    lognotice "$message"
+    #local message="Import meta information."
+    #addAndCommitAll "$message" "-650419200" || abort 14
+    #lognotice "$message"
 
     createInitialVersion || abort 15
 
     lognotice "Importing initial version..."
-    addAndCommitAll "Import initial version." "-650332800" || abort 16
+    commit_title=$(head -1 ${META_DIR}/0.meta)
+    commit_date=$(date -d "$(cat ${META_DIR}/0.meta | grep "Announced" | cut -d " " -f 2)" +%s)
+    addAndCommitAll "$commit_title" "$commit_date" || abort 16
     createTag "0" "${META_DIR}/0.meta" || abort 17
 
     lognotice "Importing revisions..."
@@ -474,6 +485,8 @@ function main {
 function printCommandOptions {
     loginfo "Printing command specific options..."
     prntLn "    -s, --sign\t\tAdd a OpenPGP signature to commits and tags."
+    prntLn "    --orig-dates\tUse real dates from \"Date\" for commit dates; may break because of negative UNIX timestamps"
+    prntLn "    --valid-dates\tUse real dates but set older dates before 1970-01-01 to this date"
     logdebug "Options printed."
     return 0
 }

@@ -402,6 +402,15 @@ if [ -z "${SIMPLE+1}" ]; then
     SIMPLE=0
 fi
 
+## Manipulate commit dates
+## "orig": use real dates from "Date" for commit dates; may break because
+## of negative UNIX timestamps
+## "valid": try to use real dates, but set negative UNIX timestamps to 0
+## "now": do not manipulate commit dates and use current timestamps
+if [ -z "${COMMIT_DATES+1}" ]; then
+    COMMIT_DATES="now"
+fi
+
 ## Own nice level:
 if [ -z "${NICE_LEVEL+1}" ]; then
     NICE_LEVEL=0

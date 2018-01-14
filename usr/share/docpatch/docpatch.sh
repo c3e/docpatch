@@ -417,7 +417,7 @@ function printVersion {
   loginfo "Printing some information about this script..."
 
   prntLn "$PROJECT_NAME $PROJECT_VERSION"
-  prntLn "Copyright (C) 2012 $PROJECT_AUTHOR"
+  prntLn "Copyright (C) 2012-18 $PROJECT_AUTHOR"
   prntLn "This program comes with ABSOLUTELY NO WARRANTY."
   prntLn "This is free software, and you are welcome to redistribute it"
   prntLn "under certain conditions. Type '--license' for details."
