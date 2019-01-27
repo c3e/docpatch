@@ -89,7 +89,7 @@ ARGS=`"$GETOPT" \
     -o qvVDhef:r:R:sSt \
     --long help,version,license,embed,embedded,format:,not-smart,output:,rev:,revision:,repo:,repository:,sign,simple,toc,orig-dates,valid-dates -- "$@" 2> /dev/null`
 
-if [ $? != 0 -o "$#" = 0 ]; then
+if [ $? != 0 ] || [ "$#" = 0 ]; then
     logwarning "Bad request."
     printUsage
     abort 1;
@@ -198,7 +198,7 @@ for x in "$@"; do
 done
 
 loginfo "Trying to match sub command..."
-if [ -n "$2" -a "$2" != " " ]; then
+if [ -n "$2" ] && [ "$2" != " " ]; then
     SUB_COMMAND="$2"
     logdebug "Sub command is $SUB_COMMAND."
 else

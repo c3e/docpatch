@@ -22,14 +22,11 @@
 ## Create script
 ##
 
-
 ## About this command:
-COMMAND_DESC="$COMMAND_CREATE"
-
+: "${COMMAND_DESC:="$COMMAND_CREATE"}"
 
 ## 'pdf' is one more supported output format:
 SUPPORTED_FORMATS="pdf"
-
 
 ## Checks whether everything is prepared before creating output.
 function checks {
@@ -118,7 +115,7 @@ function determineRepository {
       logdebug "Checking for existing repository..."
       if [ ! -d "${REPO_DIR}/.git/" ]; then
           lognotice "There is no repository under '${REPO_DIR}'."
-          logwarning"Cannot use default repository."
+          logwarning "Cannot use default repository."
           logerror "Failed to determine repository."
           return 1
         fi
@@ -129,7 +126,7 @@ function determineRepository {
       logdebug "Checking for existing repository..."
       if [ -d "${REPO_DIR}/.git/" ]; then
           lognotice "Repository found under '${REPO_DIR}'."
-          logwarning"Cannot clone repository '${REPOSITORY}'."
+          logwarning "Cannot clone repository '${REPOSITORY}'."
           logerror "Failed to determine repository."
           return 1
         fi
@@ -143,7 +140,7 @@ function determineRepository {
       logdebug "Cloning repository from '${REPOSITORY}'..."
       exe "$GIT clone $REPOSITORY $REPO_DIR"
       if [ "$?" -gt 0 ]; then
-          logwarning"Cannot clone repository '${REPOSITORY}' under '${REPO_DIR}'."
+          logwarning "Cannot clone repository '${REPOSITORY}' under '${REPO_DIR}'."
           logerror "Failed to determine repository."
           return 1
         fi
@@ -159,7 +156,7 @@ function determineRepository {
 function countRevisions {
   loginfo "Counting revisions..."
 
-  cd "$REPO_DIR"
+  cd "$REPO_DIR" || return 1
   REVISIONS=`"$GIT" tag -l | "$WC" -l`
   if [ "$?" -gt 0 ]; then
       logerror "Cannot count revisions."
@@ -195,7 +192,7 @@ function determineRevisions {
 
       for (( rev=0; rev < "$REVISIONS"; rev++ )); do
           if [ "$rev" -lt 0 ]; then
-              logwarning"Inproperly named revision '${rev}' found."
+              logwarning "Inproperly named revision '${rev}' found."
               logerror "Failed to determine revisions."
               return 1
             fi
@@ -207,9 +204,9 @@ function determineRevisions {
           LIST_OF_REVISIONS="${LIST_OF_REVISIONS}$rev"
           logdebug "Appended revision '${rev}' to list."
         done
-    elif [[ "$ARG_REVISION" == ${ARG_REVISION//[^0-9]/} ]]; then
+    elif [[ "$ARG_REVISION" == "${ARG_REVISION//[^0-9]/}" ]]; then
       if [ "$ARG_REVISION" -lt 0 ]; then
-          logwarning"Inproperly named revision '${ARG_REVISION}' found."
+          logwarning "Inproperly named revision '${ARG_REVISION}' found."
           logerror "Failed to determine revisions."
           return 1
         fi
@@ -220,7 +217,7 @@ function determineRevisions {
       IFS=","
       for rev in $ARG_REVISION; do
           if [ "$rev" -lt 0 ]; then
-              logwarning"Argument for one or more revisions is invalid."
+              logwarning "Argument for one or more revisions is invalid."
               logerror "Failed to determine revisions."
               return 1
             fi
@@ -246,12 +243,12 @@ function switchRevision {
   loginfo "Switching revision..."
 
   logdebug "Changing into directory '${REPO_DIR}'..."
-  cd "$REPO_DIR"
+  cd "$REPO_DIR" || return 1
 
   logdebug "Checking out revision '${1}'..."
   exe "$GIT checkout $1"
   if [ "$?" -gt 0 ]; then
-      logwarning"Cannot checkout revision '${1}'."
+      logwarning "Cannot checkout revision '${1}'."
       logerror "Failed to switch revision."
       return 1
     fi
@@ -272,14 +269,14 @@ function createOutput {
 
       switchRevision "$REVISION"
       if [ "$?" -gt 0 ]; then
-          logwarning"Cannot handle revision '${REVISION}'."
+          logwarning "Cannot handle revision '${REVISION}'."
           logerror "Failed to create output."
           return 1
         fi
 
       loadMetaInformation "$REVISION"
       if [ "$?" -gt 0 ]; then
-          logwarning"Cannot handle revision '${REVISION}'."
+          logwarning "Cannot handle revision '${REVISION}'."
           logerror "Failed to create output."
           return 1
         fi
@@ -300,7 +297,7 @@ function createOutput {
             local status="$?";;
         esac
       if [ "$status" -gt 0 ]; then
-          logwarning"Cannot handle revision '${REVISION}'."
+          logwarning "Cannot handle revision '${REVISION}'."
           logerror "Failed to create output."
           return 1
         fi
@@ -318,47 +315,56 @@ function createOutput {
 ##   $1 Output format
 function produceGeneric {
   local output_format="$1"
+  local file_extension=""
+  local standalone_support=""
+  local arg_standalone=""
+  local smart_support=""
+  local arg_smart=""
+  local toc_support=""
+  local arg_toc=""
+  local output_file=""
+
   loginfo "Producing '${output_format}'..."
 
   logdebug "Determining file extension..."
-  local file_extension=`"$CAT" "$OUTPUT_FORMAT_FILE" | "$GREP" "^$output_format" | "$HEAD" -n1 | "$AWK" '{print $2}'`
+  file_extension=`"$CAT" "$OUTPUT_FORMAT_FILE" | "$GREP" "^$output_format" | "$HEAD" -n1 | "$AWK" '{print $2}'`
   logdebug "File extension is '${file_extension}'."
 
   logdebug "Determining whether standalone or embedded output will be created..."
-  local standalone_support=`"$CAT" "$OUTPUT_FORMAT_FILE" | "$GREP" "$output_format" | "$HEAD" -n1 | "$AWK" '{print $3}'`
-  local arg_standalone=""
-  if [ "$EMBED" -eq 1 -o "$standalone_support" == "-1" ]; then
+  standalone_support=`"$CAT" "$OUTPUT_FORMAT_FILE" | "$GREP" "$output_format" | "$HEAD" -n1 | "$AWK" '{print $3}'`
+
+  if [ "$EMBED" -eq 1 ] || [ "$standalone_support" == "-1" ]; then
       logdebug "Create embedded output."
-    elif [ "$EMBED" -eq 0 -a "$standalone_support" == "0" ]; then
+  elif [ "$EMBED" -eq 0 ] && [ "$standalone_support" == "0" ]; then
       logdebug "Create embedded output."
-    elif [ "$EMBED" -eq 0 -o "$standalone_support" == "1" ]; then
+    elif [ "$EMBED" -eq 0 ] || [ "$standalone_support" == "1" ]; then
       logdebug "Create standalone output."
       arg_standalone=" --standalone"
     fi
 
   logdebug "Determining whether to use smart option or not..."
-  local smart_support=`"$CAT" "$OUTPUT_FORMAT_FILE" | "$GREP" "$output_format" | "$HEAD" -n1 | "$AWK" '{print $4}'`
-  local arg_smart=""
-  if [ "$SIMPLE" -eq 1 -o "$smart_support" == "-1" ]; then
+  smart_support=`"$CAT" "$OUTPUT_FORMAT_FILE" | "$GREP" "$output_format" | "$HEAD" -n1 | "$AWK" '{print $4}'`
+
+  if [ "$SIMPLE" -eq 1 ] || [ "$smart_support" == "-1" ]; then
       logdebug "Create simplified output."
-    elif [ "$SIMPLE" -eq 0 -a "$smart_support" == "0" ]; then
+    elif [ "$SIMPLE" -eq 0 ] && [ "$smart_support" == "0" ]; then
       logdebug "Create simplified output."
-    elif [ "$SIMPLE" -eq 0 -a "$smart_support" == "1" ]; then
+    elif [ "$SIMPLE" -eq 0 ] && [ "$smart_support" == "1" ]; then
       logdebug "Create smart output."
       arg_smart=" --smart"
     fi
 
   logdebug "Determining whether to add table of contents..."
-  local toc_support=`"$CAT" "$OUTPUT_FORMAT_FILE" | "$GREP" "$output_format" | "$HEAD" -n1 | "$AWK" '{print $5}'`
-  local arg_toc=""
-  if [ "$TOC" -eq 0 -o "$toc_support" == "-1" ]; then
+  toc_support=`"$CAT" "$OUTPUT_FORMAT_FILE" | "$GREP" "$output_format" | "$HEAD" -n1 | "$AWK" '{print $5}'`
+
+  if [ "$TOC" -eq 0 ] || [ "$toc_support" == "-1" ]; then
       logdebug "Do not add table of contents."
     else
       logdebug "Add table of contents."
       arg_toc=" --toc"
     fi
 
-  local output_file="${OUTPUT_DIR}/${IDENTIFIER}$file_extension"
+  output_file="${OUTPUT_DIR}/${IDENTIFIER}$file_extension"
   logdebug "Producing file..."
   exe "$PANDOC --from=$INPUT_FORMAT --to=${1}${arg_standalone}${arg_smart}${arg_toc} --output=$output_file `perl -e 'print join(" ", <'${REPO_DIR}/'*'$INPUT_FORMAT_EXT'>), "\n"'`"
   if [ "$?" -gt 0 ]; then

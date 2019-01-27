@@ -214,11 +214,13 @@ function logfatal {
 
 ## Calculate spent time
 function calculateSpentTime {
+    local now=""
+    local sec=""
+    local duration=""
+    local div=0
   loginfo "Calculate spent time..."
-  local now=`date +%s`
-  local sec=`expr $now - $START`
-  local duration=""
-  local div=0
+  now=`date +%s`
+  sec=`expr $now - $START`
   if [ "$sec" -ge 3600 ]; then
       div=`expr "$sec" \/ 3600`
       sec=`expr "$sec" - "$div" \* 3600`
@@ -373,7 +375,7 @@ function printUsage {
   loginfo "Printing global usage..."
 
   local cmd_placeholder="[command]"
-  if [ -n "$COMMAND" -a "$COMMAND" != "help" ]; then
+  if [ -n "$COMMAND" ] && [ "$COMMAND" != "help" ]; then
       cmd_placeholder="$COMMAND"
       prntLn "$COMMAND_DESC"
     else
@@ -401,7 +403,7 @@ function printUsage {
   prntLn "    --license\t\tShow license information and exit."
   prntLn "    --version\t\tShow information about this script and exit."
   prntLn ""
-  if [ -n "$COMMAND" -a "$COMMAND" != "help" ]; then
+  if [ -n "$COMMAND" ] && [ "$COMMAND" != "help" ]; then
       prntLn "See '$BASE_NAME help ${COMMAND}' for more information on this specific command."
     else
       prntLn "See '$BASE_NAME help [command]' for more information on a specific command."
