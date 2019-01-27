@@ -512,15 +512,17 @@ function produceManPage {
 ## Produces PDF file.
 function producePDF {
     local tocArg=""
+    local tpl_file="${TPL_DIR}/tpl.tex"
+    local tpl_option=""
+    local output_file=""
 
   loginfo "Producing PDF..."
 
   logdebug "Checking for any template file..."
-  local tpl_option=""
-  local tpl_file="${TPL_DIR}/tpl.tex"
+
   if [ -r "$tpl_file" ]; then
       logdebug "Template file found under '${tpl_file}'."
-      local tpl_option="--template=$tpl_file"
+      tpl_option="--template=$tpl_file --pdf-engine=xelatex -V lang=de -V papersize=a4 -V documentclass=scrartcl -V classoption=twoside"
     else
       logdebug "No template file found under '${tpl_file}'."
     fi
@@ -530,7 +532,7 @@ function producePDF {
         tocArg="--toc"
     fi
 
-  local output_file="${OUTPUT_DIR}/${IDENTIFIER}.pdf"
+  output_file="${OUTPUT_DIR}/${IDENTIFIER}.pdf"
   logdebug "Producing file..."
   exe "$PANDOC --from=$INPUT_FORMAT $tocArg $tpl_option --output=$output_file `perl -e 'print join(" ", <'${REPO_DIR}/'*'$INPUT_FORMAT_EXT'>), "\n"'`"
   if [ "$?" -gt 0 ]; then
