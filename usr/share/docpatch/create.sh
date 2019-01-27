@@ -382,10 +382,13 @@ function produceGeneric {
 ## Produces EPUB file.
 ## TODO Support epub tempplate files and cover image.
 function produceEPUB {
+    local meta_file="${TPL_DIR}/metadata.xml"
+    local output_file="${OUTPUT_DIR}/${IDENTIFIER}.epub"
+    local tocArg=""
+
   loginfo "Producing EPUB..."
 
   logdebug "Creating meta information..."
-  local meta_file="${TPL_DIR}/metadata.xml"
   logdebug "Cleaning up meta information..."
   exe "$RM -f $meta_file && touch $meta_file"
   if [ "$?" -gt 0 ]; then
@@ -458,9 +461,13 @@ function produceEPUB {
   logdebug "Updated meta information."
   logdebug "Produced meta information under '${meta_file}'."
 
-  local output_file="${OUTPUT_DIR}/${IDENTIFIER}.epub"
+  if [[ "$TOC" -eq 1 ]]; then
+      logdebug "Add table of contents"
+      tocArg="--toc"
+  fi
+
   logdebug "Producing file..."
-  exe "$PANDOC --from=$INPUT_FORMAT --toc --output=$output_file --smart --epub-metadata=$meta_file `perl -e 'print join(" ", <'${REPO_DIR}/'*'$INPUT_FORMAT_EXT'>), "\n"'`"
+  exe "$PANDOC --from=$INPUT_FORMAT $tocArg --output=$output_file --smart --epub-metadata=$meta_file `perl -e 'print join(" ", <'${REPO_DIR}/'*'$INPUT_FORMAT_EXT'>), "\n"'`"
   if [ "$?" -gt 0 ]; then
       logwarning "Cannot produce file '${output_file}'."
       logerror "Failed to produce EPUB."
@@ -504,6 +511,8 @@ function produceManPage {
 
 ## Produces PDF file.
 function producePDF {
+    local tocArg=""
+
   loginfo "Producing PDF..."
 
   logdebug "Checking for any template file..."
@@ -516,9 +525,14 @@ function producePDF {
       logdebug "No template file found under '${tpl_file}'."
     fi
 
+    if [[ "$TOC" -eq 1 ]]; then
+        logdebug "Add table of contents"
+        tocArg="--toc"
+    fi
+
   local output_file="${OUTPUT_DIR}/${IDENTIFIER}.pdf"
   logdebug "Producing file..."
-  exe "$PANDOC --from=$INPUT_FORMAT --toc $tpl_option --output=$output_file `perl -e 'print join(" ", <'${REPO_DIR}/'*'$INPUT_FORMAT_EXT'>), "\n"'`"
+  exe "$PANDOC --from=$INPUT_FORMAT $tocArg $tpl_option --output=$output_file `perl -e 'print join(" ", <'${REPO_DIR}/'*'$INPUT_FORMAT_EXT'>), "\n"'`"
   if [ "$?" -gt 0 ]; then
       logwarning "Cannot produce file '${output_file}'."
       logerror "Failed to produce PDF."
