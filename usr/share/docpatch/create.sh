@@ -319,7 +319,7 @@ function produceGeneric {
   local standalone_support=""
   local arg_standalone=""
   local smart_support=""
-  local arg_smart=""
+  local smart_extension=""
   local toc_support=""
   local arg_toc=""
   local output_file=""
@@ -351,7 +351,7 @@ function produceGeneric {
       logdebug "Create simplified output."
     elif [ "$SIMPLE" -eq 0 ] && [ "$smart_support" == "1" ]; then
       logdebug "Create smart output."
-      arg_smart=" --smart"
+      smart_extension=" +smart"
     fi
 
   logdebug "Determining whether to add table of contents..."
@@ -366,7 +366,7 @@ function produceGeneric {
 
   output_file="${OUTPUT_DIR}/${IDENTIFIER}$file_extension"
   logdebug "Producing file..."
-  exe "$PANDOC --from=$INPUT_FORMAT --to=${1}${arg_standalone}${arg_smart}${arg_toc} --output=$output_file `perl -e 'print join(" ", <'${REPO_DIR}/'*'$INPUT_FORMAT_EXT'>), "\n"'`"
+  exe "$PANDOC --from=$INPUT_FORMAT${smart_extension} --to=${1}${arg_standalone}${arg_toc} --output=$output_file `perl -e 'print join(" ", <'${REPO_DIR}/'*'$INPUT_FORMAT_EXT'>), "\n"'`"
   if [ "$?" -gt 0 ]; then
       logwarning "Cannot produce file '${output_file}'."
       logerror "Failed to produce '${output_format}'."
