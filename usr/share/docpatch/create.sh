@@ -351,7 +351,7 @@ function produceGeneric {
       logdebug "Create simplified output."
     elif [ "$SIMPLE" -eq 0 ] && [ "$smart_support" == "1" ]; then
       logdebug "Create smart output."
-      smart_extension=" +smart"
+      smart_extension="+smart"
     fi
 
   logdebug "Determining whether to add table of contents..."
@@ -467,7 +467,7 @@ function produceEPUB {
   fi
 
   logdebug "Producing file..."
-  exe "$PANDOC --from=$INPUT_FORMAT $tocArg --output=$output_file --smart --epub-metadata=$meta_file `perl -e 'print join(" ", <'${REPO_DIR}/'*'$INPUT_FORMAT_EXT'>), "\n"'`"
+  exe "$PANDOC --from=${INPUT_FORMAT}+smart $tocArg --output=$output_file --epub-metadata=$meta_file `perl -e 'print join(" ", <'${REPO_DIR}/'*'$INPUT_FORMAT_EXT'>), "\n"'`"
   if [ "$?" -gt 0 ]; then
       logwarning "Cannot produce file '${output_file}'."
       logerror "Failed to produce EPUB."

@@ -51,6 +51,7 @@ Installing DocPatch and its components requires the following dependencies:
 *   `bash` ([‘Bourne-again Shell’](https://www.gnu.org/software/bash/))
 *   `git` ([distributed version control system](https://git-scm.com/))
 *   `gpg` ([‘GnuPG’, OpenPGP encryption and signing tool](https://www.gnupg.org/))
+*   `make` ([‘GNU Make’, Build management tool](https://www.gnu.org/software/make/)
 *   `pandoc` ([markup conversion tool](https://pandoc.org/))
 *   `quilt` ([patch management tool](https://savannah.nongnu.org/projects/quilt))
 *   `getopt` in the version from [util-linux](https://www.kernel.org/pub/linux/utils/util-linux/) or the [‘enhanced’ version](http://frodo.looijaard.name/project/getopt). (This is usually preinstalled on Linux and can be obtained as a port for other systems)
